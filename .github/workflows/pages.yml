@@ -1,0 +1,44 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check placeholders
+        run: |
+          # 출시 전에 채워야 할 자리표시자가 남아 있으면 경고만 냅니다.
+          grep -n "CONTACT_EMAIL\|EFFECTIVE_DATE" *.html && echo "::warning::자리표시자가 남아 있습니다" || true
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          cp *.html app-ads.txt _site/
+          touch _site/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
