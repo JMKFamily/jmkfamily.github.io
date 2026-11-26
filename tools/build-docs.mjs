@@ -20,8 +20,8 @@ const prob = pos[1] ? resolve(pos[1]) : null;
 // 문서 목록: [원본, 출력 주소, 제목 한·영, 관련 문서 여부]
 const DOCS = [
   { src: join(legal, 'privacy-policy.md'), url: '/privacy.html', out: 'privacy.html', ko: '개인정보처리방침', en: 'Privacy Policy', privacy: true },
-  { src: join(legal, 'terms.md'), url: '/docs/terms.html', out: 'docs/terms.html', ko: '이용약관', en: 'Terms of Use' },
-  { src: join(legal, 'account-deletion.md'), url: '/docs/account-deletion.html', out: 'docs/account-deletion.html', ko: '계정·데이터 삭제 안내', en: 'Account and Data Deletion' },
+  { src: join(legal, 'terms.md'), url: '/terms.html', out: 'terms.html', ko: '이용약관', en: 'Terms of Use' },
+  { src: join(legal, 'account-deletion.md'), url: '/account-deletion.html', out: 'account-deletion.html', ko: '계정·데이터 삭제 안내', en: 'Account and Data Deletion' },
   ...(prob ? [{ src: prob, url: '/docs/gundraw-probability.html', out: 'docs/gundraw-probability.html', ko: 'GunDraw 확률 정보', en: 'GunDraw Odds' }] : []),
 ];
 
@@ -62,7 +62,8 @@ function md(src) {
 const published = []; const skipped = [];
 for (const d of DOCS) {
   if (!existsSync(d.src)) { skipped.push([d, '원본 파일 없음']); continue; }
-  const text = readFileSync(d.src, 'utf8');
+  // HTML 주석(<!-- … -->)은 관리 메모라 게시하지 않고, 게시 조건 검사에서도 뺍니다.
+  const text = readFileSync(d.src, 'utf8').replace(/<!--[\s\S]*?-->/g, '');
   const why = BLOCKERS.filter(([re]) => re.test(text)).map(([, n]) => n);
   if (why.length) { skipped.push([d, why.join(', ')]); continue; }
   if (d.privacy && !publishPrivacy) { skipped.push([d, '게시 가능하지만 --publish-privacy 없음(손으로 옮긴 판 유지)']); continue; }

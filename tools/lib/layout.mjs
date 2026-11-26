@@ -85,6 +85,8 @@ ${body}
     <ul class="site-footer__links">
       <li><a href="/games/">${L('게임', 'Games')}</a></li>
       <li><a href="/privacy.html">${L('개인정보처리방침', 'Privacy Policy')}</a></li>
+      <li><a href="/terms.html">${L('이용약관', 'Terms of Use')}</a></li>
+      <li><a href="/account-deletion.html">${L('계정·데이터 삭제', 'Account deletion')}</a></li>
       <li><a href="/docs/">${L('약관·정책', 'Policies')}</a></li>
       <li><a href="/contact/">${L('문의', 'Contact')}</a></li>
       <li data-js="hub-link" hidden><a href="#" rel="nofollow noopener" target="_blank">${L('개발 로그', 'Development log')} ↗</a></li>

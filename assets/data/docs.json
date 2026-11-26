@@ -1,1 +1,14 @@
-[]
+[
+ {
+  "url": "/terms.html",
+  "titleKo": "이용약관",
+  "titleEn": "Terms of Use",
+  "date": "2026-11-27"
+ },
+ {
+  "url": "/account-deletion.html",
+  "titleKo": "계정·데이터 삭제 안내",
+  "titleEn": "Account and Data Deletion",
+  "date": "2026-11-27"
+ }
+]
