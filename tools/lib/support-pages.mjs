@@ -1,6 +1,7 @@
 // 문의 게시판 페이지(/support/, /support/admin/) 생성. build-pages.mjs가 부릅니다.
 // Firebase는 assets/js/firebase-config.js가 켜져 있을 때만 동작하고, 꺼져 있으면 "준비 중"만 보입니다.
 import { layout, pageHead, L, EMAIL } from './layout.mjs';
+import { adminPage } from './admin-page.mjs';
 
 const field = (id, labelKo, labelEn, control, hintKo = '', hintEn = '') => `<div class="form__field"><label class="form__label" for="${id}">${L(labelKo, labelEn)}</label>${control}${hintKo ? `<p class="form__hint">${L(hintKo, hintEn)}</p>` : ''}</div>`;
 const catOptions = [['bug', '버그·오류', 'Bug'], ['account', '계정·데이터', 'Account / data'], ['payment', '결제', 'Payment'], ['suggestion', '건의', 'Suggestion'], ['privacy', '개인정보', 'Privacy'], ['other', '기타', 'Other']]
@@ -89,5 +90,5 @@ export function supportPages() {
 </section>
 <script type="module" src="/assets/js/support-admin.js"></script>`,
   });
-  return { board, admin };
+  return { board, admin: adminPage() };
 }

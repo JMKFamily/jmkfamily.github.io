@@ -1,0 +1,118 @@
+/* 운영자 화면(/support/admin/) 전용 스타일. 사이트 공통 site.css는 쓰지 않습니다. */
+:root {
+  --bg: #F3F4F6; --card: #FFFFFF; --ink: #1F2937; --ink2: #6B7280; --line: #E5E7EB; --line2: #D1D5DB;
+  --accent: #2563EB; --accent-ink: #FFFFFF; --accent-soft: #EFF6FF;
+  --open-bg: #FEF3C7; --open-ink: #92400E; --done-bg: #DCFCE7; --done-ink: #166534;
+  --danger: #B91C1C; --danger-soft: #FEF2F2; --ok-bg: #ECFDF5; --ok-ink: #166534;
+  --r: 8px; --r-s: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111827; --card: #1F2937; --ink: #F3F4F6; --ink2: #9CA3AF; --line: #374151; --line2: #4B5563;
+    --accent: #60A5FA; --accent-ink: #0B1220; --accent-soft: #1E3A5F;
+    --open-bg: #4A3A12; --open-ink: #FCD34D; --done-bg: #14391F; --done-ink: #86EFAC;
+    --danger: #FCA5A5; --danger-soft: #3A1B1B; --ok-bg: #14391F; --ok-ink: #86EFAC;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+html[data-lang="en"] [data-l="ko"], html:not([data-lang="en"]) [data-l="en"] { display: none; }
+[hidden] { display: none !important; }
+body.adm { margin: 0; background: var(--bg); color: var(--ink); font: 400 14px/1.6 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', system-ui, sans-serif; }
+button, textarea, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* 상단 바 */
+.adm-bar { background: var(--card); border-bottom: 1px solid var(--line); }
+.adm-bar__in { display: flex; align-items: center; gap: 4px 12px; max-width: 1080px; margin: 0 auto; padding: 0 16px; min-height: 52px; flex-wrap: wrap; }
+.adm-bar__brand { font-weight: 700; color: var(--ink); text-decoration: none; }
+.adm-bar__title { color: var(--ink2); padding-left: 12px; border-left: 1px solid var(--line2); }
+.adm-bar__sp { flex: 1; }
+.adm-link { min-height: 48px; padding: 0 8px; background: none; border: 0; color: var(--ink2); cursor: pointer; border-radius: var(--r-s); }
+.adm-link:hover { color: var(--ink); background: var(--bg); }
+.adm-lang { display: inline-flex; border: 1px solid var(--line2); border-radius: var(--r-s); overflow: hidden; }
+.adm-lang button { min-width: 44px; min-height: 36px; background: none; border: 0; cursor: pointer; color: var(--ink2); }
+.adm-lang button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+
+.adm-main { max-width: 1080px; margin: 0 auto; padding: 20px 16px 48px; }
+.adm-h1 { margin: 0 0 16px; font-size: 20px; font-weight: 700; }
+.adm-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; }
+.adm-card--flush { padding: 0; overflow: hidden; }
+.adm-login { display: grid; gap: 12px; justify-items: start; max-width: 420px; }
+.adm-login p { margin: 0; }
+.adm-msg { margin: 0 0 12px; padding: 10px 12px; border: 1px solid var(--danger); border-radius: var(--r-s); background: var(--danger-soft); color: var(--danger); }
+.adm-msg[data-kind="ok"] { border-color: var(--ok-ink); background: var(--ok-bg); color: var(--ok-ink); }
+
+/* 버튼 */
+.adm-btn { min-height: 40px; padding: 0 14px; background: var(--card); color: var(--ink); border: 1px solid var(--line2); border-radius: var(--r-s); cursor: pointer; font-weight: 500; }
+.adm-btn:hover { background: var(--bg); }
+.adm-btn--primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.adm-btn--primary:hover { background: var(--accent); filter: brightness(1.08); }
+.adm-btn--danger { color: var(--danger); border-color: var(--danger); background: none; }
+.adm-btn--danger:hover { background: var(--danger-soft); }
+.adm-btn--small { min-height: 36px; font-size: 13px; }
+.adm-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: none; border: 1px solid var(--line2); border-radius: var(--r-s); color: var(--ink2); cursor: pointer; }
+.adm-icon:hover { color: var(--ink); background: var(--bg); }
+
+/* 필터·건수 */
+.adm-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-bottom: 12px; }
+.adm-segs { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.adm-seg { min-height: 40px; padding: 0 12px; background: var(--card); border: 1px solid var(--line2); border-radius: var(--r-s); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.adm-seg[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 700; }
+.adm-seg__n { font-size: 12px; font-variant-numeric: tabular-nums; color: var(--ink2); }
+.adm-seg[aria-pressed="true"] .adm-seg__n { color: var(--accent); }
+.adm-count { color: var(--ink2); font-variant-numeric: tabular-nums; }
+
+/* 표 */
+.adm-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.adm-table th { padding: 10px 12px; text-align: left; font-size: 12px; font-weight: 500; color: var(--ink2); background: var(--bg); border-bottom: 1px solid var(--line); }
+.adm-table td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.adm-table tbody tr:last-child td { border-bottom: 0; }
+.c-s { width: 92px; } .c-c { width: 110px; } .c-d, .c-r { width: 104px; text-align: right !important; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.adm-row { cursor: pointer; }
+.adm-row:hover td { background: var(--bg); }
+.adm-row.is-open td { background: var(--accent-soft); }
+.c-t { overflow: hidden; }
+.adm-rowbtn { display: block; width: 100%; min-height: 32px; padding: 0; background: none; border: 0; text-align: left; font-weight: 500; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.c-r { color: var(--ink2); }
+.adm-badge { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+.adm-badge--open { background: var(--open-bg); color: var(--open-ink); }
+.adm-badge--done { background: var(--done-bg); color: var(--done-ink); }
+.adm-empty { margin: 0; padding: 24px 16px; text-align: center; color: var(--ink2); }
+.adm-table .adm-detail td { padding: 0; background: var(--card); }
+
+/* 상세 패널 */
+.adm-panel { display: grid; gap: 14px; padding: 16px; border-bottom: 1px solid var(--line); }
+.adm-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; color: var(--ink2); font-size: 13px; }
+.adm-body { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.adm-kv { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.adm-kv__k { color: var(--ink2); font-size: 13px; min-width: 110px; }
+.adm-kv__v { overflow-wrap: anywhere; }
+code.adm-kv__v { font: 12px/1.5 ui-monospace, Consolas, monospace; padding: 2px 6px; background: var(--bg); border-radius: 4px; }
+.adm-note { font-size: 12px; color: var(--ink2); }
+.adm-label { font-size: 13px; font-weight: 500; }
+.adm-input { width: 100%; min-height: 110px; padding: 10px 12px; background: var(--card); border: 1px solid var(--line2); border-radius: var(--r-s); resize: vertical; }
+.adm-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.adm-ask { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+
+/* 설정·정보 */
+.adm-settings { margin-top: 16px; background: var(--card); border: 1px solid var(--line); border-radius: var(--r); }
+.adm-settings summary { display: flex; align-items: center; min-height: 48px; padding: 0 16px; cursor: pointer; color: var(--ink2); }
+.adm-settings__body { display: grid; gap: 12px; padding: 4px 16px 16px; }
+.adm-hint { margin: 0; font-size: 12px; color: var(--ink2); }
+
+/* 좁은 화면: 줄마다 카드 */
+@media (max-width: 720px) {
+  .adm-table, .adm-table tbody { display: block; }
+  .adm-table thead { display: none; }
+  .adm-row { display: grid; grid-template-columns: auto 1fr auto; grid-template-areas: "s c d" "t t t" "r r r"; gap: 4px 10px; padding: 12px; border-bottom: 1px solid var(--line); align-items: center; }
+  .adm-row td { display: block; padding: 0; border: 0; width: auto; }
+  .adm-row.is-open td, .adm-row:hover td { background: none; }
+  .adm-row.is-open, .adm-row:hover { background: var(--accent-soft); }
+  .c-s { grid-area: s; } .c-c { grid-area: c; color: var(--ink2); font-size: 13px; } .c-t { grid-area: t; } .c-d { grid-area: d; } .c-r { grid-area: r; text-align: left !important; font-size: 12px; }
+  .c-r::before { content: attr(data-label) " "; }
+  .c-r.is-none { display: none; }
+  .adm-rowbtn { white-space: normal; font-size: 15px; }
+  .adm-table .adm-detail, .adm-table .adm-detail td { display: block; }
+  .adm-kv__k { min-width: 0; width: 100%; }
+}
