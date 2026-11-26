@@ -1,0 +1,287 @@
+{
+ "_설명": "사이트가 쓰는 게임·브랜드 자산 목록. src는 gamehub 루트 기준. frame이 있으면 src의 .json 아틀라스에서 그 프레임을 잘라 씁니다. 기본 변환은 webp(quality 90). copy는 그대로 복사, ico는 PNG를 ico로 감쌉니다.",
+ "gamehubRoot": "C:/gamehub-bench/gamehub-web",
+ "managedDirs": [
+  "assets/games",
+  "assets/brand"
+ ],
+ "keep": [
+  "assets/games/gundraw/shots/"
+ ],
+ "defaults": {
+  "quality": 90
+ },
+ "assets": [
+  {
+   "src": "games/gundraw/img/atlas-gun-128.png",
+   "frame": "gun-g01-128",
+   "dest": "assets/games/gundraw/sprites/gun-g01.webp"
+  },
+  {
+   "src": "games/gundraw/img/atlas-gun-128.png",
+   "frame": "gun-g02-128",
+   "dest": "assets/games/gundraw/sprites/gun-g02.webp"
+  },
+  {
+   "src": "games/gundraw/img/atlas-gun-128.png",
+   "frame": "gun-g05-128",
+   "dest": "assets/games/gundraw/sprites/gun-g05.webp"
+  },
+  {
+   "src": "games/gundraw/img/atlas-gun-128.png",
+   "frame": "gun-g06-128",
+   "dest": "assets/games/gundraw/sprites/gun-g06.webp"
+  },
+  {
+   "src": "games/gundraw/img/atlas-gun-128.png",
+   "frame": "gun-g09-128",
+   "dest": "assets/games/gundraw/sprites/gun-g09.webp"
+  },
+  {
+   "src": "games/gundraw/img/atlas-gun-128.png",
+   "frame": "gun-g11-128",
+   "dest": "assets/games/gundraw/sprites/gun-g11.webp"
+  },
+  {
+   "src": "games/gundraw/img/atlas-gun-128.png",
+   "frame": "gun-g14-128",
+   "dest": "assets/games/gundraw/sprites/gun-g14.webp"
+  },
+  {
+   "src": "games/gundraw/img/atlas-gun-128.png",
+   "frame": "gun-g16-128",
+   "dest": "assets/games/gundraw/sprites/gun-g16.webp"
+  },
+  {
+   "src": "games/gundraw/img/atlas-gun-128.png",
+   "frame": "gun-g18-128",
+   "dest": "assets/games/gundraw/sprites/gun-g18.webp"
+  },
+  {
+   "src": "games/gundraw/img/atlas-gun-128.png",
+   "frame": "gun-g23-128",
+   "dest": "assets/games/gundraw/sprites/gun-g23.webp"
+  },
+  {
+   "src": "games/gundraw/img/atlas-gun-128.png",
+   "frame": "gun-g25-128",
+   "dest": "assets/games/gundraw/sprites/gun-g25.webp"
+  },
+  {
+   "src": "games/gundraw/img/atlas-gun-128.png",
+   "frame": "gun-g26-128",
+   "dest": "assets/games/gundraw/sprites/gun-g26.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/atlas-zombie-128.png",
+   "frame": "zombie-boss-128",
+   "dest": "assets/games/gundraw/sprites/zombie-boss.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/atlas-zombie-128.png",
+   "frame": "zombie-z1-128",
+   "dest": "assets/games/gundraw/sprites/zombie-z1.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/atlas-zombie-128.png",
+   "frame": "zombie-z2-128",
+   "dest": "assets/games/gundraw/sprites/zombie-z2.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/atlas-zombie-128.png",
+   "frame": "zombie-z3-128",
+   "dest": "assets/games/gundraw/sprites/zombie-z3.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/atlas-stage.png",
+   "frame": "stage-goal-shop-256",
+   "dest": "assets/games/gundraw/sprites/fortress.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/atlas-ui-large.png",
+   "frame": "char-popo-full-256",
+   "dest": "assets/games/gundraw/sprites/popo.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/atlas-ui-large.png",
+   "frame": "ui-box-open-128",
+   "dest": "assets/games/gundraw/sprites/box-open.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/atlas-ui-large.png",
+   "frame": "fx-stardust-96",
+   "dest": "assets/games/gundraw/sprites/fx-stardust.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/atlas-ui-large.png",
+   "frame": "fx-pop-96",
+   "dest": "assets/games/gundraw/sprites/fx-pop.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/meta/boss-cushy-256.png",
+   "dest": "assets/games/gundraw/meta/boss-cushy-256.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/meta/boss-quilt-bear-256.png",
+   "dest": "assets/games/gundraw/meta/boss-quilt-bear-256.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/meta/boss-tick-tock-256.png",
+   "dest": "assets/games/gundraw/meta/boss-tick-tock-256.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/meta/ico-attend-96.png",
+   "dest": "assets/games/gundraw/meta/ico-attend-96.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/meta/badge-b01-96.png",
+   "dest": "assets/games/gundraw/meta/badge-b01-96.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/meta/ico-tower-96.png",
+   "dest": "assets/games/gundraw/meta/ico-tower-96.webp"
+  },
+  {
+   "src": "games/gundraw/img-war/meta/ico-duel-96.png",
+   "dest": "assets/games/gundraw/meta/ico-duel-96.webp"
+  },
+  {
+   "src": "web/assets/logo/final/jmkfamily-lockup.svg",
+   "dest": "assets/brand/jmkfamily-lockup.svg",
+   "copy": true
+  },
+  {
+   "src": "web/assets/logo/final/jmkfamily-lockup-dark.svg",
+   "dest": "assets/brand/jmkfamily-lockup-dark.svg",
+   "copy": true
+  },
+  {
+   "src": "web/assets/logo/final/jmkfamily-symbol.svg",
+   "dest": "assets/brand/jmkfamily-symbol.svg",
+   "copy": true
+  },
+  {
+   "src": "web/assets/logo/final/favicon.svg",
+   "dest": "assets/brand/favicon.svg",
+   "copy": true
+  },
+  {
+   "src": "web/assets/logo/final/favicon-32.png",
+   "dest": "assets/brand/favicon-32.png",
+   "copy": true
+  },
+  {
+   "src": "web/assets/logo/final/favicon-64.png",
+   "dest": "assets/brand/favicon-64.png",
+   "copy": true
+  },
+  {
+   "src": "web/assets/logo/final/favicon-180.png",
+   "dest": "assets/brand/favicon-180.png",
+   "copy": true
+  },
+  {
+   "src": "web/assets/logo/final/favicon-512.png",
+   "dest": "assets/brand/favicon-512.png",
+   "copy": true
+  },
+  {
+   "src": "web/assets/logo/final/og-1200x630.png",
+   "dest": "assets/brand/og-1200x630.png",
+   "copy": true
+  },
+  {
+   "src": "web/assets/logo/final/favicon-32.png",
+   "dest": "favicon.ico",
+   "ico": true
+  }
+ ],
+ "shots": {
+  "gundraw": {
+   "serve": "games/gundraw",
+   "viewport": [
+    360,
+    640,
+    2
+   ],
+   "format": "webp",
+   "quality": 78,
+   "hideCss": ".mtag{display:none!important}",
+   "scenes": [
+    {
+     "name": "title",
+     "dest": "assets/games/gundraw/shots/title.webp",
+     "alt": "GunDraw 시작 화면",
+     "steps": [
+      {
+       "wait": 2500
+      }
+     ]
+    },
+    {
+     "name": "new-gun",
+     "dest": "assets/games/gundraw/shots/new-gun.webp",
+     "steps": [
+      {
+       "wait": 2000
+      },
+      {
+       "click": "#tStart"
+      },
+      {
+       "wait": 1200
+      },
+      {
+       "click": "#bOpen"
+      },
+      {
+       "wait": 1050
+      }
+     ]
+    },
+    {
+     "name": "battle",
+     "dest": "assets/games/gundraw/shots/battle.webp",
+     "steps": [
+      {
+       "wait": 2000
+      },
+      {
+       "click": "#tStart"
+      },
+      {
+       "wait": 1000
+      },
+      {
+       "click": "#bOpen"
+      },
+      {
+       "wait": 2500
+      },
+      {
+       "click": "#bOpen"
+      },
+      {
+       "wait": 2500
+      },
+      {
+       "click": "#cSkip"
+      },
+      {
+       "wait": 11000
+      }
+     ]
+    }
+   ],
+   "variants": [
+    360
+   ],
+   "clip": [
+    0,
+    0,
+    360,
+    590
+   ]
+  }
+ }
+}

@@ -21,12 +21,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check placeholders
         run: |
-          # 출시 전에 채워야 할 자리표시자가 남아 있으면 경고만 냅니다.
-          grep -n "CONTACT_EMAIL\|EFFECTIVE_DATE" *.html && echo "::warning::자리표시자가 남아 있습니다" || true
+          # 자리표시자가 공개 파일에 남아 있으면 실패시킵니다.
+          if grep -rIn "{{" --include=*.html --include=*.txt --include=*.xml . --exclude-dir=.git --exclude-dir=tools --exclude-dir=.github; then echo "::error::자리표시자({{…}})가 남아 있습니다"; exit 1; fi
       - name: Assemble site
         run: |
+          # 공개 파일만 복사(개발 도구·워크플로 제외). 폴더 구조(/assets, /games, /docs …)를 유지합니다.
           mkdir -p _site
-          cp *.html app-ads.txt _site/
+          rsync -a --exclude='.git' --exclude='.github' --exclude='tools' --exclude='_site' --exclude='*.md' ./ _site/
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
