@@ -1,11 +1,13 @@
 {
- "_설명": "사이트가 쓰는 게임·브랜드 자산 목록. src는 gamehub 루트 기준. frame이 있으면 src의 .json 아틀라스에서 그 프레임을 잘라 씁니다. 기본 변환은 webp(quality 90). copy는 그대로 복사, ico는 PNG를 ico로 감쌉니다. shots는 새 모습의 웹 빌드가 나온 뒤에만 capture-game-shots.mjs로 다시 찍습니다(지금은 실행하지 않음).",
+ "_설명": "사이트가 쓰는 게임·브랜드 자산 목록. src는 gamehub 루트 기준. frame이 있으면 src의 .json 아틀라스에서 그 프레임을 잘라 씁니다. 기본 변환은 webp(quality 90). copy는 그대로 복사, ico는 PNG를 ico로 감쌉니다. shots는 새 모습의 웹 빌드가 나온 뒤에만 capture-game-shots.mjs로 다시 찍습니다(v0.6 집 테마 빌드부터 사용, 위쪽 HUD 줄은 clip으로 잘라 냄).",
  "gamehubRoot": "C:/gamehub-bench/gamehub-web",
  "managedDirs": [
   "assets/games",
   "assets/brand"
  ],
- "keep": [],
+ "keep": [
+  "assets/games/gundraw/shots/"
+ ],
  "defaults": {
   "quality": 90
  },
@@ -143,12 +145,12 @@
    "serve": "games/gundraw",
    "viewport": [
     360,
-    640,
+    720,
     2
    ],
    "format": "webp",
    "quality": 78,
-   "hideCss": ".mtag{display:none!important}",
+   "hideCss": ".mtag{display:none!important}#bTower .ic,#bAdHi{display:none!important}",
    "scenes": [
     {
      "name": "title",
@@ -156,7 +158,10 @@
      "alt": "GunDraw 시작 화면",
      "steps": [
       {
-       "wait": 2500
+       "waitFor": "#tStart"
+      },
+      {
+       "wait": 600
       }
      ]
     },
@@ -165,7 +170,10 @@
      "dest": "assets/games/gundraw/shots/new-gun.webp",
      "steps": [
       {
-       "wait": 2000
+       "waitFor": "#tStart"
+      },
+      {
+       "wait": 600
       },
       {
        "click": "#tStart"
@@ -177,7 +185,7 @@
        "click": "#bOpen"
       },
       {
-       "wait": 1050
+       "wait": 2400
       }
      ]
     },
@@ -186,13 +194,22 @@
      "dest": "assets/games/gundraw/shots/battle.webp",
      "steps": [
       {
-       "wait": 2000
+       "waitFor": "#tStart"
+      },
+      {
+       "wait": 600
       },
       {
        "click": "#tStart"
       },
       {
-       "wait": 1000
+       "wait": 1200
+      },
+      {
+       "click": "#bOpen"
+      },
+      {
+       "wait": 2500
       },
       {
        "click": "#bOpen"
@@ -210,7 +227,7 @@
        "click": "#cSkip"
       },
       {
-       "wait": 11000
+       "wait": 10000
       }
      ]
     }
@@ -220,7 +237,7 @@
    ],
    "clip": [
     0,
-    0,
+    96,
     360,
     590
    ]

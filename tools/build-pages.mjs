@@ -42,7 +42,7 @@ const heroBlock = (compact) => {
   return `<section class="hero${compact ? ' hero--compact' : ''}${vis ? ' hero--has-visual hero--wide' : ''}">
   <div class="wrap hero__in">
     <div class="hero__copy">
-      <p class="hero__tag">${compact ? L('좀비 디펜스', 'Zombie defense') : L('GunDraw 건드로우 · 좀비 디펜스', 'GunDraw · Zombie defense')}</p>
+      <p class="hero__tag">${compact ? L('좀비 디펜스', 'Zombie defense') : L('GunDraw · 좀비 디펜스', 'GunDraw · Zombie defense')}</p>
       ${compact ? '<h1 class="hero__title">GunDraw</h1>' : `<h1 class="hero__title">${L('좀비가 우리 집에<br>쳐들어왔어.', 'Zombies are<br>at our door.')}</h1>`}
       <p class="hero__lead">${compact ? L('좀비가 우리 집에 쳐들어왔어.', 'Zombies are at our door.') : L('뽑기로 총을 모으고, 판에 세워, 집을 지키세요.', 'Pull guns, line them up, hold the house.')}</p>
       <div class="hero__cta">
@@ -108,10 +108,10 @@ const contentBlock = () => `<section class="section">
       <p class="section__lead">${L('보스를 넘고 환생하면 새 콘텐츠가 열립니다.', 'Beat bosses, rebirth, unlock more.')}</p>
     </header>
     <ul class="unlock-list reveal">
-      ${unlock('출석', 'Attendance')}
+      ${unlock('출석', 'Daily Check-in')}
       ${unlock('업적', 'Achievements')}
       ${unlock('탑', 'Tower')}
-      ${unlock('전초전', 'Skirmish')}
+      ${unlock('전초전', 'Duel')}
     </ul>
   </div>
 </section>`;
@@ -157,7 +157,7 @@ const gameGrid = () => `<div class="game-grid">
       <a class="game-card" href="/games/gundraw/">
         <div class="game-card__art">${visual('card') || '<span aria-hidden="true">GunDraw</span>'}</div>
         <div class="game-card__body">
-          <h3 class="game-card__title">GunDraw 건드로우</h3>
+          <h3 class="game-card__title">GunDraw</h3>
           <p class="game-card__desc">${L('좀비 디펜스', 'Zombie defense')}</p>
           <p class="tag-list"><span class="tag tag--web">${L('웹에서 플레이 가능', 'Playable on the web')}</span><span class="tag">${L('모바일 준비 중', 'Mobile in the works')}</span></p>
           <span class="game-card__more text-link">${L('게임 자세히 보기 ›', 'About the game ›')}</span>
@@ -190,10 +190,10 @@ const playBand = (related = '') => `<section class="section section--band play-b
 </section>`;
 
 // ---------- 홈 ----------
-const DESC_KO = '좀비가 우리 집에 쳐들어왔다. 뽑기로 총을 모아 판에 세우고 집을 지키는 좀비 디펜스, GunDraw 건드로우. 웹에서 바로 플레이.';
+const DESC_KO = '좀비가 우리 집에 쳐들어왔다. 뽑기로 총을 모아 판에 세우고 집을 지키는 좀비 디펜스, GunDraw. 웹에서 바로 플레이.';
 const DESC_EN = 'GunDraw: zombies are at the door. Pull guns, line them up and hold the house. A zombie defense game you can play in the browser.';
 write('index.html', layout({
-  path: '/', current: 'home', titleKo: 'JmkFamily — GunDraw 건드로우', titleEn: 'JmkFamily — GunDraw', descKo: DESC_KO, descEn: DESC_EN,
+  path: '/', current: 'home', titleKo: 'JmkFamily — GunDraw', titleEn: 'JmkFamily — GunDraw', descKo: DESC_KO, descEn: DESC_EN,
   body: [heroBlock(false), stepsBlock(), castBlock(), contentBlock(), shotsBlock(), storyBlock(), gamesBlock(), playBand()].filter(Boolean).join('\n\n'),
 }));
 
@@ -219,7 +219,7 @@ const noticeBlock = `<section class="section section--tight">
   </div>
 </section>`;
 write('games/gundraw/index.html', layout({
-  path: '/games/gundraw/', current: 'games', titleKo: 'GunDraw 건드로우 — JmkFamily', titleEn: 'GunDraw — JmkFamily',
+  path: '/games/gundraw/', current: 'games', titleKo: 'GunDraw — JmkFamily', titleEn: 'GunDraw — JmkFamily',
   descKo: DESC_KO + ' 개발 중인 웹 버전입니다.', descEn: DESC_EN + ' The web version is a work in progress.', jsonld: ld,
   body: [heroBlock(true), stepsBlock(), castBlock(), contentBlock(), shotsBlock(), noticeBlock, storyBlock(), playBand(related)].filter(Boolean).join('\n\n'),
 }));

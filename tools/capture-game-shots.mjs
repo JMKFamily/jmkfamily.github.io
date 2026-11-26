@@ -49,6 +49,8 @@ for (const [slug, s] of Object.entries(cfg.shots)) {
         await page.goto(`http://127.0.0.1:${port}/`, 1500);
         if (s.hideCss) await page.eval(`(()=>{const st=document.createElement('style');st.textContent=${JSON.stringify(s.hideCss)};document.head.appendChild(st)})()`);
         for (const st of sc.steps) {
+          // waitFor: 그 요소가 화면에 보일 때까지 최대 30초 기다림(새 빌드는 첫 화면까지 10초쯤 걸림)
+          if (st.waitFor) { let ok = false; for (let i = 0; i < 60 && !ok; i++) { ok = await page.eval(`(()=>{const e=document.querySelector(${JSON.stringify(st.waitFor)});return !!(e&&e.offsetParent&&e.getClientRects().length)})()`); if (!ok) await sleep(500); } if (!ok) throw new Error(`${sc.name}: ${st.waitFor}이(가) 30초 안에 안 보임`); }
           if (st.wait) await sleep(st.wait);
           if (st.click) await page.click(st.click); // 안 보이면 건너뜀
         }
