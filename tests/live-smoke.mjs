@@ -9,7 +9,7 @@ const user = (await signInAnonymously(auth)).user;
 const receipt = newReceipt(); const pw = 'smoke-test-pw-' + Math.random().toString(36).slice(2, 8);
 const id = await ticketId(receipt, pw); const idx = doc(collection(db, 'ticket_index'));
 const b = writeBatch(db);
-b.set(doc(db, 'tickets', id), { category: 'other', title: '[테스트] 스모크', body: '자동 테스트 글입니다. 무시해 주세요.', status: 'open', createdAt: serverTimestamp(), indexId: idx.id });
+b.set(doc(db, 'tickets', id), { category: 'other', title: '[시험] 게시판 연결 확인', body: '자동 테스트 글입니다. 무시해 주세요.', status: 'open', createdAt: serverTimestamp(), indexId: idx.id });
 b.set(idx, { category: 'other', createdAt: serverTimestamp(), status: 'open' });
 b.set(doc(db, 'rate', user.uid), { lastAt: serverTimestamp() });
 await b.commit(); console.log('1 작성 성공');

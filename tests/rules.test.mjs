@@ -6,7 +6,7 @@ import { initializeTestEnvironment, assertFails, assertSucceeds } from '@firebas
 import { doc, getDoc, getDocs, collection, setDoc, updateDoc, deleteDoc, writeBatch, serverTimestamp, Timestamp } from 'firebase/firestore';
 
 const OP = 'op-test-uid';
-const rules = readFileSync(new URL('../firestore.rules', import.meta.url), 'utf8').replace('OPERATOR_UID_PLACEHOLDER', OP);
+const rules = readFileSync(new URL('../firestore.rules', import.meta.url), 'utf8').replace(/request\.auth\.uid == '[^']*'\; \}/, `request.auth.uid == '${OP}'; }`);
 const [host, port] = (process.env.FIRESTORE_EMULATOR_HOST || '127.0.0.1:8941').split(':');
 let env;
 before(async () => { env = await initializeTestEnvironment({ projectId: 'demo-jmkfamily-site', firestore: { rules, host, port: Number(port) } }); });

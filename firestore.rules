@@ -5,7 +5,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function signedIn() { return request.auth != null; }
-    function isOperator() { return signedIn() && request.auth.uid == 'OPERATOR_UID_PLACEHOLDER'; }
+    function isOperator() { return signedIn() && request.auth.uid == 'mLEKGG4hhZcurRwZtBHxLYCRpdK2'; }
     function okCategory(c) { return c in ['bug', 'account', 'payment', 'suggestion', 'privacy', 'other']; }
     // 같은 묶음(batch)에서 rate/{uid}를 지금 시각으로 갱신했는지
     function ratedNow() {
