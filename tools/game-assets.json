@@ -1,5 +1,5 @@
 {
- "_설명": "사이트가 쓰는 게임·브랜드 자산 목록. src는 gamehub 루트 기준. frame이 있으면 src의 .json 아틀라스에서 그 프레임을 잘라 씁니다. 기본 변환은 webp(quality 90). copy는 그대로 복사, ico는 PNG를 ico로 감쌉니다. shots는 새 모습의 웹 빌드가 나온 뒤에만 capture-game-shots.mjs로 다시 찍습니다(v0.6 집 테마 빌드부터 사용, 위쪽 HUD 줄은 clip으로 잘라 냄).",
+ "_설명": "사이트가 쓰는 게임·브랜드 자산 목록. src는 gamehub 루트 기준. frame이 있으면 src의 .json 아틀라스에서 그 프레임을 잘라 씁니다. 기본 변환은 webp(quality 90). copy는 그대로 복사, ico는 PNG를 ico로 감쌉니다. shots는 새 모습의 웹 빌드가 나온 뒤에만 capture-game-shots.mjs로 다시 찍습니다(벡터 UI 빌드부터 HUD 포함 360x670 전체 화면).",
  "gamehubRoot": "C:/gamehub-bench/gamehub-web",
  "managedDirs": [
   "assets/games",
@@ -150,7 +150,7 @@
    ],
    "format": "webp",
    "quality": 78,
-   "hideCss": ".mtag{display:none!important}#bTower .ic,#bAdHi{display:none!important}",
+   "hideCss": ".mtag{display:none!important}#failPop,#adBubble{display:none!important}",
    "scenes": [
     {
      "name": "title",
@@ -161,7 +161,7 @@
        "waitFor": "#tStart"
       },
       {
-       "wait": 600
+       "wait": 800
       }
      ]
     },
@@ -173,7 +173,7 @@
        "waitFor": "#tStart"
       },
       {
-       "wait": 600
+       "wait": 800
       },
       {
        "click": "#tStart"
@@ -185,49 +185,38 @@
        "click": "#bOpen"
       },
       {
-       "wait": 2400
+       "wait": 1300
       }
      ]
     },
     {
      "name": "battle",
      "dest": "assets/games/gundraw/shots/battle.webp",
+     "note": "파티 4명 합류(최고 웨이브 16)·총 자동 장착 뒤 12웨이브부터 다시 불러와 보스 전투를 찍음. 개발용 훅 window.__game 사용",
      "steps": [
       {
        "waitFor": "#tStart"
       },
       {
-       "wait": 600
+       "wait": 800
       },
       {
        "click": "#tStart"
       },
       {
-       "wait": 1200
+       "wait": 1500
       },
       {
-       "click": "#bOpen"
+       "eval": "(()=>{const G=window.__game,g=G.game();g.S.best=16;g.migrateParty(g.S);G.grant(200000);for(let i=0;i<12;i++){g.openBox();g.buy();}g.autoEquipAll();g.S.coins=1840;G.setWave(12);G.saveNow();return true})()"
       },
       {
-       "wait": 2500
+       "reload": true
       },
       {
-       "click": "#bOpen"
+       "waitUntil": "!!window.__gameBooted"
       },
       {
-       "wait": 2500
-      },
-      {
-       "click": "#bOpen"
-      },
-      {
-       "wait": 2500
-      },
-      {
-       "click": "#cSkip"
-      },
-      {
-       "wait": 10000
+       "wait": 13000
       }
      ]
     }
@@ -237,9 +226,9 @@
    ],
    "clip": [
     0,
-    96,
+    0,
     360,
-    590
+    670
    ]
   }
  }

@@ -128,7 +128,7 @@ const shotsBlock = () => {
       <p class="section__eyebrow">${L('플레이 화면', 'Gameplay')}</p>
     </header>
     <div class="shots" tabindex="0" aria-label="플레이 화면" data-en-label="Gameplay screens">
-      ${list.map(([n, ko, en]) => `<figure class="shot">${img(`${G}/shots/${n}.webp`, 720, 1180, { alt: ko, altEn: en, srcset: `${G}/shots/${n}-360w.webp 360w, ${G}/shots/${n}.webp 720w`, sizes: '(max-width: 700px) 62vw, 260px' })}</figure>`).join('\n      ')}
+      ${list.map(([n, ko, en]) => `<figure class="shot">${img(`${G}/shots/${n}.webp`, 720, 1340, { alt: ko, altEn: en, srcset: `${G}/shots/${n}-360w.webp 360w, ${G}/shots/${n}.webp 720w`, sizes: '(max-width: 700px) 62vw, 260px' })}</figure>`).join('\n      ')}
     </div>
   </div>
 </section>`;
