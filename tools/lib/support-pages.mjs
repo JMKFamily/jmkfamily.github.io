@@ -10,11 +10,11 @@ const catOptions = [['bug', '버그·오류', 'Bug'], ['account', '계정·데�
 export function supportPages() {
   const board = layout({
     path: '/support/', current: 'contact', titleKo: '문의 게시판 — JmkFamily', titleEn: 'Support board — JmkFamily', descKo: '비밀글로 문의를 남기고 답변을 확인하는 게시판.', descEn: 'Leave a private message and read the reply.',
-    body: `${pageHead('Support', L('문의 게시판', 'Support board'), L('문의는 비밀글로 접수됩니다. 접수 번호와 비밀번호로 내 글과 답변을 볼 수 있어요.', 'Messages are private. Use your receipt number and password to read your message and the reply.'))}
+    body: `${pageHead(L('문의','Support'), L('문의 게시판', 'Support board'), L('문의는 비밀글로 접수됩니다. 접수 번호와 비밀번호로 내 글과 답변을 확인할 수 있습니다.', 'Messages are private. Use your receipt number and password to read your message and the reply.'))}
 <section class="section section--tight">
   <div class="wrap wrap--narrow">
     <div id="sp-off" class="contact-card" hidden>
-      <h2 class="contact-card__title">${L('게시판을 준비하고 있어요', 'The board is getting ready')}</h2>
+      <h2 class="contact-card__title">${L('게시판을 준비하고 있습니다', 'The board is getting ready')}</h2>
       <p>${L('그동안은 이메일로 문의해 주세요.', 'Please email us in the meantime.')}</p>
       <p class="contact-card__mail"><a href="mailto:${EMAIL}">${EMAIL}</a></p>
     </div>

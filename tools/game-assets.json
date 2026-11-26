@@ -1,150 +1,15 @@
 {
- "_설명": "사이트가 쓰는 게임·브랜드 자산 목록. src는 gamehub 루트 기준. frame이 있으면 src의 .json 아틀라스에서 그 프레임을 잘라 씁니다. 기본 변환은 webp(quality 90). copy는 그대로 복사, ico는 PNG를 ico로 감쌉니다.",
+ "_설명": "사이트가 쓰는 게임·브랜드 자산 목록. src는 gamehub 루트 기준. frame이 있으면 src의 .json 아틀라스에서 그 프레임을 잘라 씁니다. 기본 변환은 webp(quality 90). copy는 그대로 복사, ico는 PNG를 ico로 감쌉니다. shots는 새 모습의 웹 빌드가 나온 뒤에만 capture-game-shots.mjs로 다시 찍습니다(지금은 실행하지 않음).",
  "gamehubRoot": "C:/gamehub-bench/gamehub-web",
  "managedDirs": [
   "assets/games",
   "assets/brand"
  ],
- "keep": [
-  "assets/games/gundraw/shots/"
- ],
+ "keep": [],
  "defaults": {
   "quality": 90
  },
  "assets": [
-  {
-   "src": "games/gundraw/img/atlas-gun-128.png",
-   "frame": "gun-g01-128",
-   "dest": "assets/games/gundraw/sprites/gun-g01.webp"
-  },
-  {
-   "src": "games/gundraw/img/atlas-gun-128.png",
-   "frame": "gun-g02-128",
-   "dest": "assets/games/gundraw/sprites/gun-g02.webp"
-  },
-  {
-   "src": "games/gundraw/img/atlas-gun-128.png",
-   "frame": "gun-g05-128",
-   "dest": "assets/games/gundraw/sprites/gun-g05.webp"
-  },
-  {
-   "src": "games/gundraw/img/atlas-gun-128.png",
-   "frame": "gun-g06-128",
-   "dest": "assets/games/gundraw/sprites/gun-g06.webp"
-  },
-  {
-   "src": "games/gundraw/img/atlas-gun-128.png",
-   "frame": "gun-g09-128",
-   "dest": "assets/games/gundraw/sprites/gun-g09.webp"
-  },
-  {
-   "src": "games/gundraw/img/atlas-gun-128.png",
-   "frame": "gun-g11-128",
-   "dest": "assets/games/gundraw/sprites/gun-g11.webp"
-  },
-  {
-   "src": "games/gundraw/img/atlas-gun-128.png",
-   "frame": "gun-g14-128",
-   "dest": "assets/games/gundraw/sprites/gun-g14.webp"
-  },
-  {
-   "src": "games/gundraw/img/atlas-gun-128.png",
-   "frame": "gun-g16-128",
-   "dest": "assets/games/gundraw/sprites/gun-g16.webp"
-  },
-  {
-   "src": "games/gundraw/img/atlas-gun-128.png",
-   "frame": "gun-g18-128",
-   "dest": "assets/games/gundraw/sprites/gun-g18.webp"
-  },
-  {
-   "src": "games/gundraw/img/atlas-gun-128.png",
-   "frame": "gun-g23-128",
-   "dest": "assets/games/gundraw/sprites/gun-g23.webp"
-  },
-  {
-   "src": "games/gundraw/img/atlas-gun-128.png",
-   "frame": "gun-g25-128",
-   "dest": "assets/games/gundraw/sprites/gun-g25.webp"
-  },
-  {
-   "src": "games/gundraw/img/atlas-gun-128.png",
-   "frame": "gun-g26-128",
-   "dest": "assets/games/gundraw/sprites/gun-g26.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/atlas-zombie-128.png",
-   "frame": "zombie-boss-128",
-   "dest": "assets/games/gundraw/sprites/zombie-boss.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/atlas-zombie-128.png",
-   "frame": "zombie-z1-128",
-   "dest": "assets/games/gundraw/sprites/zombie-z1.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/atlas-zombie-128.png",
-   "frame": "zombie-z2-128",
-   "dest": "assets/games/gundraw/sprites/zombie-z2.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/atlas-zombie-128.png",
-   "frame": "zombie-z3-128",
-   "dest": "assets/games/gundraw/sprites/zombie-z3.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/atlas-stage.png",
-   "frame": "stage-goal-shop-256",
-   "dest": "assets/games/gundraw/sprites/fortress.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/atlas-ui-large.png",
-   "frame": "char-popo-full-256",
-   "dest": "assets/games/gundraw/sprites/popo.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/atlas-ui-large.png",
-   "frame": "ui-box-open-128",
-   "dest": "assets/games/gundraw/sprites/box-open.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/atlas-ui-large.png",
-   "frame": "fx-stardust-96",
-   "dest": "assets/games/gundraw/sprites/fx-stardust.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/atlas-ui-large.png",
-   "frame": "fx-pop-96",
-   "dest": "assets/games/gundraw/sprites/fx-pop.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/meta/boss-cushy-256.png",
-   "dest": "assets/games/gundraw/meta/boss-cushy-256.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/meta/boss-quilt-bear-256.png",
-   "dest": "assets/games/gundraw/meta/boss-quilt-bear-256.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/meta/boss-tick-tock-256.png",
-   "dest": "assets/games/gundraw/meta/boss-tick-tock-256.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/meta/ico-attend-96.png",
-   "dest": "assets/games/gundraw/meta/ico-attend-96.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/meta/badge-b01-96.png",
-   "dest": "assets/games/gundraw/meta/badge-b01-96.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/meta/ico-tower-96.png",
-   "dest": "assets/games/gundraw/meta/ico-tower-96.webp"
-  },
-  {
-   "src": "games/gundraw/img-war/meta/ico-duel-96.png",
-   "dest": "assets/games/gundraw/meta/ico-duel-96.webp"
-  },
   {
    "src": "web/assets/logo/final/jmkfamily-lockup.svg",
    "dest": "assets/brand/jmkfamily-lockup.svg",
@@ -194,6 +59,83 @@
    "src": "web/assets/logo/final/favicon-32.png",
    "dest": "favicon.ico",
    "ico": true
+  },
+  {
+   "src": "projects/gundraw/assets/home/concept/concept-hero-web.png",
+   "dest": "assets/games/gundraw/art/hero-wide-1376.webp",
+   "quality": 82
+  },
+  {
+   "src": "projects/gundraw/assets/home/concept/concept-hero-web.png",
+   "dest": "assets/games/gundraw/art/hero-wide-960.webp",
+   "width": 960,
+   "quality": 82
+  },
+  {
+   "src": "projects/gundraw/assets/home/concept/concept-hero-web.png",
+   "dest": "assets/games/gundraw/art/hero-wide-480.webp",
+   "width": 480,
+   "quality": 80
+  },
+  {
+   "src": "projects/gundraw/assets/home/concept/concept-hero-web.png",
+   "dest": "assets/games/gundraw/art/hero-sq-768.webp",
+   "crop": [
+    250,
+    0,
+    768,
+    768
+   ],
+   "width": 768,
+   "quality": 82
+  },
+  {
+   "src": "projects/gundraw/assets/home/concept/concept-hero-web.png",
+   "dest": "assets/games/gundraw/art/hero-sq-480.webp",
+   "crop": [
+    250,
+    0,
+    768,
+    768
+   ],
+   "width": 480,
+   "quality": 80
+  },
+  {
+   "src": "projects/gundraw/assets/home/concept/concept-store.png",
+   "dest": "assets/games/gundraw/art/card-960.webp",
+   "width": 960,
+   "quality": 82
+  },
+  {
+   "src": "projects/gundraw/assets/home/concept/concept-store.png",
+   "dest": "assets/games/gundraw/art/card-480.webp",
+   "width": 480,
+   "quality": 80
+  },
+  {
+   "src": "projects/gundraw/assets/home/concept/concept-toybox.png",
+   "dest": "assets/games/gundraw/art/story-768.webp",
+   "crop": [
+    0,
+    400,
+    768,
+    512
+   ],
+   "width": 768,
+   "quality": 82
+  },
+  {
+   "src": "projects/gundraw/assets/home/concept/concept-toybox.png",
+   "dest": "assets/games/gundraw/art/story-480.webp",
+   "crop": [
+    0,
+    400,
+    768,
+    512
+   ],
+   "width": 480,
+   "quality": 80
   }
  ],
  "shots": {

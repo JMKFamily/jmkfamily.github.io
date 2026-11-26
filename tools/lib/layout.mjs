@@ -29,7 +29,8 @@ export function layout({ path, titleKo, titleEn, descKo, descEn, body, current =
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title data-en="${esc(titleEn)}">${esc(titleKo)}</title>
 <meta name="description" content="${esc(descKo)}" data-en="${esc(descEn)}">
-${robots ? `<meta name="robots" content="${robots}">\n` : ''}${canonical ? `<link rel="canonical" href="${url}">\n` : ''}<meta name="theme-color" content="#FFF4DD">
+${robots ? `<meta name="robots" content="${robots}">\n` : ''}${canonical ? `<link rel="canonical" href="${url}">\n` : ''}<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D0D10" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="/assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/brand/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
@@ -50,7 +51,7 @@ ${robots ? `<meta name="robots" content="${robots}">\n` : ''}${canonical ? `<lin
 <meta name="twitter:image" content="${OG_IMAGE}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/site.css">
 <script>(function(){var h=document.documentElement;h.classList.add('js');var l,q=/[?&]lang=(ko|en)\b/.exec(location.search);try{l=q?q[1]:localStorage.getItem('jmk-lang')}catch(e){}if(l!=='ko'&&l!=='en')l=(navigator.language||'ko').toLowerCase().indexOf('ko')===0?'ko':'en';h.setAttribute('data-lang',l);h.setAttribute('lang',l)})()</script>
 <script src="/assets/js/site-config.js" defer></script>
@@ -60,9 +61,9 @@ ${robots ? `<meta name="robots" content="${robots}">\n` : ''}${canonical ? `<lin
 <a class="skip-link" href="#main">${L('본문으로 건너뛰기', 'Skip to content')}</a>
 <header class="site-header" data-js="site-header">
   <div class="wrap site-header__in">
-    <a class="site-header__logo" href="/">
-      <img class="logo-light" src="/assets/brand/jmkfamily-lockup.svg" alt="JmkFamily" width="1400" height="343">
-      <img class="logo-dark" src="/assets/brand/jmkfamily-lockup-dark.svg" alt="" width="1400" height="343" aria-hidden="true" loading="lazy">
+    <a class="site-header__logo" href="/" aria-label="JmkFamily 홈" data-en-label="JmkFamily home">
+      <img class="site-header__mark" src="/assets/brand/jmkfamily-symbol.svg" alt="" width="26" height="26">
+      <span class="site-header__word">JmkFamily</span>
     </a>
     <nav class="site-nav" id="site-nav" aria-label="주 메뉴" data-en-label="Main menu" data-js="site-nav">
         ${nav}
@@ -91,7 +92,8 @@ ${body}
     </ul>
     <div class="site-footer__end">
       <p class="site-footer__copy">© 2026 JmkFamily<br><a href="mailto:${EMAIL}">${EMAIL}</a></p>
-      <img class="site-footer__logo" src="/assets/brand/jmkfamily-lockup-dark.svg" alt="JmkFamily" width="1400" height="343" loading="lazy">
+      <img class="site-footer__logo logo-light" src="/assets/brand/jmkfamily-lockup.svg" alt="JmkFamily" width="1400" height="343" loading="lazy">
+      <img class="site-footer__logo logo-dark" src="/assets/brand/jmkfamily-lockup-dark.svg" alt="" width="1400" height="343" loading="lazy" aria-hidden="true">
     </div>
   </div>
 </footer>

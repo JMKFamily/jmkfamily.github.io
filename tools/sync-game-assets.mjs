@@ -54,7 +54,7 @@ try {
     else if (a.ico) out = icoWrap(src);
     else {
       if (!page) { browser = await launchChrome(); page = await browser.newPage(); await page.goto('about:blank', 0); }
-      out = await convertImage(page, src, { crop: a.frame ? frameOf(a) : null, width: a.width, quality: a.quality || cfg.defaults?.quality || 90 });
+      out = await convertImage(page, src, { crop: a.crop || (a.frame ? frameOf(a) : null), width: a.width, quality: a.quality || cfg.defaults?.quality || 90 });
     }
     const dest = join(SITE, a.dest); expected.add(rel(dest));
     const had = existsSync(dest);

@@ -35,15 +35,17 @@
 
   // ---- 허브·사무실 링크: 설정이 켜졌을 때만 주소를 넣고 보이게 ----
   function wire(sel, cfg) {
+    var on = false;
     [].forEach.call(d.querySelectorAll(sel), function (el) {
       if (!cfg || !cfg.enabled || !cfg.url) return;
       var a = el.tagName === 'A' ? el : el.querySelector('a');
       if (a) { a.href = cfg.url; a.target = '_blank'; a.rel = 'nofollow noopener'; }
-      el.hidden = false;
+      el.hidden = false; on = true;
     });
+    return on;
   }
-  wire('[data-js="hub-link"]', C.hubLink);
-  wire('[data-js="office-link"]', C.officeLink);
+  var hubOn = wire('[data-js="hub-link"]', C.hubLink), officeOn = wire('[data-js="office-link"]', C.officeLink);
+  if (hubOn || officeOn) [].forEach.call(d.querySelectorAll('[data-js="story"]'), function (el) { el.hidden = false; });
 
   // ---- 메뉴(폰): 전체 화면 덮개, Esc·링크 누르기로 닫힘, 포커스 가둠 ----
   var btn = d.querySelector('[data-js="menu-btn"]'), nav = d.querySelector('[data-js="site-nav"]'), header = d.querySelector('[data-js="site-header"]');
