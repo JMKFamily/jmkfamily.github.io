@@ -94,3 +94,59 @@ test('6. 공개 목록(ticket_index)에는 제목·내용·접수 ID가 들어�
   assert.ok(!JSON.stringify(all.docs[0].data()).includes('내용'));
   await assertFails(deleteDoc(doc(anon('reader'), 'ticket_index', IID)));
 });
+
+// ---- 운영자 전용 번역 노트 (tickets/{id}/notes/translation-ko) ----
+const NOTE_PATH = ['tickets', TID, 'notes', 'translation-ko'];
+const note = (over = {}) => ({ srcLang: 'en', title: '번역 제목', body: '번역 본문', createdAt: serverTimestamp(), method: 'chrome-on-device', ...over });
+const seedNote = () => env.withSecurityRulesDisabled((c) => setDoc(doc(c.firestore(), ...NOTE_PATH), { srcLang: 'en', title: '비밀 번역', body: '비밀 번역 본문', createdAt: Timestamp.now(), method: 'chrome-on-device' }));
+
+test('7. 글쓴이(문서 ID를 아는 익명)·로그인 안 한 사람은 노트를 읽지 못한다(get·list 모두)', async () => {
+  await seed(); await seedNote();
+  await assertSucceeds(getDoc(doc(anon('author'), 'tickets', TID)));
+  await assertFails(getDoc(doc(anon('author'), ...NOTE_PATH)));
+  await assertFails(getDocs(collection(anon('author'), 'tickets', TID, 'notes')));
+  await assertFails(getDoc(doc(env.unauthenticatedContext().firestore(), ...NOTE_PATH)));
+  await assertFails(getDocs(collection(env.unauthenticatedContext().firestore(), 'tickets', TID, 'notes')));
+  // 글 본문·공개 목록 문서에는 노트 내용이 섞여 있지 않다
+  const t = await getDoc(doc(anon('author'), 'tickets', TID));
+  assert.ok(!JSON.stringify(t.data()).includes('번역'));
+  const ix = await getDoc(doc(anon('author'), 'ticket_index', IID));
+  assert.ok(!JSON.stringify(ix.data()).includes('번역'));
+});
+
+test('8. 익명(글쓴이 포함)은 노트를 만들 수도, 고칠 수도, 지울 수도 없다', async () => {
+  await seed();
+  await assertFails(setDoc(doc(anon('author'), ...NOTE_PATH), note()));
+  await assertFails(setDoc(doc(env.unauthenticatedContext().firestore(), ...NOTE_PATH), note()));
+  await seedNote();
+  await assertFails(updateDoc(doc(anon('author'), ...NOTE_PATH), { title: '바꿈' }));
+  await assertFails(deleteDoc(doc(anon('author'), ...NOTE_PATH)));
+});
+
+test('9. 운영자만 노트를 쓰고 읽고 덮어쓰고 지운다(글 삭제와 같은 묶음 포함)', async () => {
+  await seed();
+  await assertSucceeds(setDoc(doc(op(), ...NOTE_PATH), note()));
+  const s = await assertSucceeds(getDoc(doc(op(), ...NOTE_PATH)));
+  assert.equal(s.data().title, '번역 제목');
+  await assertSucceeds(getDocs(collection(op(), 'tickets', TID, 'notes')));
+  await assertSucceeds(setDoc(doc(op(), ...NOTE_PATH), note({ title: '다시 번역' }))); // 다시 번역 = 덮어쓰기
+  await assertSucceeds(setDoc(doc(op(), ...NOTE_PATH), note({ srcLang: 'ko', title: '', body: '' }))); // 한국어 표시 노트
+  const o = op(); const b = writeBatch(o);
+  b.delete(doc(o, 'tickets', TID)); b.delete(doc(o, ...NOTE_PATH));
+  await assertSucceeds(b.commit());
+});
+
+test('10. 노트 필드 제한: 정해진 5개만, 이름은 translation-ko만, 방식·길이·시각 검증', async () => {
+  await seed();
+  const o = op();
+  await assertFails(setDoc(doc(o, 'tickets', TID, 'notes', 'other'), note()));
+  await assertFails(setDoc(doc(o, ...NOTE_PATH), note({ extra: 'x' })));
+  await assertFails(setDoc(doc(o, ...NOTE_PATH), { srcLang: 'en', title: 't', body: 'b', createdAt: serverTimestamp() })); // method 없음
+  await assertFails(setDoc(doc(o, ...NOTE_PATH), note({ method: 'cloud' })));
+  await assertFails(setDoc(doc(o, ...NOTE_PATH), note({ createdAt: Timestamp.fromMillis(0) })));
+  await assertFails(setDoc(doc(o, ...NOTE_PATH), note({ body: 'x'.repeat(8001) })));
+  await assertFails(setDoc(doc(o, ...NOTE_PATH), note({ title: 'x'.repeat(401) })));
+  await assertFails(setDoc(doc(o, ...NOTE_PATH), note({ srcLang: 'e' })));
+  await assertFails(setDoc(doc(o, ...NOTE_PATH), note({ title: 5 })));
+  await assertSucceeds(setDoc(doc(o, ...NOTE_PATH), note({ title: 'x'.repeat(400), body: 'x'.repeat(8000) })));
+});

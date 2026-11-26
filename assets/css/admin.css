@@ -116,3 +116,18 @@ code.adm-kv__v { font: 12px/1.5 ui-monospace, Consolas, monospace; padding: 2px 
   .adm-table .adm-detail, .adm-table .adm-detail td { display: block; }
   .adm-kv__k { min-width: 0; width: 100%; }
 }
+
+/* 한국어 번역 코멘트(운영자 전용 노트) */
+.adm-trbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 0 0 12px; padding: 10px 12px; background: var(--accent-soft); border: 1px solid var(--line2); border-radius: var(--r-s); color: var(--ink); font-size: 13px; }
+.adm-chip { display: inline-block; margin-left: 8px; padding: 0 6px; font-size: 11px; line-height: 18px; color: var(--accent); background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 999px; vertical-align: middle; white-space: nowrap; }
+.adm-trbox { display: grid; gap: 10px; }
+.adm-tr { display: grid; gap: 6px; padding: 12px 14px; background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 var(--r-s) var(--r-s) 0; }
+.adm-tr p { margin: 0; }
+.adm-tr__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; }
+.adm-tr__label { font-size: 12px; font-weight: 700; color: var(--accent); }
+.adm-tr__title { font-weight: 700; overflow-wrap: anywhere; }
+.adm-tr__hint { font-size: 12px; color: var(--ink2); }
+.adm-orig { border: 1px solid var(--line); border-radius: var(--r-s); padding: 0 12px; }
+.adm-orig summary { min-height: 40px; display: flex; align-items: center; cursor: pointer; color: var(--ink2); font-size: 13px; }
+.adm-orig[open] { padding-bottom: 12px; display: grid; gap: 6px; }
+.adm-orig p { margin: 0; }

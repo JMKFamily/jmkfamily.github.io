@@ -32,6 +32,21 @@ service cloud.firestore {
       allow update, delete: if isOperator();
     }
 
+    // 운영자 전용 노트(한국어 번역 코멘트). 글쓴이·익명은 읽기·쓰기 모두 불가.
+    // 문서 ID는 translation-ko 하나만 허용하고, 필드는 정해진 5개만 받습니다.
+    match /tickets/{id}/notes/{nid} {
+      allow read, delete: if isOperator();
+      allow create, update: if isOperator()
+        && nid == 'translation-ko'
+        && request.resource.data.keys().hasOnly(['srcLang', 'title', 'body', 'createdAt', 'method'])
+        && request.resource.data.keys().size() == 5
+        && request.resource.data.srcLang is string && request.resource.data.srcLang.size() >= 2 && request.resource.data.srcLang.size() <= 16
+        && request.resource.data.title is string && request.resource.data.title.size() <= 400
+        && request.resource.data.body is string && request.resource.data.body.size() <= 8000
+        && request.resource.data.method == 'chrome-on-device'
+        && request.resource.data.createdAt == request.time;
+    }
+
     // 공개 목록: 유형·시각·상태만. 제목·내용·접수 ID 없음.
     match /ticket_index/{indexId} {
       allow read: if signedIn();
