@@ -225,7 +225,7 @@ write('games/gundraw/index.html', layout({
 }));
 
 // ---------- 약관·정책 ----------
-const docs = [{ url: '/privacy.html', titleKo: '개인정보처리방침', titleEn: 'Privacy Policy', date: '2026-11-16' }, ...extraDocs];
+const docs = [{ url: '/privacy.html', titleKo: '개인정보처리방침', titleEn: 'Privacy Policy', date: '2026-11-27' }, ...extraDocs];
 write('docs/index.html', layout({
   path: '/docs/', current: 'docs', titleKo: '약관·정책 — JmkFamily', titleEn: 'Policies — JmkFamily', descKo: '개인정보처리방침 등 약관·정책.', descEn: 'Privacy policy and other policies.',
   body: `${pageHead(L('약관·정책', 'Policies'), L('약관·정책', 'Policies'))}

@@ -25,7 +25,7 @@ const DOCS = [
   ...(prob ? [{ src: prob, url: '/docs/gundraw-probability.html', out: 'docs/gundraw-probability.html', ko: 'GunDraw 확률 정보', en: 'GunDraw Odds' }] : []),
 ];
 
-const BLOCKERS = [[/\{\{[^}]*\}\}/, '{{…}} 자리표시'], [/초안/, '"초안" 표시'], [/법률 자문이 아닙니다/, '"법률 자문이 아닙니다" 표시'], [/Draft, not legal advice/i, '"Draft" 표시']];
+const BLOCKERS = [[/\{\{[^}]*\}\}/, '{{…}} 자리표시'], [/초안(?! 빌드)/, '"초안" 표시("웹 초안 빌드"는 출시 전 빌드 이름이라 제외)'], [/법률 자문이 아닙니다/, '"법률 자문이 아닙니다" 표시'], [/Draft, not legal advice/i, '"Draft" 표시']];
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const inline = (s) => esc(s)
