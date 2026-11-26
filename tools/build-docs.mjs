@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 공개 문서 생성: gamehub 원본(md)에서 docs/*.html을 만듭니다.
+// 약관·정책 생성: gamehub 원본(md)에서 docs/*.html을 만듭니다.
 // 사용: node tools/build-docs.mjs <legal 폴더> <probability.md> [--publish-privacy]
 //   예: node tools/build-docs.mjs C:/gamehub-bench/gamehub-web/legal C:/gamehub-bench/gamehub-web/projects/gundraw/store/probability.md
 // 게시 조건: 원본에 {{…}}, "초안", "법률 자문이 아닙니다"가 하나라도 남아 있으면 그 문서는 건너뛰고 이유를 출력합니다.

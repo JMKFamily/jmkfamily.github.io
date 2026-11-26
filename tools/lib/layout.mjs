@@ -16,7 +16,7 @@ export function img(src, w, h, { cls = '', alt = '', altEn = '', lazy = true, hi
 }
 
 const NAV = [
-  ['/', '홈', 'Home', 'home'], ['/games/', '게임', 'Games', 'games'], ['/docs/', '공개 문서', 'Documents', 'docs'], ['/contact/', '문의', 'Contact', 'contact'],
+  ['/', '홈', 'Home', 'home'], ['/games/', '게임', 'Games', 'games'], ['/docs/', '약관·정책', 'Policies', 'docs'], ['/contact/', '문의', 'Contact', 'contact'],
 ];
 
 export function layout({ path, titleKo, titleEn, descKo, descEn, body, current = '', bilingual = false, jsonld = '', robots = '', canonical = true }) {
@@ -84,10 +84,10 @@ ${body}
     <ul class="site-footer__links">
       <li><a href="/games/">${L('게임', 'Games')}</a></li>
       <li><a href="/privacy.html">${L('개인정보처리방침', 'Privacy Policy')}</a></li>
-      <li><a href="/docs/">${L('공개 문서', 'Documents')}</a></li>
+      <li><a href="/docs/">${L('약관·정책', 'Policies')}</a></li>
       <li><a href="/contact/">${L('문의', 'Contact')}</a></li>
-      <li data-js="hub-link" hidden><a href="#" rel="nofollow noopener" target="_blank">${L('개발 과정 공개', 'Development log')} ↗</a></li>
-      <li data-js="office-link" hidden><a href="#" rel="nofollow noopener" target="_blank">${L('개발 사무실 구경하기', 'Visit the dev office')} ↗</a></li>
+      <li data-js="hub-link" hidden><a href="#" rel="nofollow noopener" target="_blank">${L('개발 로그', 'Development log')} ↗</a></li>
+      <li data-js="office-link" hidden><a href="#" rel="nofollow noopener" target="_blank">${L('개발실 구경', 'Visit the dev office')} ↗</a></li>
     </ul>
     <div class="site-footer__end">
       <p class="site-footer__copy">© 2026 JmkFamily<br><a href="mailto:${EMAIL}">${EMAIL}</a></p>

@@ -80,7 +80,7 @@ CSS는 `site.css` 한 파일입니다. 페이지 `<head>`에 글꼴 → site.css
     <nav class="site-nav" id="site-nav" aria-label="주 메뉴" data-js="site-nav">   <!-- 폰: 열리면 is-open -->
       <a class="site-nav__link" href="/" aria-current="page">홈</a>
       <a class="site-nav__link" href="/games/">게임</a>
-      <a class="site-nav__link" href="/docs/">공개 문서</a>
+      <a class="site-nav__link" href="/docs/">약관·정책</a>
       <a class="site-nav__link" href="/contact/">문의</a>
     </nav>
     <div class="lang-switch" role="group" aria-label="언어 / Language">
@@ -218,7 +218,7 @@ CSS는 `site.css` 한 파일입니다. 페이지 `<head>`에 글꼴 → site.css
 </section>
 
 <p class="notice">웹 버전은 개발 중인 빌드입니다.</p>
-<a class="text-link" href="…">개발 과정 보기 →</a>
+<a class="text-link" href="…">개발 로그 →</a>
 ```
 
 ### 페이지 머리 (게임 목록·문서·문의·404 공통)
@@ -233,7 +233,7 @@ CSS는 `site.css` 한 파일입니다. 페이지 `<head>`에 글꼴 → site.css
 </header>
 ```
 
-### 공개 문서 목록 / 문서 본문
+### 약관·정책 목록 / 문서 본문
 
 ```html
 <ul class="doc-list">
@@ -278,7 +278,7 @@ CSS는 `site.css` 한 파일입니다. 페이지 `<head>`에 글꼴 → site.css
   <div class="wrap">
     <ul class="site-footer__links">
       <li><a href="/games/">게임 · Games</a></li> …
-      <li><a href="…" data-js="hub-link" hidden rel="nofollow noopener" target="_blank">개발 과정 공개 · Development log ↗</a></li>
+      <li><a href="…" data-js="hub-link" hidden rel="nofollow noopener" target="_blank">개발 로그 · Development log ↗</a></li>
     </ul>
     <div class="site-footer__end">
       <p class="site-footer__copy">© 2026 JmkFamily<br><a href="mailto:…">…</a></p>

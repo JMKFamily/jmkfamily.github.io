@@ -191,17 +191,17 @@ write('games/gundraw/index.html', layout({
     </header>
     ${shots}
     <p class="notice u-mt">${L('웹 버전은 개발 중인 빌드입니다. 내용이 바뀔 수 있습니다.', 'The web version is a work-in-progress build and may change.')}</p>
-    <p data-js="hub-link" hidden><a class="text-link" href="#" rel="nofollow noopener" target="_blank">${L('개발 과정 보기', 'See the development log')} →</a></p>
-    <p data-js="office-link" hidden><a class="btn btn--ghost" href="#" rel="nofollow noopener" target="_blank">${L('개발 사무실 구경하기', 'Visit the dev office')} ↗</a></p>
+    <p data-js="hub-link" hidden><a class="text-link" href="#" rel="nofollow noopener" target="_blank">${L('개발 로그', 'Development log')} →</a></p>
+    <p data-js="office-link" hidden><a class="btn btn--ghost" href="#" rel="nofollow noopener" target="_blank">${L('개발실 구경', 'Visit the dev office')} ↗</a></p>
   </div>
 </section>`, stepsBlock, deepBlock(false), playBand(related)].join('\n\n'),
 }));
 
-// ---------- 공개 문서 ----------
+// ---------- 약관·정책 ----------
 const docs = [{ url: '/privacy.html', titleKo: '개인정보처리방침', titleEn: 'Privacy Policy', date: '2026-11-16' }, ...extraDocs];
 write('docs/index.html', layout({
-  path: '/docs/', current: 'docs', titleKo: '공개 문서 — JmkFamily', titleEn: 'Documents — JmkFamily', descKo: '개인정보처리방침 등 공개 문서.', descEn: 'Privacy policy and other public documents.',
-  body: `${pageHead('Documents', L('공개 문서', 'Documents'))}
+  path: '/docs/', current: 'docs', titleKo: '약관·정책 — JmkFamily', titleEn: 'Policies — JmkFamily', descKo: '개인정보처리방침 등 약관·정책.', descEn: 'Privacy policy and other policies.',
+  body: `${pageHead('Policies', L('약관·정책', 'Policies'))}
 <section class="section section--tight">
   <div class="wrap wrap--narrow">
     <ul class="doc-list">
