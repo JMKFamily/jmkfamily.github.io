@@ -17,8 +17,17 @@ const rows = [];
 try {
   for (const w of [360, 1280]) {
     const page = await browser.newPage(); await page.viewport(w, 800, 1);
-    await page.goto(`http://127.0.0.1:${port}/support/admin/${mode === 'after' ? '?mock' : ''}`, 1200);
+    await page.goto(`http://127.0.0.1:${port}/support/admin/${mode === 'before' ? '' : '?mock'}`, 1200);
     if (mode === 'before') await page.eval(beforeJs);
+    if (mode === 'translate') {
+      const open = (t) => page.eval(`[...document.querySelectorAll('.adm-rowbtn')].find((b) => b.textContent.includes('${t}')).click()`);
+      writeFileSync(join(out, `tr-list-${w}.png`), await page.shot({ format: 'png', fullPage: true }));
+      await open('Game freezes'); writeFileSync(join(out, `tr-open-${w}.png`), await page.shot({ format: 'png', fullPage: true }));
+      await page.eval("document.querySelector('.adm-orig').open=true"); writeFileSync(join(out, `tr-original-${w}.png`), await page.shot({ format: 'png', fullPage: true }));
+      await open('購入'); writeFileSync(join(out, `tr-ja-${w}.png`), await page.shot({ format: 'png', fullPage: true }));
+      await page.goto(`http://127.0.0.1:${port}/support/admin/?mock&noapi`, 800); writeFileSync(join(out, `tr-noapi-${w}.png`), await page.shot({ format: 'png', fullPage: false }));
+      const mm = await page.eval('(()=>({sw:document.documentElement.scrollWidth,iw:innerWidth}))()'); rows.push(`${w} translate 가로넘침=${mm.sw > mm.iw ? 'YES ' + mm.sw : '0'}`); await page.close(); continue;
+    }
     if (mode === 'before') await page.eval("(()=>{const s=document.createElement('style');s.textContent='.site-header{position:relative!important;top:0!important}';document.head.appendChild(s)})()");
     const m = await page.eval(`(()=>{const de=document.documentElement;return {sw:de.scrollWidth,iw:innerWidth}})()`);
     writeFileSync(join(out, `admin-${mode}-${w}.png`), await page.shot({ format: 'png', fullPage: true }));

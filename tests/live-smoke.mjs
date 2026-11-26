@@ -1,7 +1,7 @@
 // 실서버 스모크: 작성 -> 접수번호+비밀번호로 열람 -> 틀린 비밀번호 거절 -> 목록 노출 확인. 테스트 글 1건이 남습니다.
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously } from 'firebase/auth';
-import { getFirestore, doc, collection, writeBatch, serverTimestamp, getDoc, getDocs, query, limit } from 'firebase/firestore';
+import { getFirestore, setDoc, doc, collection, writeBatch, serverTimestamp, getDoc, getDocs, query, limit } from 'firebase/firestore';
 import { newReceipt, ticketId } from '../assets/js/support-core.js';
 import cfg from '../assets/js/firebase-config.js';
 const app = initializeApp(cfg.firebase); const auth = getAuth(app); const db = getFirestore(app);
@@ -17,5 +17,8 @@ const ok = await getDoc(doc(db, 'tickets', id)); console.log('2 올바른 비밀
 const bad = await getDoc(doc(db, 'tickets', await ticketId(receipt, pw + 'x'))); console.log('3 틀린 비밀번호:', bad.exists() ? '열림(문제)' : '거절(없음)');
 try { await getDocs(query(collection(db, 'tickets'), limit(5))); console.log('4 list: 열림(문제)'); } catch (e) { console.log('4 익명 list 거절:', e.code); }
 try { const b2 = writeBatch(db); b2.set(doc(db, 'tickets', 'f'.repeat(64)), { category: 'other', title: 'x', body: 'y', status: 'open', createdAt: serverTimestamp(), indexId: idx.id }); b2.set(doc(db, 'rate', user.uid), { lastAt: serverTimestamp() }); await b2.commit(); console.log('5 연속 등록: 열림(문제)'); } catch (e) { console.log('5 60초 내 연속 등록 거절:', e.code); }
+const np = doc(db, 'tickets', id, 'notes', 'translation-ko');
+try { await getDoc(np); console.log('7 익명(글쓴이) 번역 노트 읽기: 열림(문제)'); } catch (e) { console.log('7 익명(글쓴이) 번역 노트 읽기 거절:', e.code); }
+try { await setDoc(np, { srcLang: 'en', title: 'x', body: 'y', createdAt: serverTimestamp(), method: 'chrome-on-device' }); console.log('8 익명 번역 노트 쓰기: 열림(문제)'); } catch (e) { console.log('8 익명 번역 노트 쓰기 거절:', e.code); }
 const ix = await getDocs(query(collection(db, 'ticket_index'), limit(5))); console.log('6 목록 필드:', Object.keys(ix.docs[0].data()).sort().join(','));
 process.exit(0);
