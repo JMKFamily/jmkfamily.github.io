@@ -44,7 +44,7 @@ const heroBlock = (compact) => {
     <div class="hero__copy">
       <p class="hero__tag">${compact ? L('좀비 디펜스', 'Zombie defense') : L('GunDraw · 좀비 디펜스', 'GunDraw · Zombie defense')}</p>
       ${compact ? '<h1 class="hero__title">GunDraw</h1>' : `<h1 class="hero__title">${L('좀비가 우리 집에<br>쳐들어왔어.', 'Zombies are<br>at our door.')}</h1>`}
-      <p class="hero__lead">${compact ? L('좀비가 우리 집에 쳐들어왔어.', 'Zombies are at our door.') : L('뽑기로 총을 모으고, 판에 세워, 집을 지키세요.', 'Pull guns, line them up, hold the house.')}</p>
+      <p class="hero__lead">${compact ? L('좀비가 우리 집에 쳐들어왔어.', 'Zombies are at our door.') : L('뽑기로 총을 모으고, 파티에 장착해, 집을 지키세요.', 'Pull guns, equip your party, hold the house.')}</p>
       <div class="hero__cta">
         <a class="btn btn--play" href="${PLAY}" rel="noopener">${L('웹에서 바로 플레이', 'Play on the web')}</a>${compact ? '' : `
         <a class="text-link" href="/games/gundraw/">${L('게임 자세히 보기 ›', 'About the game ›')}</a>`}
@@ -66,12 +66,12 @@ const stepsBlock = () => {
   <div class="wrap">
     <header class="section__head">
       <p class="section__eyebrow">${L('게임 소개', 'How it plays')}</p>
-      <h2 class="section__title">${L('뽑고, 세우고, 막는다.', 'Pull. Place. Defend.')}</h2>
+      <h2 class="section__title">${L('뽑고, 장착하고, 막는다.', 'Pull. Equip. Defend.')}</h2>
       <p class="section__lead">${L('한 손으로 충분합니다.', 'One hand is enough.')}</p>
     </header>${sd ? '\n    ' + sd : ''}
     <div class="steps">
       ${step(1, '뽑는다', 'Pull', '뽑기 상자에서 새 총이 나옵니다.', 'New guns come out of the box.')}
-      ${step(2, '세운다', 'Place', '모은 총을 판에 올려 나만의 방어선을 짭니다.', 'Put them on the board and build your own line.')}
+      ${step(2, '장착한다', 'Equip', '모은 총을 파티에 장착합니다. 보스를 넘으면 새 동료가 파티에 합류합니다.', 'Equip your party with the guns you collect. Beat a boss and a new friend joins the party.')}
       ${step(3, '막는다', 'Defend', '몰려오는 좀비에게서 우리 집을 지킵니다.', 'Keep the zombies out of the house.')}
     </div>
   </div>
@@ -117,7 +117,7 @@ const contentBlock = () => `<section class="section">
 </section>`;
 
 // 플레이 화면: shots 파일이 없으면 구역을 출력하지 않음 (새 화면 재촬영 뒤 파일이 오면 자동 표시)
-const SHOTS = [['title', 'GunDraw 시작 화면', 'GunDraw start screen'], ['new-gun', '뽑기로 새 총을 얻는 화면', 'Getting a new gun from a pull'], ['battle', '총을 세우고 좀비를 막는 전투 화면', 'Battle screen: guns on the board, zombies at the door']];
+const SHOTS = [['title', 'GunDraw 시작 화면', 'GunDraw start screen'], ['new-gun', '뽑기로 새 총을 얻는 화면', 'Getting a new gun from a pull'], ['battle', '좀비를 막는 전투 화면', 'Battle screen: holding off the zombies']];
 const shotsBlock = () => {
   const G = '/assets/games/gundraw';
   const list = SHOTS.filter(([n]) => existsSync(join(SITE, G, 'shots', n + '.webp')));
@@ -190,8 +190,8 @@ const playBand = (related = '') => `<section class="section section--band play-b
 </section>`;
 
 // ---------- 홈 ----------
-const DESC_KO = '좀비가 우리 집에 쳐들어왔다. 뽑기로 총을 모아 판에 세우고 집을 지키는 좀비 디펜스, GunDraw. 웹에서 바로 플레이.';
-const DESC_EN = 'GunDraw: zombies are at the door. Pull guns, line them up and hold the house. A zombie defense game you can play in the browser.';
+const DESC_KO = '좀비가 우리 집에 쳐들어왔다. 뽑기로 총을 모아 파티에 장착하고 집을 지키는 좀비 디펜스, GunDraw. 웹에서 바로 플레이.';
+const DESC_EN = 'GunDraw: zombies are at the door. Pull guns, equip your party and hold the house. A zombie defense game you can play in the browser.';
 write('index.html', layout({
   path: '/', current: 'home', titleKo: 'JmkFamily — GunDraw', titleEn: 'JmkFamily — GunDraw', descKo: DESC_KO, descEn: DESC_EN,
   body: [heroBlock(false), stepsBlock(), castBlock(), contentBlock(), shotsBlock(), storyBlock(), gamesBlock(), playBand()].filter(Boolean).join('\n\n'),
