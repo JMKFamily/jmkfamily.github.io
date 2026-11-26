@@ -10,5 +10,12 @@
   "titleKo": "계정·데이터 삭제 안내",
   "titleEn": "Account and Data Deletion",
   "date": "2026-11-27"
+ },
+ {
+  "url": "/gundraw/probability.html",
+  "titleKo": "GunDraw 확률 정보",
+  "titleEn": "GunDraw Odds",
+  "date": "2026-11-26",
+  "updated": true
  }
 ]

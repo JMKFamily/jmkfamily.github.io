@@ -232,7 +232,7 @@ write('docs/index.html', layout({
 <section class="section section--tight">
   <div class="wrap wrap--narrow">
     <ul class="doc-list">
-${docs.map((d) => `      <li class="doc-list__item"><a class="doc-list__link" href="${d.url}"><span class="doc-list__title">${d.titleKo} · ${d.titleEn}</span><span class="doc-list__date">${L('시행', 'Effective')} ${d.date}</span></a></li>`).join('\n')}
+${docs.map((d) => `      <li class="doc-list__item"><a class="doc-list__link" href="${d.url}"><span class="doc-list__title">${d.titleKo} · ${d.titleEn}</span><span class="doc-list__date">${d.updated ? L('갱신', 'Updated') : L('시행', 'Effective')} ${d.date}</span></a></li>`).join('\n')}
     </ul>
     <p class="u-mt">${L('문서에 대한 문의', 'Questions about these documents')}: <a href="mailto:${EMAIL}">${EMAIL}</a></p>
   </div>

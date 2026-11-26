@@ -22,7 +22,7 @@ const DOCS = [
   { src: join(legal, 'privacy-policy.md'), url: '/privacy.html', out: 'privacy.html', ko: '개인정보처리방침', en: 'Privacy Policy', privacy: true },
   { src: join(legal, 'terms.md'), url: '/terms.html', out: 'terms.html', ko: '이용약관', en: 'Terms of Use' },
   { src: join(legal, 'account-deletion.md'), url: '/account-deletion.html', out: 'account-deletion.html', ko: '계정·데이터 삭제 안내', en: 'Account and Data Deletion' },
-  ...(prob ? [{ src: prob, url: '/docs/gundraw-probability.html', out: 'docs/gundraw-probability.html', ko: 'GunDraw 확률 정보', en: 'GunDraw Odds' }] : []),
+  ...(prob ? [{ src: prob, url: '/gundraw/probability.html', out: 'gundraw/probability.html', ko: 'GunDraw 확률 정보', en: 'GunDraw Odds', updated: true }] : []),
 ];
 
 const BLOCKERS = [[/\{\{[^}]*\}\}/, '{{…}} 자리표시'], [/초안(?! 빌드)/, '"초안" 표시("웹 초안 빌드"는 출시 전 빌드 이름이라 제외)'], [/법률 자문이 아닙니다/, '"법률 자문이 아닙니다" 표시'], [/Draft, not legal advice/i, '"Draft" 표시']];
@@ -30,7 +30,9 @@ const BLOCKERS = [[/\{\{[^}]*\}\}/, '{{…}} 자리표시'], [/초안(?! 빌드)
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const inline = (s) => esc(s)
   .replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-  .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m, t, u) => `<a href="${u}">${t}</a>`);
+  .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m, t, u) => `<a href="${u}">${t}</a>`)
+  // 본문의 맨 주소(https://…)도 누를 수 있게 링크로 감쌈(끝의 마침표·쉼표는 링크에서 뺌)
+  .replace(/(?<![=">])(https?:\/\/[^\s<)"]+?)([.,]?)(?=\s|$|<|\))/g, '<a href="$1">$1</a>$2');
 
 // 아주 작은 마크다운 변환: 제목, 문단, 목록, 표, 인용, 구분선
 function md(src) {
@@ -67,13 +69,14 @@ for (const d of DOCS) {
   const why = BLOCKERS.filter(([re]) => re.test(text)).map(([, n]) => n);
   if (why.length) { skipped.push([d, why.join(', ')]); continue; }
   if (d.privacy && !publishPrivacy) { skipped.push([d, '게시 가능하지만 --publish-privacy 없음(손으로 옮긴 판 유지)']); continue; }
-  const date = (/(?:시행일|Effective date)\s*[:：]\s*(\d{4}-\d{2}-\d{2})/.exec(text) || [])[1] || '';
+  // 확률표는 시행일 대신 "최종 갱신일"을 씁니다.
+  const date = ((d.updated ? /최종 갱신일은\s*(\d{4}-\d{2}-\d{2})/ : /(?:시행일|Effective date)\s*[:：]\s*(\d{4}-\d{2}-\d{2})/).exec(text) || [])[1] || '';
   const html = layout({
     path: d.url, titleKo: `${d.ko} · ${d.en} — JmkFamily`, titleEn: `${d.en} — JmkFamily`, descKo: `JmkFamily 게임의 ${d.ko}.`, descEn: `${d.en} for games by JmkFamily.`, bilingual: true,
     body: `${pageHead(d.en, `${d.ko} · ${d.en}`)}\n<section class="section section--tight"><div class="wrap wrap--narrow"><article class="prose" data-generated="docs">\n${md(text)}\n</article></div></section>`,
   }).replace('<body class="is-bilingual">', '<body class="is-bilingual" data-generated="docs">');
   const f = join(SITE, d.out); mkdirSync(dirname(f), { recursive: true }); writeFileSync(f, html);
-  published.push({ url: d.url, titleKo: d.ko, titleEn: d.en, date });
+  published.push({ url: d.url, titleKo: d.ko, titleEn: d.en, date, ...(d.updated ? { updated: true } : {}) });
   console.log('생성', d.out);
 }
 for (const [d, why] of skipped) console.log(`건너뜀 ${d.out}: ${why}`);
