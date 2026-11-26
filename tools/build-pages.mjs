@@ -258,5 +258,7 @@ else write('privacy.html', layout({ path: '/privacy.html', current: '', titleKo:
 write('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`);
 const urls = ['/', '/games/', '/games/gundraw/', '/docs/', '/privacy.html', '/contact/', ...(boardOn ? ['/support/'] : []), ...extraDocs.map((d) => d.url)];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>2026-11-26</lastmod></url>`).join('\n')}\n</urlset>\n`);
-write('app-ads.txt', `# app-ads.txt for JmkFamily\n# 광고 네트워크 계정이 생기면 각 대시보드가 주는 줄을 아래에 추가합니다.\n# Add the lines provided by each ad network dashboard below.\n`);
+write('app-ads.txt', `# app-ads.txt for JmkFamily
+google.com, pub-8168028625158196, DIRECT, f08c47fec0942fa0
+`);
 write('.nojekyll', '');
