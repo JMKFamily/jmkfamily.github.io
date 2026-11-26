@@ -3,7 +3,9 @@ import cfg from './firebase-config.js';
 
 export const V = '11.10.0';
 const CDN = `https://www.gstatic.com/firebasejs/${V}/`;
-export const enabled = !!(cfg.enabled && cfg.firebase.projectId && cfg.firebase.apiKey);
+const ok = !!(cfg.firebase.projectId && cfg.firebase.apiKey);
+export const enabled = ok && !!cfg.board;
+export const adminEnabled = ok && !!cfg.admin;
 
 export const lang = () => (document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'ko');
 export const T = (ko, en) => (lang() === 'en' ? en : ko);

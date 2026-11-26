@@ -80,7 +80,7 @@ export function supportPages() {
     <div id="ad-off" class="contact-card" hidden><p>${L('게시판이 아직 켜져 있지 않습니다.', 'The board is not switched on yet.')}</p></div>
     <div id="ad-app" hidden>
       <p class="support-actions"><button class="btn btn--play" type="button" id="ad-login">${L('구글로 로그인', 'Sign in with Google')}</button> <button class="btn btn--ghost" type="button" id="ad-logout" hidden>${L('로그아웃', 'Sign out')}</button> <button class="btn btn--ghost" type="button" id="ad-reload">${L('새로고침', 'Refresh')}</button> <button class="btn btn--ghost" type="button" id="ad-purge">${L('기간 지난 글 지우기', 'Delete old messages')}</button></p>
-      <div id="ad-uidbox" class="contact-card" hidden><p class="form__hint">${L('내 UID (규칙에 넣는 값)', 'My UID (the value for the rules)')}</p><p class="receipt" id="ad-uid"></p></div>
+      <div id="ad-uidbox" class="contact-card" hidden><p class="form__hint">${L('내 UID (규칙에 넣는 값)', 'My UID (the value for the rules)')}</p><p class="receipt receipt--sm" id="ad-uid"></p><p class="support-actions"><button class="btn btn--play" type="button" id="ad-copy">${L("복사", "Copy")}</button></p><p class="form__hint" id="ad-copied" role="status"></p></div>
       <p id="ad-msg" class="form__error" role="alert" hidden></p>
       <p id="ad-who" class="form__hint" role="status"></p>
       <div id="ad-list" class="u-mt"></div>

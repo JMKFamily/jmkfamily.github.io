@@ -636,3 +636,4 @@ details.ticket-view .btn { margin-right: var(--sp-3); }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+.receipt--sm { font-size: 18px; letter-spacing: 0; word-break: break-all; }

@@ -8,6 +8,7 @@ import { privacyBody } from './lib/privacy-body.mjs';
 import { supportPages } from './lib/support-pages.mjs';
 import { layout, pageHead, L, img, ORIGIN, EMAIL } from './lib/layout.mjs';
 
+const boardOn = /board:\s*true/.test(readFileSync(new URL('../assets/js/firebase-config.js', import.meta.url), 'utf8'));
 const SITE = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const G = '/assets/games/gundraw';
 const S = (n) => `${G}/sprites/${n}.webp`;
@@ -219,7 +220,7 @@ write('contact/index.html', layout({
   body: `${pageHead('Contact', L('문의', 'Contact'))}
 <section class="section section--tight">
   <div class="wrap wrap--narrow">
-    <p class="contact-board"><a class="btn btn--dark" href="/support/">${L('문의 게시판 (비밀글)', 'Support board (private)')}</a></p>
+    ${boardOn ? `<p class="contact-board"><a class="btn btn--dark" href="/support/">${L('문의 게시판 (비밀글)', 'Support board (private)')}</a></p>` : ''}
     <div class="contact-card">
       <h2 class="contact-card__title">${L('운영자에게 이메일로 문의', 'Email the operator')}</h2>
       <p class="contact-card__mail"><a href="mailto:${EMAIL}">${EMAIL}</a></p>
@@ -255,7 +256,7 @@ else write('privacy.html', layout({ path: '/privacy.html', current: '', titleKo:
 
 // ---------- robots / sitemap / app-ads ----------
 write('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`);
-const urls = ['/', '/games/', '/games/gundraw/', '/docs/', '/privacy.html', '/contact/', '/support/', ...extraDocs.map((d) => d.url)];
+const urls = ['/', '/games/', '/games/gundraw/', '/docs/', '/privacy.html', '/contact/', ...(boardOn ? ['/support/'] : []), ...extraDocs.map((d) => d.url)];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>2026-11-26</lastmod></url>`).join('\n')}\n</urlset>\n`);
 write('app-ads.txt', `# app-ads.txt for JmkFamily\n# 광고 네트워크 계정이 생기면 각 대시보드가 주는 줄을 아래에 추가합니다.\n# Add the lines provided by each ad network dashboard below.\n`);
 write('.nojekyll', '');

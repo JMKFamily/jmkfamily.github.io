@@ -1,5 +1,5 @@
 // /support/admin/ 화면: 운영자 로그인(구글), 전체 목록, 답변, 삭제. 권한은 화면이 아니라 보안 규칙이 정합니다.
-import { enabled, T, $, onLang, catName, statusName, fmtDate, firebase, errText } from './support-core.js';
+import { adminEnabled as enabled, T, $, onLang, catName, statusName, fmtDate, firebase, errText } from './support-core.js';
 
 const off = $('#ad-off'), app = $('#ad-app');
 if (!enabled) { off.hidden = false; } else { off.hidden = true; app.hidden = false; init(); }
@@ -11,7 +11,8 @@ async function init() {
   const setMsg = (m) => { msg.textContent = m || ''; msg.hidden = !m; };
   let rows = [];
 
-  $('#ad-login').addEventListener('click', async () => { setMsg(''); try { await A.signInWithPopup(f.auth, new A.GoogleAuthProvider()); } catch (e) { setMsg(T('로그인하지 못했습니다. (창을 닫았거나 구글 로그인이 아직 켜져 있지 않을 수 있습니다.)', 'Sign-in failed. (The window may have been closed, or Google sign-in is not enabled yet.)')); } });
+  $('#ad-login').addEventListener('click', async () => { setMsg(''); try { await A.signInWithPopup(f.auth, new A.GoogleAuthProvider()); } catch (e) { setMsg(e && e.code === 'auth/unauthorized-domain' ? T('이 주소가 승인된 도메인에 없습니다. (콘솔 Authentication 설정에서 추가)', 'This domain is not authorized (add it in the console Authentication settings).') : T('로그인하지 못했습니다. (창을 닫았거나 구글 로그인이 아직 켜져 있지 않을 수 있습니다.)', 'Sign-in failed. (The window may have been closed, or Google sign-in is not enabled yet.)')); } });
+  $('#ad-copy').addEventListener('click', async () => { try { await navigator.clipboard.writeText($('#ad-uid').textContent); $('#ad-copied').textContent = T('복사했습니다.', 'Copied.'); } catch (e) { $('#ad-copied').textContent = T('복사하지 못했습니다. 직접 선택해 복사하세요.', 'Could not copy. Select and copy it manually.'); } });
   $('#ad-logout').addEventListener('click', () => A.signOut(f.auth));
   $('#ad-reload').addEventListener('click', load);
 
