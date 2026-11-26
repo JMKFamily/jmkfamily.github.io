@@ -22,12 +22,12 @@ jobs:
       - name: Check placeholders
         run: |
           # 자리표시자가 공개 파일에 남아 있으면 실패시킵니다.
-          if grep -rIn "{{" --include=*.html --include=*.txt --include=*.xml . --exclude-dir=.git --exclude-dir=tools --exclude-dir=.github; then echo "::error::자리표시자({{…}})가 남아 있습니다"; exit 1; fi
+          if grep -rIn "{{" --include=*.html --include=*.txt --include=*.xml . --exclude-dir=.git --exclude-dir=tools --exclude-dir=.github --exclude-dir=node_modules; then echo "::error::자리표시자({{…}})가 남아 있습니다"; exit 1; fi
       - name: Assemble site
         run: |
           # 공개 파일만 복사(개발 도구·워크플로 제외). 폴더 구조(/assets, /games, /docs …)를 유지합니다.
           mkdir -p _site
-          rsync -a --exclude='.git' --exclude='.github' --exclude='tools' --exclude='_site' --exclude='*.md' ./ _site/
+          rsync -a --exclude='.git' --exclude='.github' --exclude='tools' --exclude='_site' --exclude='node_modules' --exclude='tests' --exclude='firebase.json' --exclude='.firebaserc' --exclude='firestore.rules' --exclude='firestore.indexes.json' --exclude='package.json' --exclude='package-lock.json' --exclude='.gitignore' --exclude='*.log' --exclude='*.md' ./ _site/
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

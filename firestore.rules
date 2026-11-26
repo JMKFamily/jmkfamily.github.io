@@ -1,0 +1,60 @@
+rules_version = '2';
+// 문의 게시판 규칙. 운영자 UID는 이 파일에만 둡니다 (web/docs/cs-board.md 참고).
+// 자리 값 그대로 배포하면 운영자 기능은 아무에게도 열리지 않습니다(안전한 쪽으로 닫힘).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isOperator() { return signedIn() && request.auth.uid == 'OPERATOR_UID_PLACEHOLDER'; }
+    function okCategory(c) { return c in ['bug', 'account', 'payment', 'suggestion', 'privacy', 'other']; }
+    // 같은 묶음(batch)에서 rate/{uid}를 지금 시각으로 갱신했는지
+    function ratedNow() {
+      return existsAfter(/databases/$(database)/documents/rate/$(request.auth.uid))
+        && getAfter(/databases/$(database)/documents/rate/$(request.auth.uid)).data.lastAt == request.time;
+    }
+
+    // 글 본문: ID(해시)를 아는 사람만 get. list는 운영자만.
+    match /tickets/{id} {
+      allow get: if signedIn();
+      allow list: if isOperator();
+      allow create: if signedIn()
+        && id.matches('^[0-9a-f]{64}$')
+        && request.resource.data.keys().hasAll(['category', 'title', 'body', 'createdAt', 'status', 'indexId'])
+        && request.resource.data.keys().hasOnly(['category', 'title', 'body', 'email', 'createdAt', 'status', 'indexId'])
+        && okCategory(request.resource.data.category)
+        && request.resource.data.title is string && request.resource.data.title.size() >= 1 && request.resource.data.title.size() <= 80
+        && request.resource.data.body is string && request.resource.data.body.size() >= 1 && request.resource.data.body.size() <= 2000
+        && (!('email' in request.resource.data) || (request.resource.data.email is string && request.resource.data.email.size() <= 120))
+        && request.resource.data.status == 'open'
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.indexId is string && request.resource.data.indexId.size() == 20
+        && ratedNow();
+      allow update, delete: if isOperator();
+    }
+
+    // 공개 목록: 유형·시각·상태만. 제목·내용·접수 ID 없음.
+    match /ticket_index/{indexId} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['category', 'createdAt', 'status'])
+        && request.resource.data.keys().size() == 3
+        && okCategory(request.resource.data.category)
+        && request.resource.data.status == 'open'
+        && request.resource.data.createdAt == request.time
+        && ratedNow();
+      allow update, delete: if isOperator();
+    }
+
+    // 익명 uid별 마지막 등록 시각(60초 제한)
+    match /rate/{uid} {
+      allow create: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['lastAt'])
+        && request.resource.data.lastAt == request.time;
+      allow update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['lastAt'])
+        && request.resource.data.lastAt == request.time
+        && request.time > resource.data.lastAt + duration.value(60, 's');
+      allow read, delete: if false;
+    }
+  }
+}

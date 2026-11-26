@@ -5,6 +5,7 @@ import { writeFileSync, mkdirSync, readFileSync, existsSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { privacyBody } from './lib/privacy-body.mjs';
+import { supportPages } from './lib/support-pages.mjs';
 import { layout, pageHead, L, img, ORIGIN, EMAIL } from './lib/layout.mjs';
 
 const SITE = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -218,6 +219,7 @@ write('contact/index.html', layout({
   body: `${pageHead('Contact', L('문의', 'Contact'))}
 <section class="section section--tight">
   <div class="wrap wrap--narrow">
+    <p class="contact-board"><a class="btn btn--dark" href="/support/">${L('문의 게시판 (비밀글)', 'Support board (private)')}</a></p>
     <div class="contact-card">
       <h2 class="contact-card__title">${L('운영자에게 이메일로 문의', 'Email the operator')}</h2>
       <p class="contact-card__mail"><a href="mailto:${EMAIL}">${EMAIL}</a></p>
@@ -229,6 +231,11 @@ write('contact/index.html', layout({
   </div>
 </section>`,
 }));
+
+// ---------- 문의 게시판 ----------
+const supp = supportPages();
+write("support/index.html", supp.board);
+write("support/admin/index.html", supp.admin);
 
 // ---------- 404 ----------
 write('404.html', layout({
@@ -248,7 +255,7 @@ else write('privacy.html', layout({ path: '/privacy.html', current: '', titleKo:
 
 // ---------- robots / sitemap / app-ads ----------
 write('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`);
-const urls = ['/', '/games/', '/games/gundraw/', '/docs/', '/privacy.html', '/contact/', ...extraDocs.map((d) => d.url)];
+const urls = ['/', '/games/', '/games/gundraw/', '/docs/', '/privacy.html', '/contact/', '/support/', ...extraDocs.map((d) => d.url)];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>2026-11-26</lastmod></url>`).join('\n')}\n</urlset>\n`);
 write('app-ads.txt', `# app-ads.txt for JmkFamily\n# 광고 네트워크 계정이 생기면 각 대시보드가 주는 줄을 아래에 추가합니다.\n# Add the lines provided by each ad network dashboard below.\n`);
 write('.nojekyll', '');

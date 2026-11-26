@@ -594,6 +594,21 @@ textarea.form__input { min-height: 160px; resize: vertical; }
 .ticket-view > * + * { margin-top: var(--sp-3); }
 .ticket-view__reply { padding: var(--sp-4); background: var(--c-bg-alt); border-left: 4px solid var(--c-mint); border-radius: var(--r-s); }
 
+/* 문의 게시판 보조 */
+.contact-board { margin-bottom: var(--sp-5); }
+.support-tabs, .support-actions { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-bottom: var(--sp-5); }
+.support-tabs .btn[aria-pressed="true"] { background: var(--c-accent); color: var(--c-navy); }
+.support-panel[hidden], .form[hidden] { display: none; }
+.receipt { font: 400 34px/1.2 var(--f-display); letter-spacing: 3px; overflow-wrap: anywhere; user-select: all; }
+.form__check { display: flex; gap: var(--sp-3); align-items: flex-start; min-height: 48px; }
+.form__check input { flex: none; width: 24px; height: 24px; margin-top: 2px; }
+.u-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.ticket-view__body { white-space: pre-wrap; overflow-wrap: anywhere; }
+details.ticket-view { margin-bottom: var(--sp-4); }
+details.ticket-view summary { min-height: 48px; display: flex; align-items: center; cursor: pointer; font-weight: 700; overflow-wrap: anywhere; }
+details.ticket-view textarea { margin: var(--sp-3) 0; }
+details.ticket-view .btn { margin-right: var(--sp-3); }
+
 /* ========== 15. 움직임 (줄인 움직임이 아닐 때만) ========== */
 @media (prefers-reduced-motion: no-preference) {
   @keyframes pop-in { from { opacity: 0; transform: translateY(18px) scale(.96); } to { opacity: 1; transform: none; } }
