@@ -165,7 +165,10 @@ const contentBlock = () => `<section class="section">
 
 // 플레이 화면: shots 파일이 없으면 구역을 출력하지 않음 (새 화면 재촬영 뒤 파일이 오면 자동 표시)
 const SHOTS = [['title', 'GunDraw 시작 화면', 'GunDraw start screen'], ['new-gun', '뽑기로 새 총을 얻는 화면', 'Getting a new gun from a pull'], ['battle', '외계인을 막는 전투 화면', 'Battle screen: holding off the aliens']];
+// 2026-11-27 요청자 결정: 지금 플레이 화면은 예전 파스텔 UI라 구역을 끔. v0.8 화면을 다시 찍으면 true로 되돌림
+const SHOTS_ON = false;
 const shotsBlock = () => {
+  if (!SHOTS_ON) return '';
   const G = '/assets/games/gundraw';
   const list = SHOTS.filter(([n]) => existsSync(join(SITE, G, 'shots', n + '.webp')));
   if (!list.length) return '';
