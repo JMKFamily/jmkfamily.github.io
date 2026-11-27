@@ -194,16 +194,16 @@ const playBand = (related = '') => `<section class="section section--band play-b
 // ---------- 홈 ----------
 const GAME_DESC_KO = '좀비가 우리 집에 쳐들어왔다. 뽑기로 총을 모아 파티에 장착하고 집을 지키는 좀비 디펜스, GunDraw. 웹에서 바로 플레이.';
 const GAME_DESC_EN = 'GunDraw: zombies are at the door. Pull guns, equip your party and hold the house. A zombie defense game you can play in the browser.';
-const HOME_DESC_KO = 'JmkFamily는 게임을 만드는 개인 개발자입니다. 대표 게임 GunDraw는 웹에서 바로 플레이할 수 있습니다.';
-const HOME_DESC_EN = 'JmkFamily is a solo game developer. The featured game, GunDraw, is playable in your browser.';
+const HOME_DESC_KO = 'JmkFamily는 AI와 함께 게임을 만드는 개인 개발자입니다. 대표 게임 GunDraw는 웹에서 바로 플레이할 수 있습니다.';
+const HOME_DESC_EN = 'JmkFamily is a solo developer making games with AI. The featured game, GunDraw, is playable in your browser.';
 
 const brandHero = () => `<section class="hero">
   <div class="wrap hero__in">
     <div class="hero__copy">
       <img class="hero__mark" src="/assets/brand/jmkfamily-symbol.svg" alt="" width="136" height="136">
       <p class="hero__tag">JmkFamily</p>
-      <h1 class="hero__title">${L('우리가 재미있는<br>게임을 만듭니다.', 'We make<br>fun games.')}</h1>
-      <p class="hero__lead">${L('JmkFamily는 게임을 만드는 개인 개발자입니다. 만드는 중인 게임도 웹에 먼저 올려 바로 해 볼 수 있게 합니다.', 'JmkFamily is a solo game developer. Games go on the web first, so you can play them while they are still being made.')}</p>
+      <h1 class="hero__title">${L('재미있는<br>게임을 만듭니다.', 'I make<br>fun games.')}</h1>
+      <p class="hero__lead">${L('JmkFamily는 AI와 함께 게임을 만드는 개인 개발자입니다. 만드는 중인 게임도 웹에 먼저 올려 바로 해 볼 수 있게 합니다.', 'JmkFamily is a solo developer who makes games with AI. Games go on the web first, so you can play them while they are still being made.')}</p>
       <div class="hero__cta">
         <a class="btn btn--play" href="/games/">${L('게임 보기', 'See the games')}</a>
         <a class="text-link" href="/contact/">${L('문의하기 ›', 'Contact ›')}</a>
@@ -216,8 +216,8 @@ const aboutBlock = () => `<section class="section section--alt">
   <div class="wrap">
     <header class="section__head">
       <p class="section__eyebrow">${L('소개', 'About')}</p>
-      <h2 class="section__title">${L('혼자서 끝까지 만듭니다.', 'One person, start to finish.')}</h2>
-      <p class="section__lead">${L('기획부터 개발, 테스트, 출시까지 한 사람이 맡습니다. 손에 금방 익고 오래 붙잡게 되는 게임을 만들려고 합니다.', 'Design, code, testing and release are all done by one person. The aim is games you learn in a minute and keep coming back to.')}</p>
+      <h2 class="section__title">${L('AI를 도구로 씁니다.', 'AI is part of the toolkit.')}</h2>
+      <p class="section__lead">${L('기획, 아트, 개발, 테스트에 AI 에이전트와 AI 이미지 생성을 씁니다. 무엇을 만들고 무엇을 내놓을지는 개발자가 정합니다. 만드는 과정은 개발 로그로 공개합니다.', 'AI agents and AI image generation help with design, art, code and testing. The developer decides what to make and what ships. The process is shared in the dev log.')}</p>
     </header>
     <div class="steps">
       ${step(1, '웹에서 먼저', 'On the web first', '설치 없이 브라우저에서 바로 해 볼 수 있게 올립니다.', 'Games go up in the browser first, so you can try them without installing anything.')}
@@ -252,7 +252,7 @@ const contactBand = () => `<section class="section section--band play-band">
 </section>`;
 
 write('index.html', layout({
-  path: '/', current: 'home', titleKo: 'JmkFamily — 개인 게임 개발자', titleEn: 'JmkFamily — Solo game developer', descKo: HOME_DESC_KO, descEn: HOME_DESC_EN,
+  path: '/', current: 'home', titleKo: 'JmkFamily — AI와 함께 게임을 만드는 개인 개발자', titleEn: 'JmkFamily — Solo developer making games with AI', descKo: HOME_DESC_KO, descEn: HOME_DESC_EN,
   body: [brandHero(), aboutBlock(), featuredBlock(), storyBlock({ home: true }), contactBand()].join('\n\n'),
 }));
 
