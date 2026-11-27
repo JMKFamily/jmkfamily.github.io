@@ -49,16 +49,23 @@ ban = Image.open(W('web/banner-1920x1080.png'))
 for w in (1280, 960, 480): save(ban, f'card-{w}.webp', w)
 st = Image.open(W('web/story-1536x1024.png'))
 for w in (1024, 768, 480): save(st, f'story-{w}.webp', w)
-cast = {
-  'somi': Image.open(W('web/char-somi-1200x1600.png')),
-  'daon': rekey(W('web/char-daon-1200x1600.png')),
-  'bori': Image.open(W('web/char-bori-1200x1600.png')),
-  'ari': rekey(W('web/char-ari-1200x1600.png')),
-  'ari-2': crop34(Image.open(W('final/ari-1.png'))),
-  'ari-3': crop34(Image.open(W('final/ari-2.png'))),
-  'ari-4': crop34(Image.open(W('final/ari-3.png'))),
-}
-for k, im in cast.items():
+def flat_bg(im):
+    # 테두리가 한 가지 색(단색 배경)이면 True -> 어두운 카드 배경으로 다시 깜. 복도 배경 파일은 그대로 씀
+    im = im.convert('RGB'); w, h = im.size
+    pts = [im.getpixel((x, y)) for x in range(0, w, 37) for y in (2, h - 3)] + [im.getpixel((x, y)) for y in range(0, h, 37) for x in (2, w - 3)]
+    c0 = pts[0]; return sum(max(abs(p[i] - c0[i]) for i in range(3)) < 12 for p in pts) / len(pts) > .85
+def card(path):
+    im = Image.open(path); return rekey(path) if flat_bg(im) else im
+for k in ('somi', 'daon', 'bori', 'ari'):
+    im = card(W(f'web/char-{k}-1200x1600.png'))
     for w in (900, 450): save(im, f'cast-{k}-{w}.webp', w, round(w * 4 / 3))
+# 컨셉아트(캐릭터별 3컷): web/concept-<id>-<1..3>.png. 아리는 파일이 없으면 final/ari-1..3.png
+for k in ('somi', 'daon', 'bori', 'ari'):
+    for n in (1, 2, 3):
+        f = W(f'web/concept-{k}-{n}.png')
+        if not os.path.exists(f) and k == 'ari': f = W(f'final/ari-{n}.png')
+        if not os.path.exists(f): continue
+        im = crop34(Image.open(f))
+        for w in (900, 450): save(im, f'concept-{k}-{n}-{w}.webp', w, round(w * 4 / 3))
 Image.open(W('web/share-1200x630.png')).convert('RGB').save(os.path.join(out, 'og-1200x630.jpg'), 'JPEG', quality=86, optimize=True, progressive=True)
 for f in sorted(os.listdir(out)): print(f, os.path.getsize(os.path.join(out, f)) // 1024, 'KB')

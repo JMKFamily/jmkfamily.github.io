@@ -47,6 +47,29 @@
   var hubOn = wire('[data-js="hub-link"]', C.hubLink), officeOn = wire('[data-js="office-link"]', C.officeLink);
   if (hubOn || officeOn) [].forEach.call(d.querySelectorAll('[data-js="story"]'), function (el) { el.hidden = false; });
 
+  // ---- 컨셉아트 탭: 하나만 보이게, 좌우 화살표·Home·End로 이동 ----
+  [].forEach.call(d.querySelectorAll('[data-js="concept"]'), function (box) {
+    var tabs = [].slice.call(box.querySelectorAll('[role="tab"]'));
+    if (!tabs.length) return;
+    function pick(t, focus) {
+      tabs.forEach(function (x) {
+        var on = x === t, p = d.getElementById(x.getAttribute('aria-controls'));
+        x.setAttribute('aria-selected', on ? 'true' : 'false'); x.tabIndex = on ? 0 : -1;
+        if (p) p.hidden = !on;
+      });
+      if (focus) t.focus();
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { pick(t); });
+      t.addEventListener('keydown', function (e) {
+        var j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : null;
+        if (j === null) return;
+        e.preventDefault(); pick(tabs[(j + tabs.length) % tabs.length], true);
+      });
+    });
+    pick(tabs[0]);
+  });
+
   // ---- 메뉴(폰): 전체 화면 덮개, Esc·링크 누르기로 닫힘, 포커스 가둠 ----
   var btn = d.querySelector('[data-js="menu-btn"]'), nav = d.querySelector('[data-js="site-nav"]'), header = d.querySelector('[data-js="site-header"]');
   function focusables() { return [].slice.call(header.querySelectorAll('a[href],button')).filter(function (e) { return e.offsetParent !== null; }); }

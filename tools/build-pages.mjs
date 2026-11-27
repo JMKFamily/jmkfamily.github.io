@@ -21,12 +21,11 @@ const CAST = [
   { id: 'bori', ko: '보리', en: 'Bori', lineKo: '껌을 씹으며 가장 먼저 뛰어드는 돌격수', lineEn: 'Chewing gum, she is always first through the breach.' },
   { id: 'ari', ko: '아리', en: 'Ari', lineKo: '졸린 눈으로 장비를 뜯어고치는 분대 기술병', lineEn: 'Sleepy-eyed tinkerer who always has a gadget up her sleeve.' },
 ];
-// 아리 포즈 갤러리(캐릭터 카드의 어깨 걸침 포즈 외 3장): [파일 id, alt KO, alt EN]
-const ARI_POSES = [
-  ['ari-2', '총을 들고 살펴보는 아리', 'Ari checking over her rifle'],
-  ['ari-3', '무릎을 꿇고 총을 분해하는 아리', 'Ari kneeling to take a rifle apart'],
-  ['ari-4', '홀로그램 화면을 만지며 웃는 아리', 'Ari grinning at a holographic screen'],
-];
+// 컨셉아트(캐릭터별 3컷 배리에이션): 파일 concept-<id>-<1..3>-<900|450>.webp. 파일이 있는 컷만, 1컷이라도 있는 캐릭터만 출력.
+// alt는 여기 적은 것을 쓰고, 없으면 "<이름> 컨셉아트 n"으로 씁니다. [KO, EN]
+const CONCEPT_ALT = {
+  ari: [['총을 들고 살펴보는 아리', 'Ari checking over her rifle'], ['무릎을 꿇고 총을 분해하는 아리', 'Ari kneeling to take a rifle apart'], ['홀로그램 화면을 만지며 웃는 아리', 'Ari grinning at a holographic screen']],
+};
 
 // ---------- 그림 자리 (plan-v2 6.2): 파일이 있으면 출력, 없으면 빈 문자열 ----------
 // main: 기본 파일(큰 폭부터), alt: 좁은 화면용 다른 크롭(<picture> source). 파일명은 ${base}-${폭}.webp
@@ -90,21 +89,13 @@ const stepsBlock = () => {
 };
 
 // 캐릭터 구역: CAST가 비면(또는 그림이 없으면) 출력하지 않음
-const castBlock = ({ gallery = false } = {}) => {
+const castBlock = () => {
   const list = CAST.filter((c) => has(`cast-${c.id}-900.webp`));
   if (!list.length) return '';
   const fig = (c) => {
     const ws = [900, 450].filter((w) => has(`cast-${c.id}-${w}.webp`));
     return `<figure class="cast__art">${img(`${ART}/cast-${c.id}-${ws[0]}.webp`, 900, 1200, { alt: '', srcset: ws.map((w) => `${ART}/cast-${c.id}-${w}.webp ${w}w`).join(', '), sizes: '(max-width: 899px) 45vw, 260px' })}</figure>`;
   };
-  const poses = gallery ? ARI_POSES.filter(([id]) => has(`cast-${id}-900.webp`)) : [];
-  const gal = poses.length ? `
-    <div class="cast-gallery reveal">
-      <h3 class="cast-gallery__title">${L('아리 포즈', 'Ari poses')}</h3>
-      <div class="cast-gallery__row" tabindex="0" aria-label="아리 포즈" data-en-label="Ari poses">
-        ${poses.map(([id, ko, en]) => `<figure class="cast__art cast-gallery__item">${img(`${ART}/cast-${id}-900.webp`, 900, 1200, { alt: ko, altEn: en, srcset: `${ART}/cast-${id}-450.webp 450w, ${ART}/cast-${id}-900.webp 900w`, sizes: '(max-width: 899px) 56vw, 260px' })}</figure>`).join('\n        ')}
-      </div>
-    </div>` : '';
   const one = list.length === 1;
   return `<section class="section cast${one ? ' cast--solo' : ''}">
   <div class="wrap">
@@ -114,7 +105,40 @@ const castBlock = ({ gallery = false } = {}) => {
     </header>
     <div class="cast__grid">
       ${list.map((c) => `<article class="cast__card reveal">${fig(c)}<div><h3 class="cast__name">${L(c.ko, c.en)}</h3><p class="cast__line">${L(c.lineKo, c.lineEn)}</p></div></article>`).join('\n      ')}
-    </div>${gal}
+    </div>
+  </div>
+</section>`;
+};
+
+// 컨셉아트: 캐릭터 탭 + 3컷. JS 없으면 캐릭터별로 차례로 모두 보임. 폰은 가로로 넘기고 900부터 3열
+const conceptBlock = () => {
+  const list = CAST.map((c) => ({ ...c, cuts: [1, 2, 3].filter((n) => has(`concept-${c.id}-${n}-900.webp`)) })).filter((c) => c.cuts.length);
+  if (!list.length) return '';
+  const tabs = list.length > 1;
+  const cut = (c, n) => {
+    const [ko, en] = (CONCEPT_ALT[c.id] || [])[n - 1] || [`${c.ko} 컨셉아트 ${n}`, `${c.en} concept art ${n}`];
+    const ws = [900, 450].filter((w) => has(`concept-${c.id}-${n}-${w}.webp`));
+    return `<figure class="cast__art concept__cut">${img(`${ART}/concept-${c.id}-${n}-${ws[0]}.webp`, 900, 1200, { alt: ko, altEn: en, srcset: ws.map((w) => `${ART}/concept-${c.id}-${n}-${w}.webp ${w}w`).join(', '), sizes: '(max-width: 599px) 72vw, (max-width: 899px) 44vw, 340px' })}</figure>`;
+  };
+  const tab = (c, i) => `<button type="button" class="concept__tab" role="tab" id="concept-tab-${c.id}" aria-controls="concept-${c.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}"><span class="concept__face"><img src="${ART}/cast-${c.id}-450.webp" alt="" width="450" height="600" loading="lazy" decoding="async"></span><span>${L(c.ko, c.en)}</span></button>`;
+  const panel = (c) => `<div class="concept__panel"${tabs ? ` role="tabpanel" id="concept-${c.id}" aria-labelledby="concept-tab-${c.id}"` : ''}>
+        <h3 class="concept__name">${L(c.ko, c.en)}</h3>
+        <div class="concept__row" tabindex="0" aria-label="${c.ko} 컨셉아트" data-en-label="${c.en} concept art">
+          ${c.cuts.map((n) => cut(c, n)).join('\n          ')}
+        </div>
+      </div>`;
+  return `<section class="section section--alt concept" id="concept-art">
+  <div class="wrap">
+    <header class="section__head">
+      <p class="section__eyebrow">${L('컨셉아트', 'Concept art')}</p>
+      <h2 class="section__title">${L('한 사람에 세 장면씩', 'Three scenes for each agent')}</h2>
+    </header>
+    <div class="concept__box reveal" data-js="concept">${tabs ? `
+      <div class="concept__tabs" role="tablist" aria-label="캐릭터 고르기" data-en-label="Pick a character">
+        ${list.map(tab).join('\n        ')}
+      </div>` : ''}
+      ${list.map(panel).join('\n      ')}
+    </div>
   </div>
 </section>`;
 };
@@ -304,7 +328,7 @@ const noticeBlock = `<section class="section section--tight">
 write('games/gundraw/index.html', layout({
   path: '/games/gundraw/', current: 'games', titleKo: 'GunDraw — JmkFamily', titleEn: 'GunDraw — JmkFamily',
   descKo: GAME_DESC_KO + ' 개발 중인 웹 버전입니다.', descEn: GAME_DESC_EN + ' The web version is a work in progress.', jsonld: ld, ogImage: GAME_OG,
-  body: [heroBlock(true), stepsBlock(), castBlock({ gallery: true }), contentBlock(), shotsBlock(), noticeBlock, storyBlock(), playBand(related)].filter(Boolean).join('\n\n'),
+  body: [heroBlock(true), stepsBlock(), castBlock(), conceptBlock(), contentBlock(), shotsBlock(), noticeBlock, storyBlock(), playBand(related)].filter(Boolean).join('\n\n'),
 }));
 
 // ---------- 약관·정책 ----------
