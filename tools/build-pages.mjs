@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { privacyBody } from './lib/privacy-body.mjs';
 import { supportPages } from './lib/support-pages.mjs';
 import { layout, pageHead, L, img, ORIGIN, EMAIL } from './lib/layout.mjs';
+import { REDPILL, missing as rpMissing } from './lib/redpill.mjs';
 
 const boardOn = /board:\s*true/.test(readFileSync(new URL('../assets/js/firebase-config.js', import.meta.url), 'utf8'));
 const SITE = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -195,8 +196,26 @@ const featuredCard = (descHtml, cls = '', style = '') => `<a class="game-card${c
           <span class="game-card__more text-link">${L('게임 자세히 보기 ›', 'About the game ›')}</span>
         </div>
       </a>`;
+// ---------- RedPill(두 번째 게임, 프로토타입) — 내용은 tools/lib/redpill.mjs. 필수 문구와 카드 그림이 다 있어야 켜짐 ----------
+const RP = REDPILL;
+const rpSet = (base, ws) => ws.filter((w) => existsSync(join(SITE, RP.art.slice(1), `${base}-${w}.webp`)));
+const RP_CARD = rpSet('card', [1280, 960, 480]);
+const RP_MISS = [...rpMissing(), ...(RP_CARD.length ? [] : ['card 그림'])];
+const RP_ON = !RP_MISS.length;
+console.log(RP_ON ? 'RedPill 켜짐' : `RedPill 꺼짐 (비어 있음: ${RP_MISS.join(', ')})`);
+const rpTags = () => `<p class="tag-list"><span class="tag tag--proto">${L('프로토타입', 'Prototype')}</span><span class="tag">${L('웹 데모', 'Web demo')}</span><span class="tag">${L('PC 출시 예정', 'Coming to PC')}</span></p>`;
+const rpCard = (cls = '', style = '') => !RP_ON ? '' : `<a class="game-card game-card--pixel${cls}" href="${RP.href}"${style}>
+        <div class="game-card__art">${img(`${RP.art}/card-${RP_CARD[0]}.webp`, 1280, 720, { alt: RP.cardAlt[0], altEn: RP.cardAlt[1], srcset: RP_CARD.map((w) => `${RP.art}/card-${w}.webp ${w}w`).join(', '), sizes: SLOTS.card.main.sizes })}</div>
+        <div class="game-card__body">
+          <h3 class="game-card__title">${RP.name}</h3>
+          <p class="game-card__desc">${L(...RP.card)}</p>
+          ${rpTags()}
+          <span class="game-card__more text-link">${L('게임 자세히 보기 ›', 'About the game ›')}</span>
+        </div>
+      </a>`;
+
 const gameGrid = () => `<div class="game-grid">
-      ${featuredCard(L(...GENRE), ' enter', ' style="--d:120ms"')}
+      ${featuredCard(L(...GENRE), ' enter', ' style="--d:120ms"')}${RP_ON ? '\n      ' + rpCard(' enter', ' style="--d:140ms"') : ''}
       ${SOON.map(([n, ko, en], i) => `<div class="game-soon enter" style="--d:160ms;--i:${i}">
         <span class="game-soon__name">${n}</span>
         <span class="game-soon__genre">${L(ko, en)}</span>
@@ -266,14 +285,15 @@ const aboutBlock = () => `<section class="section section--alt">
 const featuredBlock = () => `<section class="section" id="featured">
   <div class="wrap">
     <header class="section__head">
-      <p class="section__eyebrow">${L('대표 게임', 'Featured game')}</p>
+      <p class="section__eyebrow">${RP_ON ? L('대표 게임', 'Featured games') : L('대표 게임', 'Featured game')}</p>
       <h2 class="section__title">${L('지금 해 볼 수 있는 게임', 'Playable right now')}</h2>
     </header>
-    <div class="game-grid reveal">
-      ${featuredCard(L('총을 뽑아 분대를 무장하고, 외계인을 물리치며 꿈에서 빠져나가는 게임', 'Pull guns, arm your squad and fight your way out of an alien dream.'))}
+    <div class="game-grid game-grid--featured reveal">
+      ${featuredCard(L('총을 뽑아 분대를 무장하고, 외계인을 물리치며 꿈에서 빠져나가는 게임', 'Pull guns, arm your squad and fight your way out of an alien dream.'))}${RP_ON ? '\n      ' + rpCard() : ''}
     </div>
     <p class="hero__cta">
-      <a class="btn btn--play" href="${PLAY}" rel="noopener">${L('웹에서 바로 플레이', 'Play on the web')}</a>
+      <a class="btn btn--play" href="${PLAY}" rel="noopener">${RP_ON ? L('GunDraw 플레이', 'Play GunDraw') : L('웹에서 바로 플레이', 'Play on the web')}</a>${RP_ON ? `
+      <a class="btn btn--ghost" href="${RP.play}" rel="noopener">${L('RedPill 데모 플레이', 'Play the RedPill demo')}</a>` : ''}
       <a class="text-link" href="/games/">${L('게임 전체 보기 ›', 'All games ›')}</a>
     </p>
   </div>
@@ -318,6 +338,55 @@ write('games/gundraw/index.html', layout({
   descKo: GAME_DESC_KO + ' 개발 중인 웹 버전입니다.', descEn: GAME_DESC_EN + ' The web version is a work in progress.', jsonld: ld, ogImage: GAME_OG,
   body: [heroBlock(true), stepsBlock(), castBlock(), conceptBlock(), shotsBlock(), noticeBlock, storyBlock(), playBand(related)].filter(Boolean).join('\n\n'),
 }));
+
+// ---------- RedPill 상세(켜졌을 때만 씀) ----------
+if (RP_ON) {
+  const hero = rpSet('hero', [1000, 640]);
+  const vis = hero.length ? `<figure class="visual visual--hero visual--pixel"${zoomAttr('rp-hero', RP.cardAlt[0], RP.cardAlt[1])}>${img(`${RP.art}/hero-${hero[0]}.webp`, 1000, 1250, { alt: RP.cardAlt[0], altEn: RP.cardAlt[1], srcset: hero.map((w) => `${RP.art}/hero-${w}.webp ${w}w`).join(', '), sizes: SLOTS.hero.main.sizes, high: true, lazy: false })}</figure>` : '';
+  const og = existsSync(join(SITE, RP.art.slice(1), 'og-1200x630.jpg')) ? ORIGIN + RP.art + '/og-1200x630.jpg' : undefined;
+  const store = RP.store ? `
+        <a class="btn btn--ghost" href="${RP.store}" rel="noopener">${L('스토어 페이지 ↗', 'Store page ↗')}</a>` : '';
+  const rpHero = `<section class="hero hero--compact${vis ? ' hero--has-visual' : ''}">
+  <div class="wrap hero__in">
+    <div class="hero__copy">
+      <p class="hero__tag">${L(...RP.genre)}</p>
+      <h1 class="hero__title">${L(...RP.title)}</h1>
+      <p class="hero__lead">${L(...RP.lead)}</p>
+      <div class="hero__cta">
+        <a class="btn btn--play" href="${RP.play}" rel="noopener">${L('웹 데모 플레이', 'Play the web demo')}</a>${store}
+        <span class="soon-badge">${L('프로토타입 · 프롤로그 데모', 'Prototype · Prologue demo')}</span>
+      </div>
+    </div>${vis ? '\n    ' + vis : ''}
+  </div>
+</section>`;
+  const rpSteps = RP.points.length ? `<section class="section section--alt">
+  <div class="wrap">
+    <header class="section__head">
+      <h2 class="section__title">${L('게임 소개', 'How it plays')}</h2>
+    </header>
+    <div class="steps">
+      ${RP.points.map(([ko, en, dko, den], i) => step(i + 1, ko, en, dko, den)).join('\n      ')}
+    </div>
+  </div>
+</section>` : '';
+  const rpNotice = `<section class="section section--tight">
+  <div class="wrap wrap--narrow">
+    <p class="notice">${L('웹 데모는 프로토타입입니다. 프롤로그까지 플레이할 수 있고, 정식 버전은 PC로 나올 예정입니다. 화면과 내용은 바뀔 수 있습니다.', 'The web demo is a prototype. It covers the prologue; the full game is planned for PC. Screens and content may change.')}</p>
+  </div>
+</section>`;
+  const rpBand = `<section class="section section--band play-band">
+  <div class="wrap">
+    <h2 class="section__title">${L('설치 없이, 프롤로그부터.', 'No install. Start with the prologue.')}</h2>
+    <a class="btn btn--dark btn--play" href="${RP.play}" rel="noopener">${L('RedPill 데모 플레이', 'Play the RedPill demo')}</a>${related}
+  </div>
+</section>`;
+  const rpLd = JSON.stringify({ '@context': 'https://schema.org', '@type': 'VideoGame', name: RP.name, genre: RP.genre[1], gamePlatform: ['Web browser', 'PC'], url: ORIGIN + RP.href, ...(og ? { image: og } : {}), inLanguage: ['ko', 'en'], potentialAction: { '@type': 'PlayAction', target: RP.play } });
+  write('games/redpill/index.html', layout({
+    path: RP.href, current: 'games', titleKo: 'RedPill — JmkFamily', titleEn: 'RedPill — JmkFamily',
+    descKo: RP.desc[0] + ' 프로토타입 웹 데모입니다.', descEn: RP.desc[1] + ' The web demo is a prototype.', jsonld: rpLd, ...(og ? { ogImage: og } : {}),
+    body: [rpHero, rpSteps, rpNotice, rpBand].filter(Boolean).join('\n\n'),
+  }));
+}
 
 // ---------- 약관·정책 ----------
 const docs = [{ url: '/privacy.html', titleKo: '개인정보처리방침', titleEn: 'Privacy Policy', date: '2026-11-27' }, ...extraDocs];
@@ -376,7 +445,7 @@ else write('privacy.html', layout({ path: '/privacy.html', current: '', titleKo:
 
 // ---------- robots / sitemap / app-ads ----------
 write('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`);
-const urls = ['/', '/games/', '/games/gundraw/', '/docs/', '/privacy.html', '/contact/', ...(boardOn ? ['/support/'] : []), ...extraDocs.map((d) => d.url)];
+const urls = ['/', '/games/', '/games/gundraw/', ...(RP_ON ? [RP.href] : []), '/docs/', '/privacy.html', '/contact/', ...(boardOn ? ['/support/'] : []), ...extraDocs.map((d) => d.url)];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>2026-11-27</lastmod></url>`).join('\n')}\n</urlset>\n`);
 write('app-ads.txt', `# app-ads.txt for JmkFamily
 google.com, pub-8168028625158196, DIRECT, f08c47fec0942fa0
