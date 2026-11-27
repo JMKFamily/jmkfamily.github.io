@@ -16,10 +16,10 @@ const PLAY = 'https://jmkfamily.github.io/gamehub/games/gundraw/';
 
 // 캐릭터 구역 데이터: 비어 있으면 구역을 출력하지 않습니다. 항목 { id, ko, en, lineKo, lineEn }. 원본: gamehub projects/gundraw/assets/v07/web/characters.json
 const CAST = [
-  { id: 'somi', ko: '소미', en: 'Somi', lineKo: '말수는 적지만 전장의 흐름을 먼저 읽는 분대원', lineEn: 'Quiet and hard to read, she senses the battle before it turns.' },
-  { id: 'daon', ko: '다온', en: 'Daon', lineKo: '자신 있는 눈빛으로 사선을 가르는 해결사', lineEn: 'Confident and sharp-eyed, she keeps one glance on every angle.' },
-  { id: 'bori', ko: '보리', en: 'Bori', lineKo: '껌을 씹으며 가장 먼저 뛰어드는 돌격수', lineEn: 'Chewing gum, she is always first through the breach.' },
-  { id: 'ari', ko: '아리', en: 'Ari', lineKo: '졸린 눈으로 장비를 뜯어고치는 분대 기술병', lineEn: 'Sleepy-eyed tinkerer who always has a gadget up her sleeve.' },
+  { id: 'somi', ko: '소미', en: 'Somi', lineKo: '속을 알 수 없는 눈빛으로 분대원을 먼저 챙기는 사람', lineEn: 'Hard to read, yet always the first to look after her squad.' },
+  { id: 'daon', ko: '다온', en: 'Daon', lineKo: '위험 앞에서도 웃으며 적을 도발하는 해결사', lineEn: 'She smirks at danger and dares the enemy to fire first.' },
+  { id: 'bori', ko: '보리', en: 'Bori', lineKo: '작은 몸으로 겁 없이 가장 먼저 뛰어드는 돌격수', lineEn: 'Small, bright and fearless, she is first through the breach.' },
+  { id: 'ari', ko: '아리', en: 'Ari', lineKo: '느긋하게 늘어져 있다가 농담 한마디로 판을 뒤집는 기술병', lineEn: 'Lazy and quick with a joke, yet she always gets the rig running.' },
 ];
 // 컨셉아트(캐릭터별 3컷 배리에이션): 파일 concept-<id>-<1..3>-<900|450>.webp. 파일이 있는 컷만, 1컷이라도 있는 캐릭터만 출력.
 // alt는 여기 적은 것을 쓰고, 없으면 "<이름> 컨셉아트 n"으로 씁니다. [KO, EN]
