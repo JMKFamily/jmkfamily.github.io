@@ -194,15 +194,15 @@ const playBand = (related = '') => `<section class="section section--band play-b
 // ---------- 홈 ----------
 const GAME_DESC_KO = '좀비가 우리 집에 쳐들어왔다. 뽑기로 총을 모아 파티에 장착하고 집을 지키는 좀비 디펜스, GunDraw. 웹에서 바로 플레이.';
 const GAME_DESC_EN = 'GunDraw: zombies are at the door. Pull guns, equip your party and hold the house. A zombie defense game you can play in the browser.';
-const HOME_DESC_KO = 'JmkFamily는 개인이 운영하는 인디 게임 브랜드입니다. 짧고 손맛 좋은 게임을 만들고, 대표 게임 GunDraw는 웹에서 바로 플레이할 수 있습니다.';
-const HOME_DESC_EN = 'JmkFamily is an indie game label run by one person. Short games that feel good to play, starting with GunDraw, playable in your browser.';
+const HOME_DESC_KO = 'JmkFamily는 개인이 운영하는 인디 게임 브랜드입니다. 재미있는 게임을 만들고, 대표 게임 GunDraw는 웹에서 바로 플레이할 수 있습니다.';
+const HOME_DESC_EN = 'JmkFamily is an indie game label run by one person. We make fun games, starting with GunDraw, playable in your browser.';
 
 const brandHero = () => `<section class="hero">
   <div class="wrap hero__in">
     <div class="hero__copy">
       <img class="hero__mark" src="/assets/brand/jmkfamily-symbol.svg" alt="" width="112" height="112">
       <p class="hero__tag">${L('인디 게임 브랜드', 'Indie game label')}</p>
-      <h1 class="hero__title">${L('짧고 손맛 좋은<br>게임을 만듭니다.', 'Short games<br>that feel good to play.')}</h1>
+      <h1 class="hero__title">${L('우리가 재미있는<br>게임을 만듭니다.', 'We make<br>fun games.')}</h1>
       <p class="hero__lead">${L('JmkFamily는 개인이 운영하는 인디 게임 브랜드입니다. 잠깐 해도 재미있는 게임을 하나씩 만듭니다.', 'JmkFamily is an indie game label run by one person, making one small game at a time.')}</p>
       <div class="hero__cta">
         <a class="btn btn--play" href="/games/">${L('게임 보기', 'See the games')}</a>
