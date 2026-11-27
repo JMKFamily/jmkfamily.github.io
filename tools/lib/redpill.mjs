@@ -17,8 +17,14 @@ export const REDPILL = {
   title: ['4년 동안<br>닫아 둔 방문', 'Four years<br>behind a closed door'],
   lead: ['닫아 둔 방문 뒤에서 소리가 났다.', 'Behind the door he kept shut, something made a sound.'],
   desc: ['닫아 둔 방문 뒤에서 소리가 났다. 도트 추리 어드벤처 RedPill, 브라우저에서 데모를 해 보세요. PC 출시 예정.', 'Behind the door he kept shut, something made a sound. RedPill is a pixel-art mystery adventure. Play the browser demo. Coming to PC.'],
-  // 2026-11-28 요청자: 세부 소개는 '닫아 둔 방문 뒤에서 소리가 났다.'까지만. 그 뒤 내용(가족·2020년·10분·단서·알약)은 카드·메타·alt·단계 어디에도 쓰지 않음
-  points: [],
+  // 2026-11-28 요청자: 첫 화면·카드·메타·alt는 '닫아 둔 방문 뒤에서 소리가 났다.'까지만. '게임 소개'에는 스토리 전반부 요약만
+  // (근거 gamehub projects/redpill/15-prologue-demo.md·10-lore.md 0-1). 후반(중환자실·꿈·어머니·빨간 단추·사고 원인·가해자·결말)은 쓰지 않음
+  points: [
+    ['닫아 둔 방', 'The shut room', '그날 이후 4년 동안 닫아 둔 놀이방입니다. 자정 가까운 밤, 그 문 뒤에서 소리가 납니다.', 'The playroom has stayed shut for four years. Near midnight, something makes a sound behind its door.'],
+    ['빨간 알약', 'The red pill', '방 한가운데 작은 협탁 위에 빨간 알약 한 알과 쪽지가 놓여 있습니다.', 'On a small side table in the middle of the room: one red pill and a note.'],
+    ['2020년 11월 1일', 'November 1, 2020', '알약을 삼키면 2020년 11월 1일 오후 4시 32분의 집으로 돌아가 아이들을 만납니다. 머물 수 있는 시간은 아주 짧습니다.', 'Swallow the pill and you are back home at 4:32 PM on November 1, 2020, with the kids. You cannot stay long.'],
+    ['되짚기', 'Retrace', '집 안에서 단서를 모을수록 더 오래 머물 수 있습니다. 그날 무슨 일이 있었는지 하나씩 되짚어 갑니다.', 'The more clues you find in the house, the longer you can stay. Piece by piece, you retrace what happened that day.'],
+  ],
 };
 const REQUIRED = ['play', 'genre', 'card', 'cardAlt', 'title', 'lead', 'desc'];
 export const missing = (g = REDPILL) => REQUIRED.filter((k) => !g[k] || (Array.isArray(g[k]) && g[k].some((v) => !v)));
