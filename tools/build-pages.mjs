@@ -200,7 +200,7 @@ const HOME_DESC_EN = 'JmkFamily is a solo game developer. The featured game, Gun
 const brandHero = () => `<section class="hero">
   <div class="wrap hero__in">
     <div class="hero__copy">
-      <img class="hero__mark" src="/assets/brand/jmkfamily-symbol.svg" alt="" width="112" height="112">
+      <img class="hero__mark" src="/assets/brand/jmkfamily-symbol.svg" alt="" width="136" height="136">
       <p class="hero__tag">JmkFamily</p>
       <h1 class="hero__title">${L('우리가 재미있는<br>게임을 만듭니다.', 'We make<br>fun games.')}</h1>
       <p class="hero__lead">${L('JmkFamily는 게임을 만드는 개인 개발자입니다. 만드는 중인 게임도 웹에 먼저 올려 바로 해 볼 수 있게 합니다.', 'JmkFamily is a solo game developer. Games go on the web first, so you can play them while they are still being made.')}</p>

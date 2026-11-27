@@ -250,12 +250,7 @@ html:not([data-lang="en"]) body:not(.is-bilingual) [data-l="en"] { display: none
 .hero--compact .hero__title { font-size: var(--t-h1); line-height: 1.12; letter-spacing: -.025em; }
 .hero--compact .hero__in { padding-top: 64px; padding-bottom: 64px; }
 .hero .visual { width: 100%; max-width: 560px; }
-.hero__mark { display: block; width: 88px; height: 88px; margin: 0 auto var(--sp-5); flex: none; }
-/* 어두운 테마: 남색 외곽이 바탕에 묻히므로 --c-tint 원을 받침으로(지름 = 심볼 + 32px, 크기 고정) */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .hero__mark { box-sizing: content-box; padding: var(--sp-4); border-radius: 50%; background: var(--c-tint); }
-}
-:root[data-theme="dark"] .hero__mark { box-sizing: content-box; padding: var(--sp-4); border-radius: 50%; background: var(--c-tint); }
+.hero__mark { display: block; width: 104px; height: 104px; margin: 0 auto var(--sp-5); flex: none; }
 /* 히어로 밖(피처드 구역 카드 아래 버튼 줄) */
 .section .hero__cta { margin-top: var(--sp-6); }
 /* 카드가 1장뿐인 목록(홈 피처드)은 너무 넓어지지 않게 */
@@ -270,7 +265,7 @@ html:not([data-lang="en"]) body:not(.is-bilingual) [data-l="en"] { display: none
   .hero--compact .hero__in { padding-top: 88px; padding-bottom: 88px; }
 }
 @media (min-width: 900px) {
-  .hero__mark { width: 112px; height: 112px; }
+  .hero__mark { width: 136px; height: 136px; }
   .hero__in { padding-top: 140px; padding-bottom: 140px; }
   .hero--compact .hero__in { padding-top: 104px; padding-bottom: 104px; }
   .hero--has-visual .hero__in { grid-template-columns: 1fr 1fr; align-items: center; justify-items: stretch; gap: var(--sp-8); text-align: left; padding-top: 96px; padding-bottom: 96px; }
