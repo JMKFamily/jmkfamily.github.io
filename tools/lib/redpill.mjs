@@ -9,6 +9,8 @@ export const REDPILL = {
   art: '/assets/games/redpill',        // card-<1280|960|480>.webp(16:9), hero-<1000|640>.webp(4:5) — 도트는 정수배 확대본
   play: '',                            // 웹 데모 주소(빌드 위치가 정해지면)
   store: '',                           // 스토어 페이지 주소(없으면 스토어 버튼을 숨김)
+  // 2026-11-28 요청자 결정(Q1): 지금은 'PC 출시 예정'·"정식 버전은 PC로" 유지. Steam 페이지가 생기면 store를 채우고
+  // build-pages.mjs의 RedPill 태그·안내·데모 띠 문구에서 'PC'를 'Steam'으로 바꿉니다.
   genre: null,                         // ['추리 어드벤처', 'Mystery adventure'] 같은 [KO, EN]
   card: null,                          // 카드 한 줄 소개 [KO, EN]
   cardAlt: null,                       // 카드 그림 설명 [KO, EN]
