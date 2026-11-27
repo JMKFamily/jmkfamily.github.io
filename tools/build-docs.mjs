@@ -73,7 +73,7 @@ for (const d of DOCS) {
   const date = ((d.updated ? /최종 갱신일은\s*(\d{4}-\d{2}-\d{2})/ : /(?:시행일|Effective date)\s*[:：]\s*(\d{4}-\d{2}-\d{2})/).exec(text) || [])[1] || '';
   const html = layout({
     path: d.url, titleKo: `${d.ko} · ${d.en} — JmkFamily`, titleEn: `${d.en} — JmkFamily`, descKo: `JmkFamily 게임의 ${d.ko}.`, descEn: `${d.en} for games by JmkFamily.`, bilingual: true,
-    body: `${pageHead(d.en, `${d.ko} · ${d.en}`)}\n<section class="section section--tight"><div class="wrap wrap--narrow"><article class="prose" data-generated="docs">\n${md(text)}\n</article></div></section>`,
+    body: `${pageHead(d.en, `${d.ko} · ${d.en}`)}\n<section class="section section--tight"><div class="wrap wrap--narrow"><article class="prose enter enter--fade" style="--d:120ms" data-generated="docs">\n${md(text)}\n</article></div></section>`,
   }).replace('<body class="is-bilingual">', '<body class="is-bilingual" data-generated="docs">');
   const f = join(SITE, d.out); mkdirSync(dirname(f), { recursive: true }); writeFileSync(f, html);
   published.push({ url: d.url, titleKo: d.ko, titleEn: d.en, date, ...(d.updated ? { updated: true } : {}) });

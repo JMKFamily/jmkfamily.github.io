@@ -13,13 +13,13 @@ export function supportPages() {
     body: `${pageHead(L('문의','Support'), L('문의 게시판', 'Support board'), L('문의는 비밀글로 접수됩니다. 접수 번호와 비밀번호로 내 글과 답변을 확인할 수 있습니다.', 'Messages are private. Use your receipt number and password to read your message and the reply.'))}
 <section class="section section--tight">
   <div class="wrap wrap--narrow">
-    <div id="sp-off" class="contact-card" hidden>
+    <div id="sp-off" class="contact-card enter" style="--d:120ms" hidden>
       <h2 class="contact-card__title">${L('게시판을 준비하고 있습니다', 'The board is getting ready')}</h2>
       <p>${L('그동안은 이메일로 문의해 주세요.', 'Please email us in the meantime.')}</p>
       <p class="contact-card__mail"><a href="mailto:${EMAIL}">${EMAIL}</a></p>
     </div>
     <noscript><p class="form__error">${L('게시판은 자바스크립트가 필요합니다. 이메일로 문의해 주세요.', 'The board needs JavaScript. Please email us instead.')} ${EMAIL}</p></noscript>
-    <div id="sp-app" hidden>
+    <div id="sp-app" class="enter" style="--d:120ms" hidden>
       <div class="support-tabs" role="group" aria-label="게시판 메뉴">
         <button class="btn btn--ghost" type="button" data-tab="new" aria-pressed="true">${L('문의 남기기', 'New message')}</button>
         <button class="btn btn--ghost" type="button" data-tab="view" aria-pressed="false">${L('내 문의 보기', 'My message')}</button>
@@ -75,7 +75,7 @@ export function supportPages() {
   // 운영자 화면: noindex, 사이트맵·메뉴에 없음
   const admin = layout({
     path: '/support/admin/', titleKo: '운영자 — JmkFamily', titleEn: 'Operator — JmkFamily', descKo: '운영자 전용 화면.', descEn: 'Operator only.', robots: 'noindex, nofollow',
-    body: `${pageHead('Operator', L('답변 쓰기', 'Reply desk'))}
+    body: `${pageHead('Operator', L('답변 쓰기', 'Reply desk'), '', false)}
 <section class="section section--tight">
   <div class="wrap wrap--narrow">
     <div id="ad-off" class="contact-card" hidden><p>${L('게시판이 아직 켜져 있지 않습니다.', 'The board is not switched on yet.')}</p></div>

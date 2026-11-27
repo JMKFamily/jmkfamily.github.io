@@ -104,8 +104,8 @@ ${body}
 `;
 }
 
-export const pageHead = (eyebrow, titleHtml, leadHtml = '') => `<header class="page-head">
-  <div class="wrap">
+export const pageHead = (eyebrow, titleHtml, leadHtml = '', enter = true) => `<header class="page-head">
+  <div class="wrap${enter ? ' enter' : ''}">
     <p class="page-head__eyebrow">${eyebrow}</p>
     <h1 class="page-head__title">${titleHtml}</h1>${leadHtml ? `\n    <p class="page-head__lead">${leadHtml}</p>` : ''}
   </div>

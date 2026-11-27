@@ -2,14 +2,14 @@
 // 원본(legal/privacy-policy.md)이 공개 가능해지면 build-docs.mjs --publish-privacy 로 생성본이 같은 주소를 덮습니다.
 const M = 'jmkfamilysupport@gmail.com';
 export const privacyBody = `<header class="page-head">
-  <div class="wrap">
+  <div class="wrap enter">
     <p class="page-head__eyebrow">Privacy Policy</p>
     <h1 class="page-head__title">개인정보처리방침 · Privacy Policy</h1>
   </div>
 </header>
 <section class="section section--tight">
   <div class="wrap wrap--narrow">
-<article class="prose">
+<article class="prose enter enter--fade" style="--d:120ms">
 <p class="prose__skip"><a href="#en">English ↓</a></p>
 <div lang="ko">
 <h2>개인정보처리방침</h2>

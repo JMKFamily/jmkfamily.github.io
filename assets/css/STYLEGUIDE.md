@@ -15,6 +15,8 @@ CSS 담당(web-css) 작성, 기준 명세 `web/docs/plan-v2.md`. 개발자는 �
 - BEM(`block__element--modifier`), 상태 `is-open`·`is-in`·`is-hidden`, 스크립트 연결 `data-js`, 보조 `u-*`. 글꼴은 한 가지(시스템/Noto Sans KR), 굵기로만 위계.
 - 테마: `prefers-color-scheme` 자동, `<html data-theme="light|dark">`로 강제 가능. 언어: `<span lang="ko" data-l="ko">…</span><span lang="en" data-l="en">…</span>`, 둘 다 보일 페이지는 `<body class="is-bilingual">`.
 - `.reveal`은 구역 안 큰 덩어리에만(`html.js`일 때 페이드 + 16px, 600ms 1회, 줄인 움직임이면 즉시). 히어로 글·그림은 CSS가 알아서 등장하니 `.reveal` 금지.
+- 페이지 머리와 본문 첫 덩어리는 `.enter`(JS 불필요, 페이드 + 16px, 600ms 1회, `--d`로 덩어리 지연 예 `120ms`, `--i`로 목록 순번 0~6, 40ms 간격), 스크롤 아래는 `.reveal`(`--i` 순차 지원). `.enter--fade`는 긴 글(`.prose`)용 페이드만. 히어로에는 둘 다 금지. 카드·버튼처럼 hover/누름 전환이 있는 요소에는 `.reveal`을 직접 붙이지 말고 감싼 요소에.
+- 히어로 심볼은 `<img class="hero__mark" width="112" height="112" alt="">`(88px, 900px부터 112px, 어두운 테마는 `--c-tint` 받침 원 자동). `.game-grid` 안 카드가 1장뿐이면 최대 880px 가운데. 피처드 아래 버튼 줄은 `<p class="hero__cta">`를 `.section` 안에서 그대로 사용.
 - `[hidden]`은 항상 숨김. 가로 스크롤 없음(단 `.shots`만 폰에서 스냅 스크롤, `tabindex="0"`+`aria-label`).
 - 그림 `<img>`에는 `width`·`height`·`alt`. 그림이 없으면 마크업 자체를 내보내지 않습니다(빈 상자 금지).
 - 헤더 숨김은 `.site-header.is-hidden`(top 이동). 헤더에 `transform`·`backdrop-filter`를 직접 걸지 않습니다(전체 화면 메뉴가 깨짐). 흐림 효과는 CSS가 가상요소로 처리.

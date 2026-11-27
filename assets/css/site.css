@@ -250,6 +250,16 @@ html:not([data-lang="en"]) body:not(.is-bilingual) [data-l="en"] { display: none
 .hero--compact .hero__title { font-size: var(--t-h1); line-height: 1.12; letter-spacing: -.025em; }
 .hero--compact .hero__in { padding-top: 64px; padding-bottom: 64px; }
 .hero .visual { width: 100%; max-width: 560px; }
+.hero__mark { display: block; width: 88px; height: 88px; margin: 0 auto var(--sp-5); flex: none; }
+/* 어두운 테마: 남색 외곽이 바탕에 묻히므로 --c-tint 원을 받침으로(지름 = 심볼 + 32px, 크기 고정) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .hero__mark { box-sizing: content-box; padding: var(--sp-4); border-radius: 50%; background: var(--c-tint); }
+}
+:root[data-theme="dark"] .hero__mark { box-sizing: content-box; padding: var(--sp-4); border-radius: 50%; background: var(--c-tint); }
+/* 히어로 밖(피처드 구역 카드 아래 버튼 줄) */
+.section .hero__cta { margin-top: var(--sp-6); }
+/* 카드가 1장뿐인 목록(홈 피처드)은 너무 넓어지지 않게 */
+.game-grid > .game-card:only-child { max-width: 880px; margin-left: auto; margin-right: auto; width: 100%; }
 
 @media (min-width: 600px) {
   .hero__cta { flex-direction: row; justify-content: center; flex-wrap: wrap; gap: var(--sp-4) var(--sp-5); }
@@ -260,6 +270,7 @@ html:not([data-lang="en"]) body:not(.is-bilingual) [data-l="en"] { display: none
   .hero--compact .hero__in { padding-top: 88px; padding-bottom: 88px; }
 }
 @media (min-width: 900px) {
+  .hero__mark { width: 112px; height: 112px; }
   .hero__in { padding-top: 140px; padding-bottom: 140px; }
   .hero--compact .hero__in { padding-top: 104px; padding-bottom: 104px; }
   .hero--has-visual .hero__in { grid-template-columns: 1fr 1fr; align-items: center; justify-items: stretch; gap: var(--sp-8); text-align: left; padding-top: 96px; padding-bottom: 96px; }
@@ -374,6 +385,7 @@ html:not([data-lang="en"]) body:not(.is-bilingual) [data-l="en"] { display: none
 .play-band .section__title { margin: 0; }
 .play-band .btn { margin-top: var(--sp-6); }
 .play-band__note { margin-top: var(--sp-4); font-size: var(--t-small); color: var(--c-on-band-soft); }
+.play-band__note a { color: var(--c-on-band); text-underline-offset: 3px; }
 .play-band .u-center, .play-band.u-center { text-align: center; }
 
 /* ========== 15. 페이지 머리·문서·문의·404 ========== */
@@ -495,7 +507,11 @@ details.ticket-view .btn { margin-right: var(--sp-3); }
 
 /* ========== 18. 움직임 ========== */
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: no-preference) {
+  .enter { animation: rise .6s var(--ease) backwards; animation-delay: calc(var(--d, 0ms) + var(--i, 0) * 40ms); }
+  .enter--fade { animation-name: fade; }
+  html.js .reveal { transition-delay: calc(var(--i, 0) * 40ms); }
   .hero__copy, .hero .visual { animation: rise .6s var(--ease) both; }
   .hero .visual { animation-delay: .12s; }
   html.js .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
