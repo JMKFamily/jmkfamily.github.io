@@ -21,12 +21,8 @@ export const REDPILL = {
   // '게임 소개'는 스토리 전반부를 3인칭 과거형 산문(~했다)으로(요청자: "스토리형식으로 풀어야죠"). 근거 gamehub projects/redpill/15-prologue-demo.md·10-lore.md 0-1
   // 쓰지 않음: 중환자실·의식 불명·꿈·어머니·빨간 단추·사고 원인(약·핸드폰)·가해자·결말·'사고'라는 말·10분·11월 7일
   points: [],
-  story: [ // [KO, EN] 문단. 2026-11-28 RedPill팀 작가 검수 최종본(gamehub projects/redpill/Docs/lore-writer/2026-11-28-web-story-review.md) — 문장 임의 수정 금지
-    ['4년 전 그날 이후, 도윤은 놀이방 문을 한 번도 열지 않았다. 2024년 10월 3일, 자정이 가까운 밤이었다. 닫아 둔 그 방문 뒤에서 소리가 났다.', 'For four years, Doyun never opened the playroom door. On October 3, 2024, close to midnight, something made a sound behind it.'],
-    ['방 한가운데에 처음 보는 작은 협탁이 놓여 있었고 그 위에 빨간 알약 한 알과 쪽지 한 장이 있었다.', 'In the middle of the room stood a small side table he had never seen, and on it lay one red pill and a note.'],
-    ['도윤은 알약 앞에서 오래 망설였다. 결국 알약을 삼키자 눈앞이 흐려지더니 날짜가 거꾸로 흘러내렸다. 숫자는 2020년 11월 1일 오후 4시 22분에서 멈췄다. 햇빛이 번진 놀이방에서 준우가 로봇을 들고 달려왔고 시우가 말했다. “아빠 손 따뜻하다.”', 'Doyun hesitated over the pill for a long time. When he finally swallowed it, his vision blurred and the date ran backward. It stopped at 4:22 PM, November 1, 2020. In the sunlit playroom, Junwoo ran up with his robot, and Siu said, “Your hands are warm.”'],
-    ['그 시간은 오래가지 않았다. 아이들 목소리가 흐려지고 눈을 뜨자 도윤은 다시 2024년의 놀이방에 서 있었다. 단서를 찾아낼수록 그날에 머무는 시간은 조금씩 길어졌다.', 'It never lasted. The children’s voices faded, and when he opened his eyes, Doyun was standing in the playroom of 2024 again. The more clues he found, the longer he could stay in that day.'],
-    ['아이들이 무심코 한 말, 장난감 상자 뚜껑의 서툰 글씨, 한 통도 뜯지 않은 우편. 도윤은 그날 오후에 무슨 일이 있었는지 하나씩 되짚어 가기 시작했다. 아이들은 아빠를 기다리고 있었다.', 'Something the kids said without thinking. Clumsy letters on the lid of a toy box. Mail he had never opened, not one envelope. Piece by piece, Doyun began to retrace what happened that afternoon. The children were waiting for their father.'],
+  story: [ // [KO, EN] 문단(<br> = 줄바꿈). 2026-11-28 요청자가 직접 정한 문구("웹의 게임소개에는 이렇게만 쓰세요") — 글자 하나 바꾸지 않음
+    ['4년 전 그날 이후, 도윤은 복도 끝 방 문을 한 번도 열지 않았다.<br>그런데 자정이 가까운 어느 날 밤, 닫아 둔 그 방문 뒤에서 소리가 났다.', 'Since that day four years ago, Doyun had never opened the door at the end of the hall.<br>Then one night, close to midnight, something made a sound behind that shut door.'],
   ],
 };
 const REQUIRED = ['play', 'genre', 'card', 'cardAlt', 'title', 'lead', 'desc'];
