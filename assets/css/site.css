@@ -532,3 +532,30 @@ details.ticket-view .btn { margin-right: var(--sp-3); }
 }
 .hero__cta .text-link { display: inline-flex; align-items: center; min-height: 48px; }
 
+
+/* 라이트박스(site.js): [data-zoom] 그림을 누르면 검은 화면에 크게 */
+[data-zoom] { cursor: zoom-in; }
+[data-zoom]:focus-visible { outline: 3px solid var(--c-ink); outline-offset: 3px; }
+html.lb-open { overflow: hidden; }
+.lb { position: fixed; inset: 0; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; color: #fff; opacity: 0; }
+.lb.is-open { opacity: 1; }
+.lb[hidden] { display: none; }
+.lb__stage { flex: 1; width: 100%; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 56px 12px 8px; overflow: hidden; touch-action: none; }
+.lb__img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; user-select: none; -webkit-user-drag: none; transform-origin: center; cursor: zoom-in; }
+.lb.is-zoomed .lb__img { cursor: grab; border-radius: 0; }
+.lb__cap { max-width: 720px; padding: 8px 16px calc(16px + env(safe-area-inset-bottom)); font-size: var(--t-small); line-height: 1.5; text-align: center; color: rgba(255, 255, 255, .82); }
+.lb__cap:empty { display: none; }
+.lb__cnt { position: absolute; top: 16px; left: 16px; margin: 0; font-size: var(--t-small); font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, .78); }
+.lb__btn { position: absolute; display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .14); color: #fff; cursor: pointer; transition: background .2s; }
+.lb__btn:hover { background: rgba(255, 255, 255, .26); }
+.lb__btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.lb__btn[hidden] { display: none; }
+.lb__close { top: 8px; right: 8px; }
+.lb__prev, .lb__next { top: 50%; margin-top: -24px; }
+.lb__prev { left: 8px; }
+.lb__next { right: 8px; }
+@media (min-width: 900px) {
+  .lb__stage { padding: 64px 88px 8px; }
+  .lb__prev { left: 24px; } .lb__next { right: 24px; } .lb__close { top: 16px; right: 16px; }
+}
+@media (prefers-reduced-motion: no-preference) { .lb { transition: opacity .2s ease-out; } }

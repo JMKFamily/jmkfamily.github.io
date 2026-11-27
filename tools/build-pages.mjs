@@ -39,17 +39,19 @@ const SLOTS = {
 };
 const has = (rel) => existsSync(join(SITE, 'assets/games/gundraw/art', rel));
 const setOf = (m) => { const f = m.widths.filter((w) => has(`${m.base}-${w}.webp`)); return { f, srcset: f.map((w) => `${ART}/${m.base}-${w}.webp ${w}w`).join(', ') }; };
-function visual(slot, { alt = '', altEn = '', cls = '' } = {}) {
+// 라이트박스(site.js): 누르면 검은 화면에 크게. 같은 group끼리 좌우로 넘김. 설명은 data-cap(KO)·data-cap-en
+const zoomAttr = (group, ko, en, capKo = ko, capEn = en) => ` data-zoom="${group}" data-cap="${capKo}" data-cap-en="${capEn}" tabindex="0" role="button" aria-label="${ko} 크게 보기" data-en-label="View larger: ${en}"`;
+function visual(slot, { alt = '', altEn = '', cls = '', zoom = false } = {}) {
   const s = SLOTS[slot], m = setOf(s.main);
   if (!m.f.length) return '';
   const tag = img(`${ART}/${s.main.base}-${m.f[0]}.webp`, s.main.w, s.main.h, { alt, altEn, srcset: m.srcset, sizes: s.main.sizes, high: !!s.high, lazy: !s.high });
   const n = s.narrow && setOf(s.narrow);
   const pic = n && n.f.length ? `<picture><source media="(max-width: ${s.narrow.max}px)" srcset="${n.srcset}" sizes="${s.narrow.sizes}">${tag}</picture>` : tag;
-  return `<figure class="visual visual--${slot}${cls}">${pic}</figure>`;
+  return `<figure class="visual visual--${slot}${cls}"${zoom ? zoomAttr(slot, alt, altEn) : ''}>${pic}</figure>`;
 }
 
 // ---------- 공통 조각 ----------
-const HERO_ALT = { alt: '몰려드는 외계 생물 앞에서 총을 쏘는 미래 전투복 차림의 용병 네 명', altEn: 'Four mercenaries in future combat suits firing into a swarm of aliens' };
+const HERO_ALT = { zoom: true, alt: '몰려드는 외계 생물 앞에서 총을 쏘는 미래 전투복 차림의 용병 네 명', altEn: 'Four mercenaries in future combat suits firing into a swarm of aliens' };
 const GENRE = ['외계인 디펜스', 'Alien defense'];
 const heroBlock = (compact) => {
   const vis = visual('hero', HERO_ALT);
@@ -97,7 +99,7 @@ const castBlock = () => {
   if (!list.length) return '';
   const fig = (c) => {
     const ws = [900, 450].filter((w) => has(`cast-${c.id}-${w}.webp`));
-    return `<figure class="cast__art">${img(`${ART}/cast-${c.id}-${ws[0]}.webp`, 900, 1200, { alt: '', srcset: ws.map((w) => `${ART}/cast-${c.id}-${w}.webp ${w}w`).join(', '), sizes: '(max-width: 899px) 45vw, 260px' })}</figure>`;
+    return `<figure class="cast__art"${zoomAttr('cast', c.ko, c.en, `${c.ko} · ${c.lineKo}`, `${c.en} · ${c.lineEn}`)}>${img(`${ART}/cast-${c.id}-${ws[0]}.webp`, 900, 1200, { alt: '', srcset: ws.map((w) => `${ART}/cast-${c.id}-${w}.webp ${w}w`).join(', '), sizes: '(max-width: 899px) 45vw, 260px' })}</figure>`;
   };
   const one = list.length === 1;
   return `<section class="section cast${one ? ' cast--solo' : ''}">
@@ -121,7 +123,7 @@ const conceptBlock = () => {
   const cut = (c, n) => {
     const [ko, en] = (CONCEPT_ALT[c.id] || [])[n - 1] || [`${c.ko} 컨셉아트 ${n}`, `${c.en} concept art ${n}`];
     const ws = [900, 450].filter((w) => has(`concept-${c.id}-${n}-${w}.webp`));
-    return `<figure class="cast__art concept__cut">${img(`${ART}/concept-${c.id}-${n}-${ws[0]}.webp`, 900, 1200, { alt: ko, altEn: en, srcset: ws.map((w) => `${ART}/concept-${c.id}-${n}-${w}.webp ${w}w`).join(', '), sizes: '(max-width: 599px) 72vw, (max-width: 899px) 44vw, 340px' })}</figure>`;
+    return `<figure class="cast__art concept__cut"${zoomAttr(`concept-${c.id}`, ko, en)}>${img(`${ART}/concept-${c.id}-${n}-${ws[0]}.webp`, 900, 1200, { alt: ko, altEn: en, srcset: ws.map((w) => `${ART}/concept-${c.id}-${n}-${w}.webp ${w}w`).join(', '), sizes: '(max-width: 599px) 72vw, (max-width: 899px) 44vw, 340px' })}</figure>`;
   };
   const tab = (c, i) => `<button type="button" class="concept__tab" role="tab" id="concept-tab-${c.id}" aria-controls="concept-${c.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}"><span class="concept__face"><img src="${ART}/cast-${c.id}-450.webp" alt="" width="450" height="600" loading="lazy" decoding="async"></span><span>${L(c.ko, c.en)}</span></button>`;
   const panel = (c) => `<div class="concept__panel"${tabs ? ` role="tabpanel" id="concept-${c.id}" aria-labelledby="concept-tab-${c.id}"` : ''}>
@@ -186,7 +188,7 @@ const shotsBlock = () => {
 
 // 개발 이야기: 허브·개발실 링크가 둘 다 꺼지면 구역은 숨김 상태 그대로(site.js가 하나라도 켜지면 표시)
 const storyBlock = ({ home = false } = {}) => {
-  const vis = visual('story', { alt: '작전실 홀로그램 테이블 둘레에서 장비를 정비하는 분대원 네 명', altEn: 'The four-member squad tuning gear around a holographic table in the ops room', cls: ' reveal' });
+  const vis = visual('story', { alt: '작전실 홀로그램 테이블 둘레에서 장비를 정비하는 분대원 네 명', altEn: 'The four-member squad tuning gear around a holographic table in the ops room', cls: ' reveal', zoom: true });
   return `<section class="section section--alt story${vis ? ' story--has-visual' : ''}" data-js="story" hidden>
   <div class="wrap story__in">
     <div class="story__copy">

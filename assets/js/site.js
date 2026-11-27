@@ -70,6 +70,108 @@
     pick(tabs[0]);
   });
 
+  // ---- 라이트박스: [data-zoom] 그림을 누르면 검은 화면에 크게. 같은 묶음 안에서 좌우(스와이프·화살표), 닫기(X·배경·Esc), 핀치·두 번 탭 확대 ----
+  (function () {
+    var figs = [].slice.call(d.querySelectorAll('[data-zoom]'));
+    if (!figs.length) return;
+    var T = { ko: { close: '닫기', prev: '이전 그림', next: '다음 그림', dlg: '그림 크게 보기' }, en: { close: 'Close', prev: 'Previous image', next: 'Next image', dlg: 'Image viewer' } };
+    var lb, im, cap, cnt, bPrev, bNext, bClose, list = [], idx = 0, back = null;
+    var sc = 1, tx = 0, ty = 0, pts = {}, start = null, lastTap = 0, moved = false;
+    function lang() { return h.getAttribute('data-lang') === 'en' ? 'en' : 'ko'; }
+    function biggest(img) {
+      var best = img.currentSrc || img.src, bw = 0;
+      (img.getAttribute('srcset') || '').split(',').forEach(function (p) { var m = p.trim().split(/\s+/), w = parseInt(m[1], 10); if (m[0] && w > bw) { bw = w; best = m[0]; } });
+      return best;
+    }
+    function btn(cls, svg) { var b = d.createElement('button'); b.type = 'button'; b.className = 'lb__btn ' + cls; b.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + svg + '</svg>'; return b; }
+    function build() {
+      lb = d.createElement('div'); lb.className = 'lb'; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true'); lb.hidden = true;
+      lb.innerHTML = '<div class="lb__stage"><img class="lb__img" alt=""></div><p class="lb__cap"></p><p class="lb__cnt" aria-live="polite"></p>';
+      bClose = btn('lb__close', '<path d="M6 6l12 12M18 6L6 18"/>');
+      bPrev = btn('lb__prev', '<path d="M15 5l-7 7 7 7"/>');
+      bNext = btn('lb__next', '<path d="M9 5l7 7-7 7"/>');
+      lb.appendChild(bClose); lb.appendChild(bPrev); lb.appendChild(bNext);
+      d.body.appendChild(lb);
+      im = lb.querySelector('.lb__img'); cap = lb.querySelector('.lb__cap'); cnt = lb.querySelector('.lb__cnt');
+      var stage = lb.querySelector('.lb__stage');
+      bClose.addEventListener('click', close);
+      bPrev.addEventListener('click', function () { go(-1); });
+      bNext.addEventListener('click', function () { go(1); });
+      lb.addEventListener('click', function (e) { var m = moved; moved = false; if ((e.target === lb || e.target === stage) && !m) close(); });
+      lb.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { e.preventDefault(); close(); }
+        else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+        else if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+        else if (e.key === 'Tab') { // 포커스 가둠
+          var f = [bClose, bPrev, bNext].filter(function (b) { return !b.hidden; }), i = f.indexOf(d.activeElement);
+          e.preventDefault(); f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+        }
+      });
+      // 터치: 한 손가락 스와이프(확대 전)·이동(확대 후), 두 손가락 핀치, 두 번 탭 2배
+      var pinch0 = 0, sc0 = 1;
+      function dist() { var k = Object.keys(pts); if (k.length < 2) return 0; var a = pts[k[0]], b = pts[k[1]]; return Math.hypot(a.x - b.x, a.y - b.y); }
+      stage.addEventListener('pointerdown', function (e) {
+        pts[e.pointerId] = { x: e.clientX, y: e.clientY }; moved = false;
+        if (Object.keys(pts).length === 2) { pinch0 = dist(); sc0 = sc; start = null; }
+        else start = { x: e.clientX, y: e.clientY, tx: tx, ty: ty };
+        try { stage.setPointerCapture(e.pointerId); } catch (er) {}
+      });
+      stage.addEventListener('pointermove', function (e) {
+        if (!pts[e.pointerId]) return;
+        pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+        if (Object.keys(pts).length >= 2 && pinch0) { sc = Math.min(4, Math.max(1, sc0 * dist() / pinch0)); if (sc === 1) { tx = ty = 0; } moved = true; apply(); return; }
+        if (!start) return;
+        var dx = e.clientX - start.x, dy = e.clientY - start.y;
+        if (Math.abs(dx) > 6 || Math.abs(dy) > 6) moved = true;
+        if (sc > 1) { tx = start.tx + dx; ty = start.ty + dy; apply(); }
+        else if (list.length > 1) { im.style.transform = 'translateX(' + dx + 'px)'; }
+      });
+      function up(e) {
+        if (!pts[e.pointerId]) return;
+        delete pts[e.pointerId];
+        if (Object.keys(pts).length) { pinch0 = 0; return; }
+        if (start && sc === 1) {
+          var dx = e.clientX - start.x;
+          if (list.length > 1 && Math.abs(dx) > 50) go(dx < 0 ? 1 : -1); else apply();
+          if (!moved && e.pointerType !== 'mouse') { var now = Date.now(); if (now - lastTap < 300) { sc = 2; apply(); lastTap = 0; } else lastTap = now; }
+        } else if (!moved && e.pointerType !== 'mouse' && Date.now() - lastTap < 300) { sc = 1; tx = ty = 0; apply(); lastTap = 0; }
+        else lastTap = Date.now();
+        start = null;
+      }
+      stage.addEventListener('pointerup', up); stage.addEventListener('pointercancel', up);
+      im.addEventListener('dblclick', function () { if (sc > 1) { sc = 1; tx = ty = 0; } else sc = 2; apply(); });
+    }
+    function apply() { im.style.transform = sc > 1 ? 'translate(' + tx + 'px,' + ty + 'px) scale(' + sc + ')' : ''; lb.classList.toggle('is-zoomed', sc > 1); }
+    function show() {
+      var f = list[idx], src = f.querySelector('img'), l = lang();
+      sc = 1; tx = ty = 0; apply();
+      im.src = biggest(src); im.alt = src.getAttribute('alt') || f.getAttribute(l === 'en' ? 'data-cap-en' : 'data-cap') || '';
+      cap.textContent = f.getAttribute(l === 'en' ? 'data-cap-en' : 'data-cap') || '';
+      var many = list.length > 1;
+      cnt.textContent = many ? (idx + 1) + ' / ' + list.length : '';
+      bPrev.hidden = bNext.hidden = !many;
+    }
+    function go(n) { if (list.length < 2) return; idx = (idx + n + list.length) % list.length; show(); }
+    function open(f) {
+      if (!lb) build();
+      var g = f.getAttribute('data-zoom'), l = lang();
+      list = figs.filter(function (x) { return x.getAttribute('data-zoom') === g; }); idx = list.indexOf(f);
+      lb.setAttribute('aria-label', T[l].dlg); bClose.setAttribute('aria-label', T[l].close); bPrev.setAttribute('aria-label', T[l].prev); bNext.setAttribute('aria-label', T[l].next);
+      back = d.activeElement; moved = false; show();
+      lb.hidden = false; h.classList.add('lb-open');
+      requestAnimationFrame(function () { lb.classList.add('is-open'); });
+      bClose.focus();
+    }
+    function close() {
+      lb.classList.remove('is-open'); h.classList.remove('lb-open'); lb.hidden = true; pts = {};
+      if (back && back.focus) back.focus();
+    }
+    figs.forEach(function (f) {
+      f.addEventListener('click', function () { open(f); });
+      f.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(f); } });
+    });
+  })();
+
   // ---- 메뉴(폰): 전체 화면 덮개, Esc·링크 누르기로 닫힘, 포커스 가둠 ----
   var btn = d.querySelector('[data-js="menu-btn"]'), nav = d.querySelector('[data-js="site-nav"]'), header = d.querySelector('[data-js="site-header"]');
   function focusables() { return [].slice.call(header.querySelectorAll('a[href],button')).filter(function (e) { return e.offsetParent !== null; }); }
