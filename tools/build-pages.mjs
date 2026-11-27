@@ -199,11 +199,11 @@ const featuredCard = (descHtml, cls = '', style = '') => `<a class="game-card${c
 // ---------- RedPill(두 번째 게임, 프로토타입) — 내용은 tools/lib/redpill.mjs. 필수 문구와 카드 그림이 다 있어야 켜짐 ----------
 const RP = REDPILL;
 const rpSet = (base, ws) => ws.filter((w) => existsSync(join(SITE, RP.art.slice(1), `${base}-${w}.webp`)));
-const RP_CARD = rpSet('card', [1280, 960, 480]);
+const RP_CARD = rpSet('card', [1280, 960, 640]);
 const RP_MISS = [...rpMissing(), ...(RP_CARD.length ? [] : ['card 그림'])];
 const RP_ON = !RP_MISS.length;
 console.log(RP_ON ? 'RedPill 켜짐' : `RedPill 꺼짐 (비어 있음: ${RP_MISS.join(', ')})`);
-const rpTags = () => `<p class="tag-list"><span class="tag tag--proto">${L('프로토타입', 'Prototype')}</span><span class="tag">${L('웹 데모', 'Web demo')}</span><span class="tag">${L('PC 출시 예정', 'Coming to PC')}</span></p>`;
+const rpTags = () => `<p class="tag-list"><span class="tag tag--proto">${L('개발 중', 'In development')}</span><span class="tag">${L('웹 데모', 'Web demo')}</span><span class="tag">${L('PC 출시 예정', 'Coming to PC')}</span></p>`;
 const rpCard = (cls = '', style = '') => !RP_ON ? '' : `<a class="game-card game-card--pixel${cls}" href="${RP.href}"${style}>
         <div class="game-card__art">${img(`${RP.art}/card-${RP_CARD[0]}.webp`, 1280, 720, { alt: RP.cardAlt[0], altEn: RP.cardAlt[1], srcset: RP_CARD.map((w) => `${RP.art}/card-${w}.webp ${w}w`).join(', '), sizes: SLOTS.card.main.sizes })}</div>
         <div class="game-card__body">
@@ -341,15 +341,15 @@ write('games/gundraw/index.html', layout({
 
 // ---------- RedPill 상세(켜졌을 때만 씀) ----------
 if (RP_ON) {
-  const hero = rpSet('hero', [1000, 640]);
+  const hero = rpSet('hero', [1000, 600]);
   const vis = hero.length ? `<figure class="visual visual--hero visual--pixel"${zoomAttr('rp-hero', RP.cardAlt[0], RP.cardAlt[1])}>${img(`${RP.art}/hero-${hero[0]}.webp`, 1000, 1250, { alt: RP.cardAlt[0], altEn: RP.cardAlt[1], srcset: hero.map((w) => `${RP.art}/hero-${w}.webp ${w}w`).join(', '), sizes: SLOTS.hero.main.sizes, high: true, lazy: false })}</figure>` : '';
-  const og = existsSync(join(SITE, RP.art.slice(1), 'og-1200x630.jpg')) ? ORIGIN + RP.art + '/og-1200x630.jpg' : undefined;
+  const og = existsSync(join(SITE, RP.art.slice(1), 'og-1200x630.png')) ? ORIGIN + RP.art + '/og-1200x630.png' : undefined;
   const store = RP.store ? `
         <a class="btn btn--ghost" href="${RP.store}" rel="noopener">${L('스토어 페이지 ↗', 'Store page ↗')}</a>` : '';
   const rpHero = `<section class="hero hero--compact${vis ? ' hero--has-visual' : ''}">
   <div class="wrap hero__in">
     <div class="hero__copy">
-      <p class="hero__tag">${L(...RP.genre)}</p>
+      <p class="hero__tag">${L(RP.name + ' · ' + RP.genre[0], RP.name + ' · ' + RP.genre[1])}</p>
       <h1 class="hero__title">${L(...RP.title)}</h1>
       <p class="hero__lead">${L(...RP.lead)}</p>
       <div class="hero__cta">
@@ -377,7 +377,8 @@ if (RP_ON) {
   const rpBand = `<section class="section section--band play-band">
   <div class="wrap">
     <h2 class="section__title">${L('설치 없이, 프롤로그부터.', 'No install. Start with the prologue.')}</h2>
-    <a class="btn btn--dark btn--play" href="${RP.play}" rel="noopener">${L('RedPill 데모 플레이', 'Play the RedPill demo')}</a>${related}
+    <a class="btn btn--dark btn--play" href="${RP.play}" rel="noopener">${L('RedPill 데모 플레이', 'Play the RedPill demo')}</a>
+    <p class="play-band__note">${L('관련 문서', 'Related')}: <a class="text-link" href="/privacy.html">${L('개인정보처리방침', 'Privacy Policy')}</a></p>
   </div>
 </section>`;
   const rpLd = JSON.stringify({ '@context': 'https://schema.org', '@type': 'VideoGame', name: RP.name, genre: RP.genre[1], gamePlatform: ['Web browser', 'PC'], url: ORIGIN + RP.href, ...(og ? { image: og } : {}), inLanguage: ['ko', 'en'], potentialAction: { '@type': 'PlayAction', target: RP.play } });
