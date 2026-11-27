@@ -201,7 +201,7 @@ const brandHero = () => `<section class="hero">
   <div class="wrap hero__in">
     <div class="hero__copy">
       <img class="hero__mark" src="/assets/brand/jmkfamily-symbol.svg" alt="" width="112" height="112">
-      <p class="hero__tag">${L('인디 게임 브랜드', 'Indie game label')}</p>
+      <p class="hero__tag">JmkFamily</p>
       <h1 class="hero__title">${L('우리가 재미있는<br>게임을 만듭니다.', 'We make<br>fun games.')}</h1>
       <p class="hero__lead">${L('JmkFamily는 개인이 운영하는 인디 게임 브랜드입니다. 만드는 중인 게임도 웹에 먼저 올려 바로 해 볼 수 있게 합니다.', 'JmkFamily is an indie game label run by one person. Games go on the web first, so you can play them while they are still being made.')}</p>
       <div class="hero__cta">
@@ -217,7 +217,7 @@ const aboutBlock = () => `<section class="section section--alt">
     <header class="section__head">
       <p class="section__eyebrow">${L('소개', 'About')}</p>
       <h2 class="section__title">${L('조약돌 셋이 모인 가족.', 'A family of three pebbles.')}</h2>
-      <p class="section__lead">${L('로고 속 조약돌 셋은 크기가 다른 가족입니다. 옆 사람에게 보여 주고 싶은 게임을 만들려고 합니다.', 'The three pebbles in the logo are a family of different sizes. The aim is games you would show the person next to you.')}</p>
+      <p class="section__lead">${L('로고 속 조약돌 셋은 크기가 다른 가족입니다. 옆 사람에게 보여 주고 싶은 게임을 만들려고 합니다.', 'The three pebbles in the logo are a family of different sizes. We want to make games you would show the person next to you.')}</p>
     </header>
     <div class="steps">
       ${step(1, '웹에서 먼저', 'On the web first', '설치 없이 브라우저에서 바로 해 볼 수 있게 올립니다.', 'Games go up in the browser first, so you can try them without installing anything.')}
