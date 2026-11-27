@@ -195,7 +195,7 @@ const playBand = (related = '') => `<section class="section section--band play-b
 const GAME_DESC_KO = '좀비가 우리 집에 쳐들어왔다. 뽑기로 총을 모아 파티에 장착하고 집을 지키는 좀비 디펜스, GunDraw. 웹에서 바로 플레이.';
 const GAME_DESC_EN = 'GunDraw: zombies are at the door. Pull guns, equip your party and hold the house. A zombie defense game you can play in the browser.';
 const HOME_DESC_KO = 'JmkFamily는 개인이 운영하는 인디 게임 브랜드입니다. 재미있는 게임을 만들고, 대표 게임 GunDraw는 웹에서 바로 플레이할 수 있습니다.';
-const HOME_DESC_EN = 'JmkFamily is an indie game label run by one person. We make fun games, starting with GunDraw, playable in your browser.';
+const HOME_DESC_EN = 'JmkFamily is an indie game label run by one person. We make fun games. The featured game, GunDraw, is playable in your browser.';
 
 const brandHero = () => `<section class="hero">
   <div class="wrap hero__in">
@@ -203,7 +203,7 @@ const brandHero = () => `<section class="hero">
       <img class="hero__mark" src="/assets/brand/jmkfamily-symbol.svg" alt="" width="112" height="112">
       <p class="hero__tag">${L('인디 게임 브랜드', 'Indie game label')}</p>
       <h1 class="hero__title">${L('우리가 재미있는<br>게임을 만듭니다.', 'We make<br>fun games.')}</h1>
-      <p class="hero__lead">${L('JmkFamily는 개인이 운영하는 인디 게임 브랜드입니다. 잠깐 해도 재미있는 게임을 하나씩 만듭니다.', 'JmkFamily is an indie game label run by one person, making one small game at a time.')}</p>
+      <p class="hero__lead">${L('JmkFamily는 개인이 운영하는 인디 게임 브랜드입니다. 만드는 중인 게임도 웹에 먼저 올려 바로 해 볼 수 있게 합니다.', 'JmkFamily is an indie game label run by one person. Games go on the web first, so you can play them while they are still being made.')}</p>
       <div class="hero__cta">
         <a class="btn btn--play" href="/games/">${L('게임 보기', 'See the games')}</a>
         <a class="text-link" href="/contact/">${L('문의하기 ›', 'Contact ›')}</a>
@@ -220,9 +220,9 @@ const aboutBlock = () => `<section class="section section--alt">
       <p class="section__lead">${L('로고 속 조약돌 셋은 크기가 다른 가족입니다. 옆 사람에게 보여 주고 싶은 게임을 만들려고 합니다.', 'The three pebbles in the logo are a family of different sizes. The aim is games you would show the person next to you.')}</p>
     </header>
     <div class="steps">
-      ${step(1, '웹에서 먼저', 'On the web first', '설치 없이 브라우저에서 바로 해 볼 수 있게 올립니다.', 'Games go up where you can try them in the browser, with nothing to install.')}
+      ${step(1, '웹에서 먼저', 'On the web first', '설치 없이 브라우저에서 바로 해 볼 수 있게 올립니다.', 'Games go up in the browser first, so you can try them without installing anything.')}
       ${step(2, '만드는 중에도 공개', 'Open while in progress', '완성 전 빌드도 개발 중이라고 밝히고 올립니다.', 'Unfinished builds go up too, marked as work in progress.')}
-      ${step(3, '문의는 운영자에게', 'Questions go to the operator', '이메일로 받고, 운영자가 읽고 답합니다.', 'Sent by email, read and answered by the operator.')}
+      ${step(3, '문의는 운영자에게', 'Questions go to the operator', '이메일로 받아 운영자가 읽고 답합니다.', 'Email goes to the operator, who reads and answers it.')}
     </div>
   </div>
 </section>`;
@@ -245,7 +245,7 @@ const featuredBlock = () => `<section class="section" id="featured">
 
 const contactBand = () => `<section class="section section--band play-band">
   <div class="wrap">
-    <h2 class="section__title">${L('궁금한 점은 운영자에게 물어보세요.', 'Ask the operator anything.')}</h2>
+    <h2 class="section__title">${L('궁금한 점은 운영자에게 물어보세요.', 'Send your questions to the operator.')}</h2>
     <a class="btn btn--dark" href="/contact/">${L('문의하기', 'Contact')}</a>
     <p class="play-band__note"><a href="mailto:${EMAIL}">${EMAIL}</a></p>
   </div>
@@ -259,7 +259,7 @@ write('index.html', layout({
 // ---------- 게임 목록 ----------
 write('games/index.html', layout({
   path: '/games/', current: 'games', titleKo: '게임 — JmkFamily', titleEn: 'Games — JmkFamily', descKo: 'JmkFamily가 만든 게임 목록.', descEn: 'Games by JmkFamily.',
-  body: `${pageHead(L('게임', 'Games'), L('JmkFamily의 게임', 'Games by JmkFamily'), L('짧고 손맛 좋은 모바일 게임.', 'Short, tight mobile games.'))}
+  body: `${pageHead(L('게임', 'Games'), L('JmkFamily의 게임', 'Games by JmkFamily'), L('지금 해 볼 수 있는 게임과 준비 중인 게임을 모았습니다.', 'Games you can play now, and games in the works.'))}
 <section class="section section--tight">
   <div class="wrap">
     ${gameGrid()}
@@ -287,7 +287,7 @@ write('games/gundraw/index.html', layout({
 const docs = [{ url: '/privacy.html', titleKo: '개인정보처리방침', titleEn: 'Privacy Policy', date: '2026-11-27' }, ...extraDocs];
 write('docs/index.html', layout({
   path: '/docs/', current: 'docs', titleKo: '약관·정책 — JmkFamily', titleEn: 'Policies — JmkFamily', descKo: '개인정보처리방침 등 약관·정책.', descEn: 'Privacy policy and other policies.',
-  body: `${pageHead(L('약관·정책', 'Policies'), L('약관·정책', 'Policies'))}
+  body: `${pageHead(L('JmkFamily', 'JmkFamily'), L('약관·정책', 'Policies'))}
 <section class="section section--tight">
   <div class="wrap wrap--narrow">
     <ul class="doc-list">
@@ -301,7 +301,7 @@ ${docs.map((d, i) => `      <li class="doc-list__item enter" style="--d:120ms;--
 // ---------- 문의 ----------
 write('contact/index.html', layout({
   path: '/contact/', current: 'contact', titleKo: '문의 — JmkFamily', titleEn: 'Contact — JmkFamily', descKo: '운영자 문의 안내.', descEn: 'How to contact the operator.',
-  body: `${pageHead(L('문의', 'Contact'), L('문의', 'Contact'))}
+  body: `${pageHead(L('JmkFamily', 'JmkFamily'), L('문의', 'Contact'))}
 <section class="section section--tight">
   <div class="wrap wrap--narrow">
     ${boardOn ? `<p class="contact-board enter" style="--d:120ms"><a class="btn btn--dark" href="/support/">${L('문의 게시판 (비밀글)', 'Support board (private)')}</a></p>` : ''}
