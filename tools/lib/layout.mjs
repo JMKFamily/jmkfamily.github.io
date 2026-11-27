@@ -19,7 +19,7 @@ const NAV = [
   ['/', '홈', 'Home', 'home'], ['/games/', '게임', 'Games', 'games'], ['/docs/', '약관·정책', 'Policies', 'docs'], ['/contact/', '문의', 'Contact', 'contact'],
 ];
 
-export function layout({ path, titleKo, titleEn, descKo, descEn, body, current = '', bilingual = false, jsonld = '', robots = '', canonical = true }) {
+export function layout({ path, titleKo, titleEn, descKo, descEn, body, current = '', bilingual = false, jsonld = '', robots = '', canonical = true, ogImage = OG_IMAGE }) {
   const url = ORIGIN + path;
   const nav = NAV.map(([href, ko, en, key]) => `<a class="site-nav__link" href="${href}"${key === current ? ' aria-current="page"' : ''}>${L(ko, en)}</a>`).join('\n        ');
   return `<!doctype html>
@@ -40,7 +40,7 @@ ${robots ? `<meta name="robots" content="${robots}">\n` : ''}${canonical ? `<lin
 <meta property="og:title" content="${esc(titleKo)}">
 <meta property="og:description" content="${esc(descKo)}">
 <meta property="og:url" content="${url}">
-<meta property="og:image" content="${OG_IMAGE}">
+<meta property="og:image" content="${ogImage}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="ko_KR">
@@ -48,7 +48,7 @@ ${robots ? `<meta name="robots" content="${robots}">\n` : ''}${canonical ? `<lin
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(titleKo)}">
 <meta name="twitter:description" content="${esc(descKo)}">
-<meta name="twitter:image" content="${OG_IMAGE}">
+<meta name="twitter:image" content="${ogImage}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">

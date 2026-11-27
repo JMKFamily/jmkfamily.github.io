@@ -1,12 +1,14 @@
 {
- "_설명": "사이트가 쓰는 게임·브랜드 자산 목록. src는 gamehub 루트 기준. frame이 있으면 src의 .json 아틀라스에서 그 프레임을 잘라 씁니다. 기본 변환은 webp(quality 90). copy는 그대로 복사, ico는 PNG를 ico로 감쌉니다. shots는 새 모습의 웹 빌드가 나온 뒤에만 capture-game-shots.mjs로 다시 찍습니다(벡터 UI 빌드부터 HUD 포함 360x670 전체 화면).",
+ "_설명": "사이트가 쓰는 게임·브랜드 자산 목록. src는 gamehub 루트 기준. frame이 있으면 src의 .json 아틀라스에서 그 프레임을 잘라 씁니다. 기본 변환은 webp(quality 90). copy는 그대로 복사, ico는 PNG를 ico로 감쌉니다. shots는 새 모습의 웹 빌드가 나온 뒤에만 capture-game-shots.mjs로 다시 찍습니다(벡터 UI 빌드부터 HUD 포함 360x670 전체 화면). GunDraw 그림(art/·og-1200x630.jpg)은 v0.7부터 tools/make-gundraw-art.py로 만들고 이 목록에서 관리하지 않습니다(keep).",
  "gamehubRoot": "C:/gamehub-bench/gamehub-web",
  "managedDirs": [
   "assets/games",
   "assets/brand"
  ],
  "keep": [
-  "assets/games/gundraw/shots/"
+  "assets/games/gundraw/shots/",
+  "assets/games/gundraw/art/",
+  "assets/games/gundraw/og-1200x630.jpg"
  ],
  "defaults": {
   "quality": 90
@@ -61,83 +63,6 @@
    "src": "web/assets/logo/final/favicon-32.png",
    "dest": "favicon.ico",
    "ico": true
-  },
-  {
-   "src": "projects/gundraw/assets/home/concept/concept-hero-web.png",
-   "dest": "assets/games/gundraw/art/hero-wide-1376.webp",
-   "quality": 82
-  },
-  {
-   "src": "projects/gundraw/assets/home/concept/concept-hero-web.png",
-   "dest": "assets/games/gundraw/art/hero-wide-960.webp",
-   "width": 960,
-   "quality": 82
-  },
-  {
-   "src": "projects/gundraw/assets/home/concept/concept-hero-web.png",
-   "dest": "assets/games/gundraw/art/hero-wide-480.webp",
-   "width": 480,
-   "quality": 80
-  },
-  {
-   "src": "projects/gundraw/assets/home/concept/concept-hero-web.png",
-   "dest": "assets/games/gundraw/art/hero-sq-768.webp",
-   "crop": [
-    250,
-    0,
-    768,
-    768
-   ],
-   "width": 768,
-   "quality": 82
-  },
-  {
-   "src": "projects/gundraw/assets/home/concept/concept-hero-web.png",
-   "dest": "assets/games/gundraw/art/hero-sq-480.webp",
-   "crop": [
-    250,
-    0,
-    768,
-    768
-   ],
-   "width": 480,
-   "quality": 80
-  },
-  {
-   "src": "projects/gundraw/assets/home/concept/concept-store.png",
-   "dest": "assets/games/gundraw/art/card-960.webp",
-   "width": 960,
-   "quality": 82
-  },
-  {
-   "src": "projects/gundraw/assets/home/concept/concept-store.png",
-   "dest": "assets/games/gundraw/art/card-480.webp",
-   "width": 480,
-   "quality": 80
-  },
-  {
-   "src": "projects/gundraw/assets/home/concept/concept-toybox.png",
-   "dest": "assets/games/gundraw/art/story-768.webp",
-   "crop": [
-    0,
-    400,
-    768,
-    512
-   ],
-   "width": 768,
-   "quality": 82
-  },
-  {
-   "src": "projects/gundraw/assets/home/concept/concept-toybox.png",
-   "dest": "assets/games/gundraw/art/story-480.webp",
-   "crop": [
-    0,
-    400,
-    768,
-    512
-   ],
-   "width": 480,
-   "quality": 80
   }
  ],
  "shots": {

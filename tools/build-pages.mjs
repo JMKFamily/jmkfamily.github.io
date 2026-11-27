@@ -14,16 +14,26 @@ const ART = '/assets/games/gundraw/art';
 const write = (p, html) => { const f = join(SITE, p); mkdirSync(dirname(f), { recursive: true }); writeFileSync(f, html); console.log('쓰기', p); };
 const PLAY = 'https://jmkfamily.github.io/gamehub/games/gundraw/';
 
-// 캐릭터 구역 데이터: 비어 있으면 구역을 출력하지 않습니다. 항목 { id, ko, en, lineKo, lineEn }. 승인된 캐릭터만 추가합니다.
-const CAST = [];
+// 캐릭터 구역 데이터: 비어 있으면 구역을 출력하지 않습니다. 항목 { id, ko, en, lineKo, lineEn }. 원본: gamehub projects/gundraw/assets/v07/web/characters.json
+const CAST = [
+  { id: 'somi', ko: '소미', en: 'Somi', lineKo: '말수는 적지만 전장의 흐름을 먼저 읽는 분대원', lineEn: 'Quiet and hard to read, she senses the battle before it turns.' },
+  { id: 'daon', ko: '다온', en: 'Daon', lineKo: '자신 있는 눈빛으로 사선을 가르는 해결사', lineEn: 'Confident and sharp-eyed, she keeps one glance on every angle.' },
+  { id: 'bori', ko: '보리', en: 'Bori', lineKo: '껌을 씹으며 가장 먼저 뛰어드는 돌격수', lineEn: 'Chewing gum, she is always first through the breach.' },
+  { id: 'ari', ko: '아리', en: 'Ari', lineKo: '졸린 눈으로 장비를 뜯어고치는 분대 기술병', lineEn: 'Sleepy-eyed tinkerer who always has a gadget up her sleeve.' },
+];
+// 아리 포즈 갤러리(캐릭터 카드의 어깨 걸침 포즈 외 3장): [파일 id, alt KO, alt EN]
+const ARI_POSES = [
+  ['ari-2', '총을 들고 살펴보는 아리', 'Ari checking over her rifle'],
+  ['ari-3', '무릎을 꿇고 총을 분해하는 아리', 'Ari kneeling to take a rifle apart'],
+  ['ari-4', '홀로그램 화면을 만지며 웃는 아리', 'Ari grinning at a holographic screen'],
+];
 
 // ---------- 그림 자리 (plan-v2 6.2): 파일이 있으면 출력, 없으면 빈 문자열 ----------
 // main: 기본 파일(큰 폭부터), alt: 좁은 화면용 다른 크롭(<picture> source). 파일명은 ${base}-${폭}.webp
 const SLOTS = {
-  hero: { main: { base: 'hero-wide', widths: [1376, 960, 480], w: 1376, h: 768, sizes: '(max-width: 1119px) 92vw, 1080px' }, narrow: { base: 'hero-sq', widths: [768, 480], max: 767, sizes: '100vw' }, high: true },
-  sd: { main: { base: 'somi-sd', widths: [1024, 512], w: 1024, h: 1024, sizes: '(max-width: 899px) 200px, 280px' } },
-  story: { main: { base: 'story', widths: [768, 480], w: 768, h: 512, sizes: '(max-width: 899px) 92vw, 520px' } },
-  card: { main: { base: 'card', widths: [960, 480], w: 960, h: 536, sizes: '(max-width: 899px) 92vw, 520px' } },
+  hero: { main: { base: 'hero', widths: [1000, 640], w: 1000, h: 1250, sizes: '(max-width: 1199px) 46vw, 540px' }, narrow: { base: 'hero-sq', widths: [768, 480], max: 899, sizes: '(max-width: 600px) 92vw, 560px' }, high: true },
+  story: { main: { base: 'story', widths: [1024, 768, 480], w: 1024, h: 683, sizes: '(max-width: 899px) 92vw, 520px' } },
+  card: { main: { base: 'card', widths: [1280, 960, 480], w: 1280, h: 720, sizes: '(max-width: 899px) 92vw, 880px' } },
 };
 const has = (rel) => existsSync(join(SITE, 'assets/games/gundraw/art', rel));
 const setOf = (m) => { const f = m.widths.filter((w) => has(`${m.base}-${w}.webp`)); return { f, srcset: f.map((w) => `${ART}/${m.base}-${w}.webp ${w}w`).join(', ') }; };
@@ -37,14 +47,16 @@ function visual(slot, { alt = '', altEn = '', cls = '' } = {}) {
 }
 
 // ---------- 공통 조각 ----------
+const HERO_ALT = { alt: '몰려드는 외계 생물 앞에서 총을 쏘는 미래 전투복 차림의 용병 네 명', altEn: 'Four mercenaries in future combat suits firing into a swarm of aliens' };
+const GENRE = ['외계인 디펜스', 'Alien defense'];
 const heroBlock = (compact) => {
-  const vis = visual('hero', { alt: '창가에서 정원의 종이모자 좀비들을 바라보는 소녀', altEn: 'A girl at the window watching paper-hat zombies in the garden' });
-  return `<section class="hero${compact ? ' hero--compact' : ''}${vis ? ' hero--has-visual hero--wide' : ''}">
+  const vis = visual('hero', HERO_ALT);
+  return `<section class="hero${compact ? ' hero--compact' : ''}${vis ? ' hero--has-visual' : ''}">
   <div class="wrap hero__in">
     <div class="hero__copy">
-      <p class="hero__tag">${compact ? L('좀비 디펜스', 'Zombie defense') : L('GunDraw · 좀비 디펜스', 'GunDraw · Zombie defense')}</p>
-      ${compact ? '<h1 class="hero__title">GunDraw</h1>' : `<h1 class="hero__title">${L('좀비가 우리 집에<br>쳐들어왔어.', 'Zombies are<br>at our door.')}</h1>`}
-      <p class="hero__lead">${compact ? L('좀비가 우리 집에 쳐들어왔어.', 'Zombies are at our door.') : L('뽑기로 총을 모으고, 파티에 장착해, 집을 지키세요.', 'Pull guns, equip your party, hold the house.')}</p>
+      <p class="hero__tag">${compact ? L(...GENRE) : L('GunDraw · ' + GENRE[0], 'GunDraw · ' + GENRE[1])}</p>
+      ${compact ? '<h1 class="hero__title">GunDraw</h1>' : `<h1 class="hero__title">${L('외계인이<br>기지로 내려온다.', 'Aliens are<br>dropping in.')}</h1>`}
+      <p class="hero__lead">${compact ? L('외계인이 기지로 내려옵니다. 총을 뽑아 분대를 무장하고 정문을 지키세요.', 'Aliens are dropping on the base. Pull guns, arm your squad, hold the gate.') : L('총을 뽑아 분대를 무장하고 정문을 지키세요.', 'Pull guns, arm your squad, hold the gate.')}</p>
       <div class="hero__cta">
         <a class="btn btn--play" href="${PLAY}" rel="noopener">${L('웹에서 바로 플레이', 'Play on the web')}</a>${compact ? '' : `
         <a class="text-link" href="/games/gundraw/">${L('게임 자세히 보기 ›', 'About the game ›')}</a>`}
@@ -61,40 +73,48 @@ const step = (n, ko, en, dko, den) => `<article class="step reveal" style="--i:$
       </article>`;
 
 const stepsBlock = () => {
-  const sd = visual('sd');
   return `<section class="section section--alt">
   <div class="wrap">
     <header class="section__head">
       <p class="section__eyebrow">${L('게임 소개', 'How it plays')}</p>
       <h2 class="section__title">${L('뽑고, 장착하고, 막는다.', 'Pull. Equip. Defend.')}</h2>
       <p class="section__lead">${L('한 손으로 충분합니다.', 'One hand is enough.')}</p>
-    </header>${sd ? '\n    ' + sd : ''}
+    </header>
     <div class="steps">
       ${step(1, '뽑는다', 'Pull', '뽑기 상자에서 새 총이 나옵니다.', 'New guns come out of the box.')}
-      ${step(2, '장착한다', 'Equip', '모은 총을 파티에 장착합니다. 보스를 넘으면 새 동료가 파티에 합류합니다.', 'Equip your party with the guns you collect. Beat a boss and a new friend joins the party.')}
-      ${step(3, '막는다', 'Defend', '몰려오는 좀비에게서 우리 집을 지킵니다.', 'Keep the zombies out of the house.')}
+      ${step(2, '장착한다', 'Equip', '모은 총을 분대원에게 장착합니다. 보스를 넘으면 새 분대원이 합류합니다.', 'Equip your squad with the guns you collect. Beat a boss and a new member joins.')}
+      ${step(3, '막는다', 'Defend', '몰려오는 외계인을 막아 기지 정문을 지킵니다.', 'Hold back the aliens and keep the gate standing.')}
     </div>
   </div>
 </section>`;
 };
 
 // 캐릭터 구역: CAST가 비면(또는 그림이 없으면) 출력하지 않음
-const castBlock = () => {
+const castBlock = ({ gallery = false } = {}) => {
   const list = CAST.filter((c) => has(`cast-${c.id}-900.webp`));
   if (!list.length) return '';
   const fig = (c) => {
     const ws = [900, 450].filter((w) => has(`cast-${c.id}-${w}.webp`));
     return `<figure class="cast__art">${img(`${ART}/cast-${c.id}-${ws[0]}.webp`, 900, 1200, { alt: '', srcset: ws.map((w) => `${ART}/cast-${c.id}-${w}.webp ${w}w`).join(', '), sizes: '(max-width: 899px) 45vw, 260px' })}</figure>`;
   };
+  const poses = gallery ? ARI_POSES.filter(([id]) => has(`cast-${id}-900.webp`)) : [];
+  const gal = poses.length ? `
+    <div class="cast-gallery reveal">
+      <h3 class="cast-gallery__title">${L('아리 포즈', 'Ari poses')}</h3>
+      <div class="cast-gallery__row" tabindex="0" aria-label="아리 포즈" data-en-label="Ari poses">
+        ${poses.map(([id, ko, en]) => `<figure class="cast__art cast-gallery__item">${img(`${ART}/cast-${id}-900.webp`, 900, 1200, { alt: ko, altEn: en, srcset: `${ART}/cast-${id}-450.webp 450w, ${ART}/cast-${id}-900.webp 900w`, sizes: '(max-width: 899px) 56vw, 260px' })}</figure>`).join('\n        ')}
+      </div>
+    </div>` : '';
   const one = list.length === 1;
   return `<section class="section cast${one ? ' cast--solo' : ''}">
   <div class="wrap">
     <header class="section__head">
-      <p class="section__eyebrow">${L('캐릭터', 'Character')}</p>
+      <p class="section__eyebrow">${L('캐릭터', 'Characters')}</p>
+      <h2 class="section__title">${L('네 명이 한 분대입니다.', 'Four agents, one squad.')}</h2>
     </header>
     <div class="cast__grid">
       ${list.map((c) => `<article class="cast__card reveal">${fig(c)}<div><h3 class="cast__name">${L(c.ko, c.en)}</h3><p class="cast__line">${L(c.lineKo, c.lineEn)}</p></div></article>`).join('\n      ')}
-    </div>
+    </div>${gal}
   </div>
 </section>`;
 };
@@ -117,7 +137,7 @@ const contentBlock = () => `<section class="section">
 </section>`;
 
 // 플레이 화면: shots 파일이 없으면 구역을 출력하지 않음 (새 화면 재촬영 뒤 파일이 오면 자동 표시)
-const SHOTS = [['title', 'GunDraw 시작 화면', 'GunDraw start screen'], ['new-gun', '뽑기로 새 총을 얻는 화면', 'Getting a new gun from a pull'], ['battle', '좀비를 막는 전투 화면', 'Battle screen: holding off the zombies']];
+const SHOTS = [['title', 'GunDraw 시작 화면', 'GunDraw start screen'], ['new-gun', '뽑기로 새 총을 얻는 화면', 'Getting a new gun from a pull'], ['battle', '외계인을 막는 전투 화면', 'Battle screen: holding off the aliens']];
 const shotsBlock = () => {
   const G = '/assets/games/gundraw';
   const list = SHOTS.filter(([n]) => existsSync(join(SITE, G, 'shots', n + '.webp')));
@@ -136,7 +156,7 @@ const shotsBlock = () => {
 
 // 개발 이야기: 허브·개발실 링크가 둘 다 꺼지면 구역은 숨김 상태 그대로(site.js가 하나라도 켜지면 표시)
 const storyBlock = ({ home = false } = {}) => {
-  const vis = home ? '' : visual('story', { alt: '뽑기 상자에서 장난감 총이 빛나며 나오는 순간을 기뻐하는 소녀', altEn: 'A girl delighted as a toy gun glows out of a pull box', cls: ' reveal' });
+  const vis = visual('story', { alt: '작전실 홀로그램 테이블 둘레에서 장비를 정비하는 분대원 네 명', altEn: 'The four-member squad tuning gear around a holographic table in the ops room', cls: ' reveal' });
   return `<section class="section section--alt story${vis ? ' story--has-visual' : ''}" data-js="story" hidden>
   <div class="wrap story__in">
     <div class="story__copy">
@@ -153,7 +173,7 @@ const storyBlock = ({ home = false } = {}) => {
 };
 
 const SOON = [['썰물 영장 Ebbwrit', '카드 결투', 'Card duel'], ['Pairpaint 짝꿍색칠', '퍼즐', 'Puzzle'], ['Reverbound', '리듬 러너', 'Rhythm runner'], ['Tickadrum', '리듬', 'Rhythm'], ['Tossaloft 높이통통', '리듬', 'Rhythm']];
-const CARD_ALT = ['보라색 카디건을 입은 소녀와 초록 로봇이 거실에서 종이모자를 쓴 좀비들을 향해 장난감 총을 겨누는 그림', 'A girl in a lilac cardigan and a green robot aim a toy gun at paper-hat zombies coming through the living-room door'];
+const CARD_ALT = ['밤의 기지 방벽에서 다가오는 외계 생물을 향해 사격하는 분대 네 명', 'A four-member squad firing at incoming aliens on a base wall at night'];
 const featuredCard = (descHtml, cls = '', style = '') => `<a class="game-card${cls}" href="/games/gundraw/"${style}>
         <div class="game-card__art">${visual('card', { alt: CARD_ALT[0], altEn: CARD_ALT[1] }) || '<span aria-hidden="true">GunDraw</span>'}</div>
         <div class="game-card__body">
@@ -164,7 +184,7 @@ const featuredCard = (descHtml, cls = '', style = '') => `<a class="game-card${c
         </div>
       </a>`;
 const gameGrid = () => `<div class="game-grid">
-      ${featuredCard(L('좀비 디펜스', 'Zombie defense'), ' enter', ' style="--d:120ms"')}
+      ${featuredCard(L(...GENRE), ' enter', ' style="--d:120ms"')}
       ${SOON.map(([n, ko, en], i) => `<div class="game-soon enter" style="--d:160ms;--i:${i}">
         <span class="game-soon__name">${n}</span>
         <span class="game-soon__genre">${L(ko, en)}</span>
@@ -192,12 +212,15 @@ const playBand = (related = '') => `<section class="section section--band play-b
 </section>`;
 
 // ---------- 홈 ----------
-const GAME_DESC_KO = '좀비가 우리 집에 쳐들어왔다. 뽑기로 총을 모아 파티에 장착하고 집을 지키는 좀비 디펜스, GunDraw. 웹에서 바로 플레이.';
-const GAME_DESC_EN = 'GunDraw: zombies are at the door. Pull guns, equip your party and hold the house. A zombie defense game you can play in the browser.';
+const GAME_DESC_KO = '외계인이 기지로 내려온다. 뽑기로 총을 모아 분대를 무장하고 정문을 지키는 외계인 디펜스, GunDraw. 웹에서 바로 플레이.';
+const GAME_DESC_EN = 'GunDraw: aliens are dropping on the base. Pull guns, arm your squad and hold the gate. An alien defense game you can play in the browser.';
+const GAME_OG = ORIGIN + '/assets/games/gundraw/og-1200x630.jpg';
 const HOME_DESC_KO = 'JmkFamily는 AI와 함께 게임을 만드는 개인 개발자입니다. 대표 게임 GunDraw는 웹에서 바로 플레이할 수 있습니다.';
 const HOME_DESC_EN = 'JmkFamily is a solo developer making games with AI. The featured game, GunDraw, is playable in your browser.';
 
-const brandHero = () => `<section class="hero">
+const brandHero = () => {
+  const vis = visual('hero', HERO_ALT);
+  return `<section class="hero${vis ? ' hero--has-visual' : ''}">
   <div class="wrap hero__in">
     <div class="hero__copy">
       <img class="hero__mark" src="/assets/brand/jmkfamily-symbol.svg" alt="" width="136" height="136">
@@ -208,9 +231,10 @@ const brandHero = () => `<section class="hero">
         <a class="btn btn--play" href="/games/">${L('게임 보기', 'See the games')}</a>
         <a class="text-link" href="/contact/">${L('문의하기 ›', 'Contact ›')}</a>
       </div>
-    </div>
+    </div>${vis ? '\n    ' + vis : ''}
   </div>
 </section>`;
+};
 
 const aboutBlock = () => `<section class="section section--alt">
   <div class="wrap">
@@ -234,7 +258,7 @@ const featuredBlock = () => `<section class="section" id="featured">
       <h2 class="section__title">${L('지금 해 볼 수 있는 게임', 'Playable right now')}</h2>
     </header>
     <div class="game-grid reveal">
-      ${featuredCard(L('뽑은 총으로 우리 집을 지키는 좀비 디펜스', 'A zombie defense game. Pull guns, hold the house.'))}
+      ${featuredCard(L('총을 뽑아 분대를 무장하고 외계인 침공을 막는 디펜스 게임', 'A defense game. Pull guns, arm your squad, stop the alien invasion.'))}
     </div>
     <p class="hero__cta">
       <a class="btn btn--play" href="${PLAY}" rel="noopener">${L('웹에서 바로 플레이', 'Play on the web')}</a>
@@ -253,7 +277,7 @@ const contactBand = () => `<section class="section section--band play-band">
 
 write('index.html', layout({
   path: '/', current: 'home', titleKo: 'JmkFamily — AI와 함께 게임을 만드는 개인 개발자', titleEn: 'JmkFamily — Solo developer making games with AI', descKo: HOME_DESC_KO, descEn: HOME_DESC_EN,
-  body: [brandHero(), aboutBlock(), featuredBlock(), storyBlock({ home: true }), contactBand()].join('\n\n'),
+  body: [brandHero(), aboutBlock(), featuredBlock(), castBlock(), storyBlock({ home: true }), contactBand()].join('\n\n'),
 }));
 
 // ---------- 게임 목록 ----------
@@ -271,7 +295,7 @@ write('games/index.html', layout({
 const docsJson = join(SITE, 'assets/data/docs.json');
 const extraDocs = existsSync(docsJson) ? JSON.parse(readFileSync(docsJson, 'utf8')).filter((d) => d.url !== '/privacy.html') : [];
 const related = `\n    <p class="play-band__note">${L('관련 문서', 'Related')}: <a class="text-link" href="/privacy.html">${L('개인정보처리방침', 'Privacy Policy')}</a>${extraDocs.map((d) => ` · <a class="text-link" href="${d.url}">${L(d.titleKo, d.titleEn)}</a>`).join('')}</p>`;
-const ld = JSON.stringify({ '@context': 'https://schema.org', '@type': 'VideoGame', name: 'GunDraw', alternateName: '건드로우', genre: 'Zombie defense', gamePlatform: 'Web browser', url: ORIGIN + '/games/gundraw/', image: ORIGIN + '/assets/brand/og-1200x630.png', inLanguage: ['ko', 'en'], potentialAction: { '@type': 'PlayAction', target: PLAY } });
+const ld = JSON.stringify({ '@context': 'https://schema.org', '@type': 'VideoGame', name: 'GunDraw', alternateName: '건드로우', genre: GENRE[1], gamePlatform: 'Web browser', url: ORIGIN + '/games/gundraw/', image: GAME_OG, inLanguage: ['ko', 'en'], potentialAction: { '@type': 'PlayAction', target: PLAY } });
 const noticeBlock = `<section class="section section--tight">
   <div class="wrap wrap--narrow">
     <p class="notice">${L('웹 버전은 개발 중인 빌드입니다. 게임 화면은 새 모습으로 바뀌는 중이라 이 페이지와 다를 수 있습니다.', 'The web version is a work-in-progress build. Its look is being updated and may differ from this page.')}</p>
@@ -279,8 +303,8 @@ const noticeBlock = `<section class="section section--tight">
 </section>`;
 write('games/gundraw/index.html', layout({
   path: '/games/gundraw/', current: 'games', titleKo: 'GunDraw — JmkFamily', titleEn: 'GunDraw — JmkFamily',
-  descKo: GAME_DESC_KO + ' 개발 중인 웹 버전입니다.', descEn: GAME_DESC_EN + ' The web version is a work in progress.', jsonld: ld,
-  body: [heroBlock(true), stepsBlock(), castBlock(), contentBlock(), shotsBlock(), noticeBlock, storyBlock(), playBand(related)].filter(Boolean).join('\n\n'),
+  descKo: GAME_DESC_KO + ' 개발 중인 웹 버전입니다.', descEn: GAME_DESC_EN + ' The web version is a work in progress.', jsonld: ld, ogImage: GAME_OG,
+  body: [heroBlock(true), stepsBlock(), castBlock({ gallery: true }), contentBlock(), shotsBlock(), noticeBlock, storyBlock(), playBand(related)].filter(Boolean).join('\n\n'),
 }));
 
 // ---------- 약관·정책 ----------
