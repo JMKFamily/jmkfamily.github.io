@@ -12,17 +12,13 @@ export const REDPILL = {
   // 2026-11-28 요청자 결정(Q1): 지금은 'PC 출시 예정'·"정식 버전은 PC로" 유지. Steam 페이지가 생기면 store를 채우고
   // build-pages.mjs의 RedPill 태그·안내·데모 띠 문구에서 'PC'를 'Steam'으로 바꿉니다.
   genre: ['도트 추리 어드벤처', 'Pixel mystery adventure'],
-  card: ['닫아 둔 방문 뒤에서 소리가 났다. 단서를 따라가는 도트 추리 어드벤처.', 'A sound behind a door shut for four years. Follow the clues.'],
-  cardAlt: ['텅 빈 놀이방 한가운데 작은 협탁이 있고, 그 위에 빨간 알약과 쪽지가 놓여 있으며 남자가 곁에 서 있는 도트 그림', 'Pixel art of an empty playroom: a small side table with a red pill and a note on top, and a man standing nearby'],
+  card: ['닫아 둔 방문 뒤에서 소리가 났다.', 'Behind the door he kept shut, something made a sound.'],
+  cardAlt: ['어두운 방 한가운데 작은 협탁이 있고 남자가 곁에 서 있는 도트 그림', 'Pixel art of a dark room with a small side table and a man standing nearby'],
   title: ['4년 동안<br>닫아 둔 방문', 'Four years<br>behind a closed door'],
-  lead: ['2020년에 가족을 잃은 남자가 4년 동안 닫아 둔 놀이방 문을 엽니다. 단서를 모아 그날을 되짚어 보세요.', 'A man opens the playroom door he has kept shut since the day he lost his family. Gather the clues and retrace that day.'],
-  desc: ['RedPill은 가족을 잃은 남자가 닫아 둔 놀이방을 여는 도트 추리 어드벤처입니다. 브라우저에서 데모를 해 보세요. PC 출시 예정.', 'RedPill is a pixel-art mystery adventure about a man who opens a room he kept shut for four years. Play the browser demo. Coming to PC.'],
-  points: [
-    ['빈 집', 'Empty house', '자정 가까운 시각, 닫아 둔 놀이방에서 소리가 납니다.', 'Near midnight, a sound comes from the shut playroom.'],
-    ['단서', 'Clues', '방 안의 물건과 쪽지를 살펴봅니다.', 'Look over the objects and the note in the room.'],
-    ['2020년', '2020', '빛나는 날짜가 가리킨 날, 집에 10분이 주어집니다.', 'On the date the glowing numbers point to, the house gets ten minutes.'],
-    ['되짚기', 'Retrace', '단서를 모아 그날을 되짚습니다.', 'Gather clues and retrace that day.'],
-  ],
+  lead: ['닫아 둔 방문 뒤에서 소리가 났다.', 'Behind the door he kept shut, something made a sound.'],
+  desc: ['닫아 둔 방문 뒤에서 소리가 났다. 도트 추리 어드벤처 RedPill, 브라우저에서 데모를 해 보세요. PC 출시 예정.', 'Behind the door he kept shut, something made a sound. RedPill is a pixel-art mystery adventure. Play the browser demo. Coming to PC.'],
+  // 2026-11-28 요청자: 세부 소개는 '닫아 둔 방문 뒤에서 소리가 났다.'까지만. 그 뒤 내용(가족·2020년·10분·단서·알약)은 카드·메타·alt·단계 어디에도 쓰지 않음
+  points: [],
 };
 const REQUIRED = ['play', 'genre', 'card', 'cardAlt', 'title', 'lead', 'desc'];
 export const missing = (g = REDPILL) => REQUIRED.filter((k) => !g[k] || (Array.isArray(g[k]) && g[k].some((v) => !v)));
