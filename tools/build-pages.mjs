@@ -52,15 +52,15 @@ function visual(slot, { alt = '', altEn = '', cls = '', zoom = false } = {}) {
 
 // ---------- 공통 조각 ----------
 const HERO_ALT = { zoom: true, alt: '몰려드는 외계 생물 앞에서 총을 쏘는 미래 전투복 차림의 용병 네 명', altEn: 'Four mercenaries in future combat suits firing into a swarm of aliens' };
-const GENRE = ['외계인 디펜스', 'Alien defense'];
+const GENRE = ['외계인 슈팅', 'Alien shooter'];
 const heroBlock = (compact) => {
   const vis = visual('hero', HERO_ALT);
   return `<section class="hero${compact ? ' hero--compact' : ''}${vis ? ' hero--has-visual' : ''}">
   <div class="wrap hero__in">
     <div class="hero__copy">
       <p class="hero__tag">${compact ? L(...GENRE) : L('GunDraw · ' + GENRE[0], 'GunDraw · ' + GENRE[1])}</p>
-      ${compact ? '<h1 class="hero__title">GunDraw</h1>' : `<h1 class="hero__title">${L('외계인이<br>기지로 내려온다.', 'Aliens are<br>dropping in.')}</h1>`}
-      <p class="hero__lead">${compact ? L('외계인이 기지로 내려옵니다. 총을 뽑아 분대를 무장하고 정문을 지키세요.', 'Aliens are dropping on the base. Pull guns, arm your squad, hold the gate.') : L('총을 뽑아 분대를 무장하고 정문을 지키세요.', 'Pull guns, arm your squad, hold the gate.')}</p>
+      ${compact ? '<h1 class="hero__title">GunDraw</h1>' : `<h1 class="hero__title">${L('꿈속에<br>갇혔다.', 'Trapped<br>in a dream.')}</h1>`}
+      <p class="hero__lead">${compact ? L('외계 보스 코텍스에게 진 분대가 꿈속에 갇혔습니다. 총을 뽑아 무장하고, 외계인을 물리치며 빠져나가세요.', 'Beaten by the alien boss Cortex, the squad is trapped in a dream. Pull guns, gear up and fight your way out.') : L('총을 뽑아 무장하고, 외계인을 물리치며 꿈에서 빠져나가세요.', 'Pull guns, gear up and fight your way out of the dream.')}</p>
       <div class="hero__cta">
         <a class="btn btn--play" href="${PLAY}" rel="noopener">${L('웹에서 바로 플레이', 'Play on the web')}</a>${compact ? '' : `
         <a class="text-link" href="/games/gundraw/">${L('게임 자세히 보기 ›', 'About the game ›')}</a>`}
@@ -80,14 +80,13 @@ const stepsBlock = () => {
   return `<section class="section section--alt">
   <div class="wrap">
     <header class="section__head">
-      <p class="section__eyebrow">${L('게임 소개', 'How it plays')}</p>
-      <h2 class="section__title">${L('뽑고, 장착하고, 막는다.', 'Pull. Equip. Defend.')}</h2>
-      <p class="section__lead">${L('한 손으로 충분합니다.', 'One hand is enough.')}</p>
+      <h2 class="section__title">${L('게임 소개', 'How it plays')}</h2>
     </header>
     <div class="steps">
-      ${step(1, '뽑는다', 'Pull', '뽑기 상자에서 새 총이 나옵니다.', 'New guns come out of the box.')}
-      ${step(2, '장착한다', 'Equip', '모은 총을 분대원에게 장착합니다. 보스를 넘으면 새 분대원이 합류합니다.', 'Equip your squad with the guns you collect. Beat a boss and a new member joins.')}
-      ${step(3, '막는다', 'Defend', '몰려오는 외계인을 막아 기지 정문을 지킵니다.', 'Hold back the aliens and keep the gate standing.')}
+      ${step(1, '나아간다', 'Push on', '외계인을 물리치며 꿈속 스테이지를 하나씩 넘습니다.', 'Beat the aliens and clear the dream one stage at a time.')}
+      ${step(2, '뽑는다', 'Pull', '뽑기로 얻은 총을 분대원에게 장착합니다. 같은 총을 또 얻으면 그 총이 강해집니다.', 'Pull guns and hand them to your squad. Land the same gun again and it gets stronger.')}
+      ${step(3, '찾는다', 'Find', '추락한 비행선에서 흩어진 분대원을 찾으면 분대에 다시 합류합니다.', 'Find scattered squadmates in crashed ships and bring them back.')}
+      ${step(4, '다이브한다', 'Dive', '더 깊은 꿈으로 다이브하면 외계인이 강해지는 만큼 보상도 커집니다.', 'Dive deeper into the dream. Tougher aliens, bigger rewards.')}
     </div>
   </div>
 </section>`;
@@ -105,8 +104,7 @@ const castBlock = () => {
   return `<section class="section cast${one ? ' cast--solo' : ''}">
   <div class="wrap">
     <header class="section__head">
-      <p class="section__eyebrow">${L('캐릭터', 'Characters')}</p>
-      <h2 class="section__title">${L('네 명이 한 분대입니다.', 'Four agents, one squad.')}</h2>
+      <h2 class="section__title">${L('캐릭터', 'Characters')}</h2>
     </header>
     <div class="cast__grid">
       ${list.map((c) => `<article class="cast__card reveal">${fig(c)}<div><h3 class="cast__name">${L(c.ko, c.en)}</h3><p class="cast__line">${L(c.lineKo, c.lineEn)}</p></div></article>`).join('\n      ')}
@@ -121,22 +119,21 @@ const conceptBlock = () => {
   if (!list.length) return '';
   const tabs = list.length > 1;
   const cut = (c, n) => {
-    const [ko, en] = (CONCEPT_ALT[c.id] || [])[n - 1] || [`${c.ko} 컨셉아트 ${n}`, `${c.en} concept art ${n}`];
+    const [ko, en] = (CONCEPT_ALT[c.id] || [])[n - 1] || [`${c.ko} 아트 ${n}`, `${c.en} art ${n}`];
     const ws = [900, 450].filter((w) => has(`concept-${c.id}-${n}-${w}.webp`));
     return `<figure class="cast__art concept__cut"${zoomAttr(`concept-${c.id}`, ko, en)}>${img(`${ART}/concept-${c.id}-${n}-${ws[0]}.webp`, 900, 1200, { alt: ko, altEn: en, srcset: ws.map((w) => `${ART}/concept-${c.id}-${n}-${w}.webp ${w}w`).join(', '), sizes: '(max-width: 599px) 72vw, (max-width: 899px) 44vw, 340px' })}</figure>`;
   };
   const tab = (c, i) => `<button type="button" class="concept__tab" role="tab" id="concept-tab-${c.id}" aria-controls="concept-${c.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}"><span class="concept__face"><img src="${ART}/cast-${c.id}-450.webp" alt="" width="450" height="600" loading="lazy" decoding="async"></span><span>${L(c.ko, c.en)}</span></button>`;
   const panel = (c) => `<div class="concept__panel"${tabs ? ` role="tabpanel" id="concept-${c.id}" aria-labelledby="concept-tab-${c.id}"` : ''}>
         <h3 class="concept__name">${L(c.ko, c.en)}</h3>
-        <div class="concept__row" tabindex="0" aria-label="${c.ko} 컨셉아트" data-en-label="${c.en} concept art">
+        <div class="concept__row" tabindex="0" aria-label="${c.ko} 아트" data-en-label="${c.en} art">
           ${c.cuts.map((n) => cut(c, n)).join('\n          ')}
         </div>
       </div>`;
   return `<section class="section section--alt concept" id="concept-art">
   <div class="wrap">
     <header class="section__head">
-      <p class="section__eyebrow">${L('컨셉아트', 'Concept art')}</p>
-      <h2 class="section__title">${L('한 사람에 세 장면씩', 'Three scenes for each agent')}</h2>
+      <h2 class="section__title">${L('아트', 'Art')}</h2>
     </header>
     <div class="concept__box reveal" data-js="concept">${tabs ? `
       <div class="concept__tabs" role="tablist" aria-label="캐릭터 고르기" data-en-label="Pick a character">
@@ -147,23 +144,6 @@ const conceptBlock = () => {
   </div>
 </section>`;
 };
-
-const unlock = (ko, en) => `<li class="unlock"><span class="unlock__name">${L(ko, en)}</span></li>`;
-const contentBlock = () => `<section class="section">
-  <div class="wrap">
-    <header class="section__head">
-      <p class="section__eyebrow">${L('콘텐츠', 'More to do')}</p>
-      <h2 class="section__title">${L('막을수록 열립니다.', 'The longer you hold, the more opens up.')}</h2>
-      <p class="section__lead">${L('보스를 넘고 환생하면 새 콘텐츠가 열립니다.', 'Beat bosses, rebirth, unlock more.')}</p>
-    </header>
-    <ul class="unlock-list reveal">
-      ${unlock('출석', 'Daily Check-in')}
-      ${unlock('업적', 'Achievements')}
-      ${unlock('탑', 'Tower')}
-      ${unlock('전초전', 'Duel')}
-    </ul>
-  </div>
-</section>`;
 
 // 플레이 화면: shots 파일이 없으면 구역을 출력하지 않음 (새 화면 재촬영 뒤 파일이 오면 자동 표시)
 const SHOTS = [['title', 'GunDraw 시작 화면', 'GunDraw start screen'], ['new-gun', '뽑기로 새 총을 얻는 화면', 'Getting a new gun from a pull'], ['battle', '외계인을 막는 전투 화면', 'Battle screen: holding off the aliens']];
@@ -244,8 +224,8 @@ const playBand = (related = '') => `<section class="section section--band play-b
 </section>`;
 
 // ---------- 홈 ----------
-const GAME_DESC_KO = '외계인이 기지로 내려온다. 뽑기로 총을 모아 분대를 무장하고 정문을 지키는 외계인 디펜스, GunDraw. 웹에서 바로 플레이.';
-const GAME_DESC_EN = 'GunDraw: aliens are dropping on the base. Pull guns, arm your squad and hold the gate. An alien defense game you can play in the browser.';
+const GAME_DESC_KO = '외계 보스에게 져서 꿈속에 갇힌 분대. 총을 뽑아 무장하고 외계인을 물리치며 빠져나가는 슈팅 게임, GunDraw. 웹에서 바로 플레이.';
+const GAME_DESC_EN = 'GunDraw: beaten by an alien boss, your squad is trapped in a dream. Pull guns, gear up and fight your way out. Play it in the browser.';
 const GAME_OG = ORIGIN + '/assets/games/gundraw/og-1200x630.jpg';
 const HOME_DESC_KO = 'JmkFamily는 AI와 함께 게임을 만드는 개인 개발자입니다. 대표 게임 GunDraw는 웹에서 바로 플레이할 수 있습니다.';
 const HOME_DESC_EN = 'JmkFamily is a solo developer making games with AI. The featured game, GunDraw, is playable in your browser.';
@@ -290,7 +270,7 @@ const featuredBlock = () => `<section class="section" id="featured">
       <h2 class="section__title">${L('지금 해 볼 수 있는 게임', 'Playable right now')}</h2>
     </header>
     <div class="game-grid reveal">
-      ${featuredCard(L('총을 뽑아 분대를 무장하고 외계인 침공을 막는 디펜스 게임', 'A defense game. Pull guns, arm your squad, stop the alien invasion.'))}
+      ${featuredCard(L('총을 뽑아 분대를 무장하고, 외계인을 물리치며 꿈에서 빠져나가는 게임', 'Pull guns, arm your squad and fight your way out of an alien dream.'))}
     </div>
     <p class="hero__cta">
       <a class="btn btn--play" href="${PLAY}" rel="noopener">${L('웹에서 바로 플레이', 'Play on the web')}</a>
@@ -330,13 +310,13 @@ const related = `\n    <p class="play-band__note">${L('관련 문서', 'Related'
 const ld = JSON.stringify({ '@context': 'https://schema.org', '@type': 'VideoGame', name: 'GunDraw', alternateName: '건드로우', genre: GENRE[1], gamePlatform: 'Web browser', url: ORIGIN + '/games/gundraw/', image: GAME_OG, inLanguage: ['ko', 'en'], potentialAction: { '@type': 'PlayAction', target: PLAY } });
 const noticeBlock = `<section class="section section--tight">
   <div class="wrap wrap--narrow">
-    <p class="notice">${L('웹 버전은 개발 중인 빌드입니다. 게임 화면은 새 모습으로 바뀌는 중이라 이 페이지와 다를 수 있습니다.', 'The web version is a work-in-progress build. Its look is being updated and may differ from this page.')}</p>
+    <p class="notice">${L('웹 버전은 개발 중인 빌드입니다. 새 버전으로 바뀌는 중이라 게임 화면과 내용이 이 페이지와 다를 수 있습니다.', 'The web version is a work-in-progress build. It is moving to a new version, so the game may not match this page yet.')}</p>
   </div>
 </section>`;
 write('games/gundraw/index.html', layout({
   path: '/games/gundraw/', current: 'games', titleKo: 'GunDraw — JmkFamily', titleEn: 'GunDraw — JmkFamily',
   descKo: GAME_DESC_KO + ' 개발 중인 웹 버전입니다.', descEn: GAME_DESC_EN + ' The web version is a work in progress.', jsonld: ld, ogImage: GAME_OG,
-  body: [heroBlock(true), stepsBlock(), castBlock(), conceptBlock(), contentBlock(), shotsBlock(), noticeBlock, storyBlock(), playBand(related)].filter(Boolean).join('\n\n'),
+  body: [heroBlock(true), stepsBlock(), castBlock(), conceptBlock(), shotsBlock(), noticeBlock, storyBlock(), playBand(related)].filter(Boolean).join('\n\n'),
 }));
 
 // ---------- 약관·정책 ----------
