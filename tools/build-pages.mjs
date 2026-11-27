@@ -369,6 +369,17 @@ if (RP_ON) {
     </div>
   </div>
 </section>` : '';
+  // 게임 소개(이야기): 사이트 안내문(~합니다)과 섞이지 않게 따로 구분된 산문 블록
+  const rpStory = RP.story && RP.story.length ? `<section class="section section--alt">
+  <div class="wrap wrap--narrow">
+    <header class="section__head">
+      <h2 class="section__title">${L('게임 소개', 'The story')}</h2>
+    </header>
+    <div class="tale reveal">
+      ${RP.story.map(([ko, en]) => `<p>${L(ko, en)}</p>`).join('\n      ')}
+    </div>
+  </div>
+</section>` : '';
   const rpNotice = `<section class="section section--tight">
   <div class="wrap wrap--narrow">
     <p class="notice">${L('웹 데모는 프로토타입입니다. 프롤로그까지 플레이할 수 있고, 정식 버전은 PC로 나올 예정입니다. 화면과 내용은 바뀔 수 있습니다.', 'The web demo is a prototype. It covers the prologue; the full game is planned for PC. Screens and content may change.')}</p>
@@ -385,7 +396,7 @@ if (RP_ON) {
   write('games/redpill/index.html', layout({
     path: RP.href, current: 'games', titleKo: 'RedPill — JmkFamily', titleEn: 'RedPill — JmkFamily',
     descKo: RP.desc[0] + ' 프로토타입 웹 데모입니다.', descEn: RP.desc[1] + ' The web demo is a prototype.', jsonld: rpLd, ...(og ? { ogImage: og } : {}),
-    body: [rpHero, rpSteps, rpNotice, rpBand].filter(Boolean).join('\n\n'),
+    body: [rpHero, rpStory, rpSteps, rpNotice, rpBand].filter(Boolean).join('\n\n'),
   }));
 }
 

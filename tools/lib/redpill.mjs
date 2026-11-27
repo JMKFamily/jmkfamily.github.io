@@ -17,13 +17,16 @@ export const REDPILL = {
   title: ['4년 동안<br>닫아 둔 방문', 'Four years<br>behind a closed door'],
   lead: ['닫아 둔 방문 뒤에서 소리가 났다.', 'Behind the door he kept shut, something made a sound.'],
   desc: ['닫아 둔 방문 뒤에서 소리가 났다. 도트 추리 어드벤처 RedPill, 브라우저에서 데모를 해 보세요. PC 출시 예정.', 'Behind the door he kept shut, something made a sound. RedPill is a pixel-art mystery adventure. Play the browser demo. Coming to PC.'],
-  // 2026-11-28 요청자: 첫 화면·카드·메타·alt는 '닫아 둔 방문 뒤에서 소리가 났다.'까지만. '게임 소개'에는 스토리 전반부 요약만
-  // (근거 gamehub projects/redpill/15-prologue-demo.md·10-lore.md 0-1). 후반(중환자실·꿈·어머니·빨간 단추·사고 원인·가해자·결말)은 쓰지 않음
-  points: [
-    ['닫아 둔 방', 'The shut room', '그날 이후 4년 동안 닫아 둔 놀이방입니다. 자정 가까운 밤, 그 문 뒤에서 소리가 납니다.', 'The playroom has stayed shut for four years. Near midnight, something makes a sound behind its door.'],
-    ['빨간 알약', 'The red pill', '방 한가운데 작은 협탁 위에 빨간 알약 한 알과 쪽지가 놓여 있습니다.', 'On a small side table in the middle of the room: one red pill and a note.'],
-    ['2020년 11월 1일', 'November 1, 2020', '알약을 삼키면 2020년 11월 1일 오후 4시 32분의 집으로 돌아가 아이들을 만납니다. 머물 수 있는 시간은 아주 짧습니다.', 'Swallow the pill and you are back home at 4:32 PM on November 1, 2020, with the kids. You cannot stay long.'],
-    ['되짚기', 'Retrace', '집 안에서 단서를 모을수록 더 오래 머물 수 있습니다. 그날 무슨 일이 있었는지 하나씩 되짚어 갑니다.', 'The more clues you find in the house, the longer you can stay. Piece by piece, you retrace what happened that day.'],
+  // 2026-11-28 요청자: 첫 화면·카드·메타·alt는 '닫아 둔 방문 뒤에서 소리가 났다.'까지만.
+  // '게임 소개'는 스토리 전반부를 3인칭 과거형 산문(~했다)으로(요청자: "스토리형식으로 풀어야죠"). 근거 gamehub projects/redpill/15-prologue-demo.md·10-lore.md 0-1
+  // 쓰지 않음: 중환자실·의식 불명·꿈·어머니·빨간 단추·사고 원인(약·핸드폰)·가해자·결말·'사고'라는 말·10분·11월 7일
+  points: [],
+  story: [ // [KO, EN] 문단
+    ['4년 전 그날 이후, 도윤은 놀이방 문을 한 번도 열지 않았다. 2024년 11월 1일, 자정이 가까운 밤이었다. 닫아 둔 그 방문 뒤에서 소리가 났다.', 'For four years, Doyun never opened the playroom door. On November 1, 2024, close to midnight, something made a sound behind it.'],
+    ['방은 텅 비어 있었다. 한가운데에 처음 보는 작은 협탁이 놓여 있었고 그 위에 빨간 알약 한 알과 쪽지 한 장이 있었다.', 'The room was empty. In the middle stood a small side table he had never seen, and on it lay one red pill and a note.'],
+    ['알약을 삼키자 눈앞의 날짜가 거꾸로 흘러내렸다. 숫자는 2020년 11월 1일 오후 4시 32분에서 멈췄다. 햇빛이 번진 놀이방에서 준우가 로봇을 들고 달려왔고 시우가 아빠의 손을 잡았다. “아빠 손 따뜻하다.”', 'He swallowed the pill, and the date before his eyes ran backward. It stopped at 4:32 PM, November 1, 2020. In the sunlit playroom, Junwoo ran up with his robot and Siu took his father’s hand. “Your hands are warm.”'],
+    ['그 시간은 오래가지 않았다. 아이들 목소리가 흐려졌고 정신을 차렸을 때 도윤은 다시 2024년의 빈 방에 쓰러져 있었다. 집 안에 남은 단서를 찾아낼수록 그날에 머무는 시간은 조금씩 길어졌다.', 'It never lasted. The children’s voices faded, and when he came to, Doyun was lying in the empty room of 2024 again. The more clues he found around the house, the longer he could stay in that day.'],
+    ['아이들이 무심코 한 말, 장난감 상자 뚜껑의 서툰 글씨, 4년 동안 뜯지 않은 우편. 도윤은 그날 오후 이 집에서 무슨 일이 있었는지 하나씩 되짚어 가기 시작했다. 아이들은 아무것도 모른 채 아빠를 기다리고 있었다.', 'Something the kids said without thinking. Clumsy letters on the lid of a toy box. Mail left unopened for four years. Piece by piece, Doyun began to retrace what happened in this house that afternoon. The children, knowing nothing, were still waiting for him.'],
   ],
 };
 const REQUIRED = ['play', 'genre', 'card', 'cardAlt', 'title', 'lead', 'desc'];

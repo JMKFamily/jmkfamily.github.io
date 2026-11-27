@@ -390,6 +390,12 @@ html:not([data-lang="en"]) body:not(.is-bilingual) [data-l="en"] { display: none
   .game-card__body { align-self: center; padding: var(--sp-7); }
 }
 
+/* 게임 소개 이야기(RedPill): 안내문과 구분되는 산문 블록 */
+.tale { max-width: 34em; margin: 0 auto; padding: var(--sp-5) 0 var(--sp-5) var(--sp-5); border-left: 3px solid var(--c-danger); }
+.tale p { font-size: var(--t-body); line-height: 1.9; color: var(--c-ink); word-break: keep-all; }
+.tale p + p { margin-top: var(--sp-4); }
+@media (min-width: 900px) { .tale { padding-left: var(--sp-6); } .tale p { font-size: 1.125rem; } }
+
 /* ========== 14. 플레이 띠 ========== */
 .play-band .section__title { margin: 0; }
 .play-band .btn { margin-top: var(--sp-6); }
