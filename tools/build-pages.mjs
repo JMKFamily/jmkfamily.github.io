@@ -24,7 +24,10 @@ const CAST = [
 // 컨셉아트(캐릭터별 3컷 배리에이션): 파일 concept-<id>-<1..3>-<900|450>.webp. 파일이 있는 컷만, 1컷이라도 있는 캐릭터만 출력.
 // alt는 여기 적은 것을 쓰고, 없으면 "<이름> 컨셉아트 n"으로 씁니다. [KO, EN]
 const CONCEPT_ALT = {
-  ari: [['총을 들고 살펴보는 아리', 'Ari checking over her rifle'], ['무릎을 꿇고 총을 분해하는 아리', 'Ari kneeling to take a rifle apart'], ['홀로그램 화면을 만지며 웃는 아리', 'Ari grinning at a holographic screen']],
+  somi: [['복도에 정면으로 선 전투복 차림의 소미', 'Somi in her combat suit, standing in a corridor'], ['휴게실 소파에서 커피를 든 니트 차림의 소미', 'Somi off duty in a knit sweater, holding a coffee on the lounge sofa'], ['도시 야경이 보이는 옥상에서 뒤돌아보는 소미', 'Somi glancing back on a rooftop above the city at night']],
+  daon: [['작전실에서 몸을 비틀어 선 다온', 'Daon standing with a twist in the ops room'], ['휴게실 바 의자에 다리를 꼬고 앉은 원피스 차림의 다온', 'Daon in a fitted dress, legs crossed on a lounge bar stool'], ['총을 어깨에 메고 격납고를 걷는 다온', 'Daon walking through the hangar, rifle on her shoulder']],
+  bori: [['풍선껌을 불며 뛰어올라 총을 쏘는 보리', 'Bori blowing a bubble and firing mid-jump'], ['거리에서 풍선껌을 불며 브이를 하는 후드 차림의 보리', 'Bori in a hoodie on the street, blowing a bubble and flashing a V'], ['쪼그려 앉아 총을 끌어안은 보리', 'Bori crouching with her rifle hugged close']],
+  ari: [['정비고 작업대 앞에서 공구를 든 아리', 'Ari holding a tool at the repair-bay workbench'], ['부품이 널린 책상에 엎드려 잠든 아리', 'Ari asleep face-down on a desk covered in parts'], ['벽에 기대 홀로그램 큐브를 띄우고 손을 흔드는 아리', 'Ari leaning on a wall, waving with a hologram cube in hand']],
 };
 
 // ---------- 그림 자리 (plan-v2 6.2): 파일이 있으면 출력, 없으면 빈 문자열 ----------

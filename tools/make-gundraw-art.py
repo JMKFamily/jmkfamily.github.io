@@ -59,11 +59,10 @@ def card(path):
 for k in ('somi', 'daon', 'bori', 'ari'):
     im = card(W(f'web/char-{k}-1200x1600.png'))
     for w in (900, 450): save(im, f'cast-{k}-{w}.webp', w, round(w * 4 / 3))
-# 컨셉아트(캐릭터별 3컷): web/concept-<id>-<1..3>.png. 아리는 파일이 없으면 final/ari-1..3.png
+# 컨셉아트(캐릭터별 3컷, art-slots-v5): web/concept/<id>-<a|b|c>-1200x1600.png -> concept-<id>-<1|2|3>-*.webp (b는 일상복). *-pre.png는 쓰지 않음
 for k in ('somi', 'daon', 'bori', 'ari'):
-    for n in (1, 2, 3):
-        f = W(f'web/concept-{k}-{n}.png')
-        if not os.path.exists(f) and k == 'ari': f = W(f'final/ari-{n}.png')
+    for n, v in ((1, 'a'), (2, 'b'), (3, 'c')):
+        f = W(f'web/concept/{k}-{v}-1200x1600.png')
         if not os.path.exists(f): continue
         im = crop34(Image.open(f))
         for w in (900, 450): save(im, f'concept-{k}-{n}-{w}.webp', w, round(w * 4 / 3))
