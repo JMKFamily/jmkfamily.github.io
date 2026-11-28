@@ -6,7 +6,7 @@ export const REDPILL = {
   id: 'redpill',
   name: 'RedPill',
   href: '/games/redpill/',
-  art: '/assets/games/redpill',        // card-<1280|960|640>.webp(320×180 원본 4·3·2배), hero-<1000|600>.webp(200×250 원본 5·3배), og-1200x630.png — 도트라 nearest 정수배·무손실
+  art: '/assets/games/redpill',        // card-<1280|960|640>.webp(v0.3 공개 빌드 320×180 화면 4·3·2배), hero-<1040|520>.webp(같은 화면 104×130 자름 10·5배), og-1200x630.png(store 원본) — 도트라 nearest 정수배·무손실
   play: 'https://jmkfamily.github.io/gamehub/games/redpill/',
   full: 'https://jmkfamily.github.io/gamehub/games/redpill/?full=1', // 2026-11-28 요청자: 데모 체험·풀버전 버튼을 같이 둠(풀버전은 개발 중 표시). 비우면 풀버전 버튼을 숨김
   store: '',                           // 스토어 페이지 주소(없으면 스토어 버튼을 숨김)

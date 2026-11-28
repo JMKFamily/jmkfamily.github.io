@@ -342,8 +342,8 @@ write('games/gundraw/index.html', layout({
 
 // ---------- RedPill 상세(켜졌을 때만 씀) ----------
 if (RP_ON) {
-  const hero = rpSet('hero', [1000, 600]);
-  const vis = hero.length ? `<figure class="visual visual--hero visual--pixel"${zoomAttr('rp-hero', RP.cardAlt[0], RP.cardAlt[1])}>${img(`${RP.art}/hero-${hero[0]}.webp`, 1000, 1250, { alt: RP.cardAlt[0], altEn: RP.cardAlt[1], srcset: hero.map((w) => `${RP.art}/hero-${w}.webp ${w}w`).join(', '), sizes: SLOTS.hero.main.sizes, high: true, lazy: false })}</figure>` : '';
+  const hero = rpSet('hero', [1040, 520]);
+  const vis = hero.length ? `<figure class="visual visual--hero visual--pixel"${zoomAttr('rp-hero', RP.cardAlt[0], RP.cardAlt[1])}>${img(`${RP.art}/hero-${hero[0]}.webp`, 1040, 1300, { alt: RP.cardAlt[0], altEn: RP.cardAlt[1], srcset: hero.map((w) => `${RP.art}/hero-${w}.webp ${w}w`).join(', '), sizes: SLOTS.hero.main.sizes, high: true, lazy: false })}</figure>` : '';
   const og = existsSync(join(SITE, RP.art.slice(1), 'og-1200x630.png')) ? ORIGIN + RP.art + '/og-1200x630.png' : undefined;
   const store = RP.store ? `
         <a class="btn btn--ghost" href="${RP.store}" rel="noopener">${L('스토어 페이지 ↗', 'Store page ↗')}</a>` : '';
@@ -383,7 +383,7 @@ if (RP_ON) {
 </section>` : '';
   const rpNotice = `<section class="section section--tight">
   <div class="wrap wrap--narrow">
-    <p class="notice">${L('웹 데모는 프로토타입입니다. 프롤로그까지 플레이할 수 있고, 정식 버전은 PC로 나올 예정입니다. 화면과 내용은 바뀔 수 있습니다.', 'The web demo is a prototype. It covers the prologue; the full game is planned for PC. Screens and content may change.')}</p>
+    <p class="notice">${L('웹 버전은 프로토타입입니다. 데모는 프롤로그까지, 개발 중인 풀버전은 1부 앞부분까지 플레이할 수 있습니다. 정식 버전은 PC로 나올 예정이고 화면과 내용은 바뀔 수 있습니다.', 'The web version is a prototype. The demo covers the prologue, and the full version, still in development, runs into the start of Part 1. The finished game is planned for PC, and screens and content may change.')}</p>
   </div>
 </section>`;
   const rpBand = `<section class="section section--band play-band">
