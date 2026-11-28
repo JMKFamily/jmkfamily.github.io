@@ -399,6 +399,8 @@ html:not([data-lang="en"]) body:not(.is-bilingual) [data-l="en"] { display: none
 /* ========== 14. 플레이 띠 ========== */
 .play-band .section__title { margin: 0; }
 .play-band .btn { margin-top: var(--sp-6); }
+.play-band__btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 var(--sp-4); }
+.btn__tag { margin-left: .5em; padding: 1px 7px; border-radius: 999px; font-size: 12px; font-weight: 700; line-height: 1.5; background: var(--c-danger); color: #FFFFFF; }
 .play-band__note { margin-top: var(--sp-4); font-size: var(--t-small); color: var(--c-on-band-soft); }
 .play-band__note a { color: var(--c-on-band); text-underline-offset: 3px; }
 .play-band .u-center, .play-band.u-center { text-align: center; }

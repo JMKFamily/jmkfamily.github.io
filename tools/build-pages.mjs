@@ -204,6 +204,7 @@ const RP_MISS = [...rpMissing(), ...(RP_CARD.length ? [] : ['card 그림'])];
 const RP_ON = !RP_MISS.length;
 console.log(RP_ON ? 'RedPill 켜짐' : `RedPill 꺼짐 (비어 있음: ${RP_MISS.join(', ')})`);
 const rpTags = () => `<p class="tag-list"><span class="tag tag--proto">${L('개발 중', 'In development')}</span><span class="tag">${L('웹 데모', 'Web demo')}</span><span class="tag">${L('PC 출시 예정', 'Coming to PC')}</span></p>`;
+const rpFull = (cls = 'btn--ghost') => RP.full ? `<a class="btn ${cls}" href="${RP.full}" rel="noopener">${L('풀버전', 'Full version')}<span class="btn__tag">${L('개발 중', 'In development')}</span></a>` : '';
 const rpCard = (cls = '', style = '') => !RP_ON ? '' : `<a class="game-card game-card--pixel${cls}" href="${RP.href}"${style}>
         <div class="game-card__art">${img(`${RP.art}/card-${RP_CARD[0]}.webp`, 1280, 720, { alt: RP.cardAlt[0], altEn: RP.cardAlt[1], srcset: RP_CARD.map((w) => `${RP.art}/card-${w}.webp ${w}w`).join(', '), sizes: SLOTS.card.main.sizes })}</div>
         <div class="game-card__body">
@@ -293,7 +294,7 @@ const featuredBlock = () => `<section class="section" id="featured">
     </div>
     <p class="hero__cta">
       <a class="btn btn--play" href="${PLAY}" rel="noopener">${RP_ON ? L('GunDraw 플레이', 'Play GunDraw') : L('웹에서 바로 플레이', 'Play on the web')}</a>${RP_ON ? `
-      <a class="btn btn--ghost" href="${RP.play}" rel="noopener">${L('RedPill 데모 플레이', 'Play the RedPill demo')}</a>` : ''}
+      <a class="btn btn--ghost" href="${RP.play}" rel="noopener">${L('RedPill 데모 체험', 'Try the RedPill demo')}</a>${RP.full ? '\n      ' + rpFull() : ''}` : ''}
       <a class="text-link" href="/games/">${L('게임 전체 보기 ›', 'All games ›')}</a>
     </p>
   </div>
@@ -353,7 +354,7 @@ if (RP_ON) {
       <h1 class="hero__title">${L(...RP.title)}</h1>
       <p class="hero__lead">${L(...RP.lead)}</p>
       <div class="hero__cta">
-        <a class="btn btn--play" href="${RP.play}" rel="noopener">${L('웹 데모 플레이', 'Play the web demo')}</a>${store}
+        <a class="btn btn--play" href="${RP.play}" rel="noopener">${L('데모 체험', 'Try the demo')}</a>${RP.full ? '\n        ' + rpFull() : ''}${store}
         <span class="soon-badge">${L('프로토타입 · 프롤로그 데모', 'Prototype · Prologue demo')}</span>
       </div>
     </div>${vis ? '\n    ' + vis : ''}
@@ -388,7 +389,9 @@ if (RP_ON) {
   const rpBand = `<section class="section section--band play-band">
   <div class="wrap">
     <h2 class="section__title">${L('설치 없이, 프롤로그부터.', 'No install. Start with the prologue.')}</h2>
-    <a class="btn btn--dark btn--play" href="${RP.play}" rel="noopener">${L('RedPill 데모 플레이', 'Play the RedPill demo')}</a>
+    <p class="play-band__btns">
+      <a class="btn btn--dark btn--play" href="${RP.play}" rel="noopener">${L('RedPill 데모 체험', 'Try the RedPill demo')}</a>${RP.full ? '\n      ' + rpFull() : ''}
+    </p>
     <p class="play-band__note">${L('관련 문서', 'Related')}: <a class="text-link" href="/privacy.html">${L('개인정보처리방침', 'Privacy Policy')}</a></p>
   </div>
 </section>`;

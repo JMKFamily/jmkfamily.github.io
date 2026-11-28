@@ -8,6 +8,7 @@ export const REDPILL = {
   href: '/games/redpill/',
   art: '/assets/games/redpill',        // card-<1280|960|640>.webp(320×180 원본 4·3·2배), hero-<1000|600>.webp(200×250 원본 5·3배), og-1200x630.png — 도트라 nearest 정수배·무손실
   play: 'https://jmkfamily.github.io/gamehub/games/redpill/',
+  full: 'https://jmkfamily.github.io/gamehub/games/redpill/?full=1', // 2026-11-28 요청자: 데모 체험·풀버전 버튼을 같이 둠(풀버전은 개발 중 표시). 비우면 풀버전 버튼을 숨김
   store: '',                           // 스토어 페이지 주소(없으면 스토어 버튼을 숨김)
   // 2026-11-28 요청자 결정(Q1): 지금은 'PC 출시 예정'·"정식 버전은 PC로" 유지. Steam 페이지가 생기면 store를 채우고
   // build-pages.mjs의 RedPill 태그·안내·데모 띠 문구에서 'PC'를 'Steam'으로 바꿉니다.
