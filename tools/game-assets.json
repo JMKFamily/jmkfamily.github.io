@@ -1,5 +1,5 @@
 {
- "_설명": "사이트가 쓰는 게임·브랜드 자산 목록. src는 gamehub 루트 기준. frame이 있으면 src의 .json 아틀라스에서 그 프레임을 잘라 씁니다. 기본 변환은 webp(quality 90). copy는 그대로 복사, ico는 PNG를 ico로 감쌉니다. shots는 새 모습의 웹 빌드가 나온 뒤에만 capture-game-shots.mjs로 다시 찍습니다(벡터 UI 빌드부터 HUD 포함 360x670 전체 화면). GunDraw 그림(art/·og-1200x630.jpg)은 v0.7부터 tools/make-gundraw-art.py로 만들고 이 목록에서 관리하지 않습니다(keep). RedPill 그림(assets/games/redpill/)은 도트 원본 캔버스를 찍어 정수배로 늘리는 tools/capture-pixel-shots.mjs가 pixelShots 목록대로 만들고, 이 동기화에서는 지우지 않습니다(keep).",
+ "_설명": "사이트가 쓰는 게임·브랜드 자산 목록. src는 gamehub 루트 기준. frame이 있으면 src의 .json 아틀라스에서 그 프레임을 잘라 씁니다. 기본 변환은 webp(quality 90). copy는 그대로 복사, ico는 PNG를 ico로 감쌉니다. shots는 새 모습의 웹 빌드가 나온 뒤에만 capture-game-shots.mjs로 다시 찍습니다(벡터 UI 빌드부터 HUD 포함 360x670 전체 화면). GunDraw 그림(art/·og-1200x630.jpg)은 v0.7부터 tools/make-gundraw-art.py로 만들고 이 목록에서 관리하지 않습니다(keep). RedPill 그림(assets/games/redpill/)은 도트 원본 캔버스를 찍어 정수배로 늘리는 tools/capture-pixel-shots.mjs가 pixelShots 목록대로 만들고, 이 동기화에서는 지우지 않습니다(keep). 대본집 원고는 stories 목록대로 tools/sync-stories.mjs가 gamehub 커밋(기본 origin/main)에서 git show로 꺼내 content/story/<slug>.md에 씁니다(빌드 때 JSON으로 페이지에 들어감).",
  "gamehubRoot": "C:/gamehub-bench/gamehub-web",
  "managedDirs": [
   "assets/games",
@@ -236,5 +236,17 @@
     }
    ]
   }
- }
+ },
+ "stories": [
+  {
+   "slug": "gundraw",
+   "src": "projects/gundraw/Docs/lore-writer/2026-11-28-screenplay-public.md",
+   "ref": "origin/main"
+  },
+  {
+   "slug": "redpill",
+   "src": "projects/redpill/Docs/lore-writer/2026-11-28-screenplay-public.md",
+   "ref": "origin/main"
+  }
+ ]
 }

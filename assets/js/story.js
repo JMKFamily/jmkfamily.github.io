@@ -25,16 +25,18 @@
   var cur = 0;
 
   function el(tag, cls, html) { var n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; }
-  // 블록 하나를 DOM으로. prev가 같은 인물의 대사면 인물명을 생략
+  // 블록 하나를 DOM으로. prev가 같은 인물의 대사면 인물명을 생략(독백은 인물명 없음)
   function render(b, prev) {
     if (b.t === 'part') return el('h2', 'sp-part', b.h);
     if (b.t === 'scene') return el('h3', 'sp-scene', b.h);
     if (b.t === 'slug') return el('p', 'sp-slug', b.h);
     if (b.t === 'trans') return el('p', 'sp-trans', b.h);
+    if (b.t === 'quote') return el('blockquote', 'sp-quote', b.h);
+    if (b.t === 'sfx') { var x = el('p', 'sp-sfx', b.h); x.insertBefore(el('span', 'sp-sfx__label', b.label || '소리'), x.firstChild); return x; }
     if (b.t === 'dlg') {
-      var cont = prev && prev.t === 'dlg' && prev.who === b.who && !b.paren;
+      var cont = prev && prev.t === 'dlg' && prev.who === b.who && !!prev.vo === !!b.vo && !b.paren;
       var d = el('div', 'sp-dlg' + (b.vo ? ' sp-dlg--vo' : '') + (cont ? ' sp-dlg--cont' : ''));
-      if (!cont) d.appendChild(el('p', 'sp-who', b.who));
+      if (!cont && b.who) d.appendChild(el('p', 'sp-who', b.who));
       if (b.paren) d.appendChild(el('p', 'sp-paren', '(' + b.paren + ')'));
       d.appendChild(el('p', 'sp-line', b.h));
       return d;
@@ -43,33 +45,57 @@
     if (b.label) a.insertBefore(el('span', 'sp-label', b.label), a.firstChild);
     return a;
   }
+  // 이어지는 쪽 맨 위: 어느 씬인지 작게(쪽 나누기 계산에도 넣음)
+  function sceneBefore(i) { for (var k = i; k >= 0; k--) { if (blocks[k].t === 'scene') return k; if (blocks[k].t === 'part') return -1; } return -1; }
+  function running(i) { if (blocks[i].t === 'scene' || blocks[i].t === 'part') return null; var k = sceneBefore(i); return k < 0 ? null : el('p', 'sp-running', blocks[k].h); }
   var isHead = function (b) { return b && (b.t === 'part' || b.t === 'scene' || b.t === 'slug'); };
+  // 장(part) 쪽: 장 제목 + 그 장의 씬 목록(누르면 이동). 목록이 길면 '(계속)' 쪽으로 이어짐
+  function partPage(pg) {
+    var f = el('div', 'sheet__flow sp-partpage');
+    var h = render(blocks[pg.s], null); if (pg.cont) h.classList.add('sp-part--cont');
+    f.appendChild(h);
+    var ol = el('ol', 'sp-contents');
+    pg.items.forEach(function (k) { var li = el('li'), b = el('button', 'sp-contents__link', blocks[k].h); b.type = 'button'; b.setAttribute('data-go', k); li.appendChild(b); ol.appendChild(li); });
+    if (pg.items.length) f.appendChild(ol);
+    return f;
+  }
 
   function paginate() {
     var m = el('div', 'sheet sheet--measure');
     m.setAttribute('aria-hidden', 'true');
     stage.appendChild(m);
-    var box = el('div', 'sheet__flow'); m.appendChild(box); // 글 높이는 안쪽 상자로 잼(scrollHeight는 내용이 적어도 상자 높이)
-    var H = m.clientHeight - parseFloat(getComputedStyle(m).paddingTop) - parseFloat(getComputedStyle(m).paddingBottom);
+    var cs = getComputedStyle(m);
+    var H = m.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
     var out = [{ cover: true }];
-    var i = 0;
+    var i = 0, box;
     while (i < blocks.length) {
+      if (blocks[i].t === 'part') { // 목차 장
+        var scenes = [];
+        for (var j = i + 1; j < blocks.length && blocks[j].t !== 'part'; j++) if (blocks[j].t === 'scene') scenes.push(j);
+        var pg = { s: i, e: i, items: [], part: true }, q = 0;
+        while (true) {
+          m.innerHTML = ''; m.appendChild(box = partPage(pg));
+          if (q >= scenes.length) break;
+          pg.items.push(scenes[q]); m.innerHTML = ''; m.appendChild(box = partPage(pg));
+          if (box.offsetHeight > H + 1 && pg.items.length > 1) { pg.items.pop(); out.push(pg); pg = { s: i, e: i, items: [], part: true, cont: true }; continue; }
+          q++;
+        }
+        out.push(pg); i++; continue;
+      }
       var s = i, prev = null;
-      box.innerHTML = '';
-      var onlyPart = blocks[i].t === 'part';
+      m.innerHTML = ''; box = el('div', 'sheet__flow'); m.appendChild(box);
+      var rh = running(i); if (rh) box.appendChild(rh);
       box.appendChild(render(blocks[i], null)); prev = blocks[i]; i++;
       while (i < blocks.length) {
         var b = blocks[i];
-        if (b.t === 'part') break;
-        if (b.t === 'scene' && !onlyPart) break;
-        if (b.t !== 'scene') onlyPart = false;
+        if (b.t === 'part' || b.t === 'scene') break; // 장·씬은 새 쪽에서
         var n = render(b, prev); box.appendChild(n);
         if (box.offsetHeight > H + 1) {
           box.removeChild(n);
-          var k = i; while (k - 1 > s && isHead(blocks[k - 1])) k--; // 장 끝에 머리글만 남지 않게
+          var k = i; while (k - 1 > s && isHead(blocks[k - 1])) k--; // 쪽 끝에 머리글만 남지 않게
           i = k; break;
         }
-        prev = b; i++; onlyPart = false;
+        prev = b; i++;
       }
       out.push({ s: s, e: i - 1 });
     }
@@ -87,8 +113,10 @@
     cur = p;
     sheet.innerHTML = '';
     if (pages[p].cover) sheet.appendChild(cover);
-    else { var f = el('div', 'sheet__flow'), prev = null; for (var i = pages[p].s; i <= pages[p].e; i++) { f.appendChild(render(blocks[i], prev)); prev = blocks[i]; } sheet.appendChild(f); }
+    else if (pages[p].part) sheet.appendChild(partPage(pages[p]));
+    else { var f = el('div', 'sheet__flow'), prev = null, rn = running(pages[p].s); if (rn) f.appendChild(rn); for (var i = pages[p].s; i <= pages[p].e; i++) { f.appendChild(render(blocks[i], prev)); prev = blocks[i]; } sheet.appendChild(f); }
     sheet.scrollTop = 0;
+    if (pages[p].cover) { cover.classList.remove('cover--tight'); if (sheet.scrollHeight > sheet.clientHeight + 1) cover.classList.add('cover--tight'); } // 표지가 넘치면 촘촘하게
     pageno.textContent = (p + 1) + ' / ' + pages.length;
     progress.style.width = (pages.length > 1 ? (p / (pages.length - 1)) * 100 : 100) + '%';
     root.querySelector('[data-act="prev"]').disabled = p === 0;
@@ -141,6 +169,7 @@
     if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) { e.preventDefault(); if (dx < 0) next(); else prevPage(); }
   });
   root.addEventListener('click', function (e) {
+    var g = e.target.closest('[data-go]'); if (g) { show(pageOf(+g.getAttribute('data-go')), 1); return; }
     var b = e.target.closest('[data-act]'); if (!b) return;
     var a = b.getAttribute('data-act');
     if (a === 'next') next(); else if (a === 'prev') prevPage(); else if (a === 'first') show(0, -1);

@@ -347,9 +347,10 @@ const storySection = (slug) => {
 };
 function writeStoryPage(slug, { playHref, playKo, playEn }) {
   const b = BOOK[slug], g = STORIES[slug]; if (!b) return;
-  const data = JSON.stringify({ slug, title: b.title, blocks: b.blocks }).replace(/</g, '\u003c');
+  const data = JSON.stringify({ slug, title: b.title, blocks: b.blocks }).replace(/</g, '\\u003c'); // </script> 차단
   const warn = g.warn ? `
-        <p class="cover__warn"><strong>${L('결말이 포함되어 있습니다.', 'This screenplay includes the ending.')}</strong> ${L('직접 플레이하며 알아 가고 싶다면 데모를 먼저 해 보세요.', 'If you would rather find out by playing, try the demo first.')}</p>
+        <p class="cover__warn"><strong>${L('결말이 포함되어 있습니다.', 'This screenplay includes the ending.')}</strong> ${L('게임을 먼저 해 보시길 권합니다.', 'Playing the game first is recommended.')}</p>` : '';
+  const btns = g.warn ? `
         <p class="cover__btns"><a class="btn btn--play" href="${playHref}" rel="noopener">${L(playKo, playEn)}</a> <button class="btn btn--ghost" type="button" data-act="next">${L('계속 읽기', 'Keep reading')}</button></p>` : `
         <p class="cover__btns"><button class="btn btn--dark" type="button" data-act="next">${L('읽기 시작', 'Start reading')}</button></p>`;
   write(`games/${slug}/story/index.html`, layout({
@@ -372,7 +373,8 @@ function writeStoryPage(slug, { playHref, playKo, playEn }) {
       <div class="cover" data-js="cover">
         <p class="cover__eyebrow">${L('대본집', 'Screenplay')}</p>
         <p class="cover__title">${g.name}</p>
-        <p class="cover__meta">${L(`씬 ${sceneCount(b)}개 · 한국어 원고`, `${sceneCount(b)} scenes · Korean manuscript`)}</p>${warn}
+        <p class="cover__meta">${L(`씬 ${sceneCount(b)}개 · 한국어 원고`, `${sceneCount(b)} scenes · Korean manuscript`)}</p>${warn}${b.intro ? `
+        <div class="cover__intro" lang="ko">${b.intro}</div>` : ''}${btns}
         <p class="cover__hint">${L('화면을 누르면 다음 장, 왼쪽 가장자리를 누르면 이전 장으로 갑니다. 키보드는 → 또는 Space로 다음, ←로 이전.', 'Tap to turn the page; tap the left edge to go back. Keyboard: → or Space for next, ← for previous.')}</p>
       </div>
       <noscript><p>${L('한 장씩 넘겨 읽으려면 자바스크립트를 켜 주세요.', 'Turn on JavaScript to read page by page.')}</p></noscript>

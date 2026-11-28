@@ -1,0 +1,10 @@
+{
+ "gundraw": {
+  "src": "projects/gundraw/Docs/lore-writer/2026-11-28-screenplay-public.md",
+  "commit": "35c9ab23"
+ },
+ "redpill": {
+  "src": "projects/redpill/Docs/lore-writer/2026-11-28-screenplay-public.md",
+  "commit": "35c9ab23"
+ }
+}
