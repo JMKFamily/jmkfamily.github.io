@@ -112,7 +112,7 @@ export function parseScreenplay(md) {
     }
     if ((m = /^\*([^*].*[^*]|[^*])\*$/.exec(line))) { flush(); dlg('', m[1], '', true); continue; } // *독백*
     if (/^S#\s*\d+/.test(line) || /^(INT|EXT|내|외)[./]/.test(line)) { flush(); blocks.push({ t: 'slug', h: inline(line) }); continue; }
-    if ((m = /^[—–]{1,2}s*(.+?)s*[—–]{1,2}$/.exec(line))) { flush(); blocks.push({ t: 'branch', h: inline(m[1]) }); continue; } // 분기 지시 '— 한 가지 길 —'
+    if ((m = /^[—–]{1,2}\s*(.+?)\s*[—–]{1,2}$/.exec(line))) { flush(); blocks.push({ t: 'branch', h: inline(m[1]) }); continue; } // 분기 지시 '— 한 가지 길 —'
     if (TRANS.test(line)) { flush(); blocks.push({ t: 'trans', h: inline(line) }); continue; }
     if ((m = CUE_BOLD.exec(line) || CUE_COLON.exec(line))) { flush(); dlg(m[1].trim(), unq(m[3]), m[2] || ''); continue; }
     para.push(line.replace(/^[-*]\s+/, ''));
