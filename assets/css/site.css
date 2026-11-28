@@ -677,3 +677,8 @@ html[data-lang="en"] .sp-part--cont::after { content: " (cont.)"; }
 html[data-lang="en"] .sp-running::after { content: " · cont."; }
 .sp-scene { margin-bottom: 16px; }
 .sp-scene + .sp-slug { margin-top: -6px; }
+/* 분기 지시: 가운데 정렬 구분선 */
+.sp-branch { display: flex; align-items: center; gap: 12px; margin: 22px 0 18px; color: var(--c-accent); font: 700 14px/1.4 var(--f-body); letter-spacing: .04em; text-align: center; }
+.sp-branch::before, .sp-branch::after { content: ""; flex: 1; height: 1px; background: var(--c-line); }
+.sp-branch span { flex: none; max-width: 70%; }
+.sheet__flow > .sp-branch:first-child, .sp-running + .sp-branch { margin-top: 4px; }

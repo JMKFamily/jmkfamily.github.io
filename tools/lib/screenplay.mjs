@@ -13,7 +13,7 @@ export const storySrc = (site, slug) => join(site, 'content/story', slug + '.md'
 export const hasStory = (site, slug) => existsSync(storySrc(site, slug));
 
 // ---------- 마크다운 → 블록 ----------
-// 블록: part(장·부 = 목차 장), scene(씬 머리 = 새 장), slug(씬 머리글), action(지문), dlg(인물·대사, vo=독백), sfx(소리), quote(쪽지·문서 글), trans(전환)
+// 블록: part(장·부 = 목차 장), scene(씬 머리 = 새 장), slug(씬 머리글), action(지문), dlg(인물·대사, vo=독백), sfx(소리), quote(쪽지·문서 글), branch(분기 '— 다른 길 —'), trans(전환)
 // 제목 수준: 첫 '#'은 책 제목. 나머지 머리 수준이 두 가지 이상이면 얕은 쪽이 장(part), 가장 깊은 쪽이 씬.
 //   GunDraw: '## 제1장' + '### I-1. 장소 — 시간'  /  RedPill: '# 1부 …' + '## 씬 5 · 장소 · 시간'
 // 첫 장·씬 머리 앞의 글(로그라인·등장인물·안내)은 표지(intro HTML)로 갑니다. HTML 주석은 지웁니다.
@@ -112,6 +112,7 @@ export function parseScreenplay(md) {
     }
     if ((m = /^\*([^*].*[^*]|[^*])\*$/.exec(line))) { flush(); dlg('', m[1], '', true); continue; } // *독백*
     if (/^S#\s*\d+/.test(line) || /^(INT|EXT|내|외)[./]/.test(line)) { flush(); blocks.push({ t: 'slug', h: inline(line) }); continue; }
+    if ((m = /^[—–]{1,2}s*(.+?)s*[—–]{1,2}$/.exec(line))) { flush(); blocks.push({ t: 'branch', h: inline(m[1]) }); continue; } // 분기 지시 '— 한 가지 길 —'
     if (TRANS.test(line)) { flush(); blocks.push({ t: 'trans', h: inline(line) }); continue; }
     if ((m = CUE_BOLD.exec(line) || CUE_COLON.exec(line))) { flush(); dlg(m[1].trim(), unq(m[3]), m[2] || ''); continue; }
     para.push(line.replace(/^[-*]\s+/, ''));

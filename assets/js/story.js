@@ -31,6 +31,7 @@
     if (b.t === 'scene') return el('h3', 'sp-scene', b.h);
     if (b.t === 'slug') return el('p', 'sp-slug', b.h);
     if (b.t === 'trans') return el('p', 'sp-trans', b.h);
+    if (b.t === 'branch') { var br = el('p', 'sp-branch'); br.appendChild(el('span', '', b.h)); return br; }
     if (b.t === 'quote') return el('blockquote', 'sp-quote', b.h);
     if (b.t === 'sfx') { var x = el('p', 'sp-sfx', b.h); x.insertBefore(el('span', 'sp-sfx__label', b.label || '소리'), x.firstChild); return x; }
     if (b.t === 'dlg') {
