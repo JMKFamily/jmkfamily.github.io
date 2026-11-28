@@ -8,6 +8,7 @@ import { privacyBody } from './lib/privacy-body.mjs';
 import { supportPages } from './lib/support-pages.mjs';
 import { layout, pageHead, L, img, ORIGIN, EMAIL } from './lib/layout.mjs';
 import { REDPILL, missing as rpMissing } from './lib/redpill.mjs';
+import { STORIES, hasStory, storySrc, parseScreenplay } from './lib/screenplay.mjs';
 
 const boardOn = /board:\s*true/.test(readFileSync(new URL('../assets/js/firebase-config.js', import.meta.url), 'utf8'));
 const SITE = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -324,6 +325,75 @@ write('games/index.html', layout({
 </section>`,
 }));
 
+// ---------- 스토리(대본집) ----------
+// 원고(content/story/<slug>.md)가 있을 때만 상세 페이지에 '스토리' 구역을 넣고 /games/<slug>/story/를 씁니다.
+const storyBook = (slug) => hasStory(SITE, slug) ? parseScreenplay(readFileSync(storySrc(SITE, slug), 'utf8')) : null;
+const BOOK = Object.fromEntries(Object.keys(STORIES).map((k) => [k, storyBook(k)]));
+const sceneCount = (b) => b.blocks.filter((x) => x.t === 'scene').length;
+const storySection = (slug) => {
+  const b = BOOK[slug], g = STORIES[slug]; if (!b) return '';
+  return `<section class="section" id="screenplay">
+  <div class="wrap wrap--narrow">
+    <header class="section__head">
+      <h2 class="section__title">${L('스토리', 'Story')}</h2>
+      <p class="section__lead">${g.warn ? L('게임 속 이야기를 영화 대본 형식으로 처음부터 끝까지 읽을 수 있습니다. 결말까지 들어 있으니 데모를 먼저 해 보는 것을 권합니다.', 'Read the whole story as a film-style screenplay. It includes the ending, so you may want to play the demo first.') : L('게임 속 이야기를 영화 대본 형식으로 처음부터 끝까지 읽을 수 있습니다.', 'Read the whole story from start to finish as a film-style screenplay.')}</p>
+    </header>
+    <p class="story-cta">
+      <a class="btn btn--dark" href="/games/${slug}/story/">${L('대본집 읽기', 'Read the screenplay')}</a>
+      <span class="soon-badge">${L(`씬 ${sceneCount(b)}개 · 화면을 누르면 한 장씩 넘어갑니다`, `${sceneCount(b)} scenes · Korean only`)}</span>
+    </p>
+  </div>
+</section>`;
+};
+function writeStoryPage(slug, { playHref, playKo, playEn }) {
+  const b = BOOK[slug], g = STORIES[slug]; if (!b) return;
+  const data = JSON.stringify({ slug, title: b.title, blocks: b.blocks }).replace(/</g, '\u003c');
+  const warn = g.warn ? `
+        <p class="cover__warn"><strong>${L('결말이 포함되어 있습니다.', 'This screenplay includes the ending.')}</strong> ${L('직접 플레이하며 알아 가고 싶다면 데모를 먼저 해 보세요.', 'If you would rather find out by playing, try the demo first.')}</p>
+        <p class="cover__btns"><a class="btn btn--play" href="${playHref}" rel="noopener">${L(playKo, playEn)}</a> <button class="btn btn--ghost" type="button" data-act="next">${L('계속 읽기', 'Keep reading')}</button></p>` : `
+        <p class="cover__btns"><button class="btn btn--dark" type="button" data-act="next">${L('읽기 시작', 'Start reading')}</button></p>`;
+  write(`games/${slug}/story/index.html`, layout({
+    path: `/games/${slug}/story/`, current: 'games', bodyClass: 'is-reader', scripts: ['/assets/js/story.js'],
+    titleKo: `${g.name} 대본집 — JmkFamily`, titleEn: `${g.name} screenplay — JmkFamily`,
+    descKo: `${g.name}의 이야기를 영화 대본 형식으로 한 장씩 넘겨 읽습니다.`, descEn: `Read the story of ${g.name} as a screenplay, one page at a time (Korean).`,
+    ...(g.noindex ? { robots: 'noindex' } : {}),
+    body: `<section class="reader" data-js="reader" data-slug="${slug}">
+  <div class="reader__bar">
+    <a class="reader__back" href="/games/${slug}/">‹ ${g.name}</a>
+    <h1 class="reader__title">${L(g.name + ' 대본집', g.name + ' screenplay')}</h1>
+    <div class="reader__tools">
+      <button class="reader__tool" type="button" data-act="first">${L('처음', 'Start')}</button>
+      <button class="reader__tool" type="button" data-act="toc" aria-expanded="false" aria-controls="reader-toc">${L('목차', 'Contents')}</button>
+    </div>
+  </div>
+  <p class="reader__en" data-l="en" lang="en">This screenplay is written in Korean. There is no English version yet.</p>
+  <div class="reader__stage" data-js="stage">
+    <article class="sheet" data-js="sheet" aria-live="polite" aria-roledescription="${'page'}">
+      <div class="cover" data-js="cover">
+        <p class="cover__eyebrow">${L('대본집', 'Screenplay')}</p>
+        <p class="cover__title">${g.name}</p>
+        <p class="cover__meta">${L(`씬 ${sceneCount(b)}개 · 한국어 원고`, `${sceneCount(b)} scenes · Korean manuscript`)}</p>${warn}
+        <p class="cover__hint">${L('화면을 누르면 다음 장, 왼쪽 가장자리를 누르면 이전 장으로 갑니다. 키보드는 → 또는 Space로 다음, ←로 이전.', 'Tap to turn the page; tap the left edge to go back. Keyboard: → or Space for next, ← for previous.')}</p>
+      </div>
+      <noscript><p>${L('한 장씩 넘겨 읽으려면 자바스크립트를 켜 주세요.', 'Turn on JavaScript to read page by page.')}</p></noscript>
+    </article>
+  </div>
+  <div class="reader__foot">
+    <button class="reader__nav" type="button" data-act="prev" aria-label="이전 장" data-en-label="Previous page">‹</button>
+    <div class="reader__pos"><span class="reader__no" data-js="pageno">1 / 1</span><span class="reader__bar-track" aria-hidden="true"><span class="reader__bar-fill" data-js="progress"></span></span></div>
+    <button class="reader__nav" type="button" data-act="next" aria-label="다음 장" data-en-label="Next page">›</button>
+  </div>
+  <div class="reader__toc" id="reader-toc" data-js="toc" role="dialog" aria-modal="true" aria-label="목차" data-en-label="Contents" hidden>
+    <div class="reader__toc-in">
+      <div class="reader__toc-head"><h2 class="reader__toc-title">${L('목차', 'Contents')}</h2><button class="reader__tool" type="button" data-act="close">${L('닫기', 'Close')}</button></div>
+      <ol class="reader__toc-list" data-js="toc-list"></ol>
+    </div>
+  </div>
+</section>
+<script type="application/json" id="story-data">${data}</script>`,
+  }));
+}
+
 // ---------- GunDraw 상세 ----------
 const docsJson = join(SITE, 'assets/data/docs.json');
 const extraDocs = existsSync(docsJson) ? JSON.parse(readFileSync(docsJson, 'utf8')).filter((d) => d.url !== '/privacy.html') : [];
@@ -337,8 +407,9 @@ const noticeBlock = `<section class="section section--tight">
 write('games/gundraw/index.html', layout({
   path: '/games/gundraw/', current: 'games', titleKo: 'GunDraw — JmkFamily', titleEn: 'GunDraw — JmkFamily',
   descKo: GAME_DESC_KO + ' 개발 중인 웹 버전입니다.', descEn: GAME_DESC_EN + ' The web version is a work in progress.', jsonld: ld, ogImage: GAME_OG,
-  body: [heroBlock(true), stepsBlock(), castBlock(), conceptBlock(), shotsBlock(), noticeBlock, storyBlock(), playBand(related)].filter(Boolean).join('\n\n'),
+  body: [heroBlock(true), stepsBlock(), castBlock(), conceptBlock(), shotsBlock(), storySection('gundraw'), noticeBlock, storyBlock(), playBand(related)].filter(Boolean).join('\n\n'),
 }));
+writeStoryPage('gundraw', { playHref: PLAY, playKo: '웹에서 바로 플레이', playEn: 'Play on the web' });
 
 // ---------- RedPill 상세(켜졌을 때만 씀) ----------
 if (RP_ON) {
@@ -399,9 +470,11 @@ if (RP_ON) {
   write('games/redpill/index.html', layout({
     path: RP.href, current: 'games', titleKo: 'RedPill — JmkFamily', titleEn: 'RedPill — JmkFamily',
     descKo: RP.desc[0] + ' 프로토타입 웹 데모입니다.', descEn: RP.desc[1] + ' The web demo is a prototype.', jsonld: rpLd, ...(og ? { ogImage: og } : {}),
-    body: [rpHero, rpStory, rpSteps, rpNotice, rpBand].filter(Boolean).join('\n\n'),
+    body: [rpHero, rpStory, storySection('redpill'), rpSteps, rpNotice, rpBand].filter(Boolean).join('\n\n'),
   }));
 }
+
+if (RP_ON) writeStoryPage('redpill', { playHref: RP.play, playKo: '데모 체험', playEn: 'Try the demo' });
 
 // ---------- 약관·정책 ----------
 const docs = [{ url: '/privacy.html', titleKo: '개인정보처리방침', titleEn: 'Privacy Policy', date: '2026-11-27' }, ...extraDocs];
@@ -460,7 +533,8 @@ else write('privacy.html', layout({ path: '/privacy.html', current: '', titleKo:
 
 // ---------- robots / sitemap / app-ads ----------
 write('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`);
-const urls = ['/', '/games/', '/games/gundraw/', ...(RP_ON ? [RP.href] : []), '/docs/', '/privacy.html', '/contact/', ...(boardOn ? ['/support/'] : []), ...extraDocs.map((d) => d.url)];
+const storyUrls = Object.values(STORIES).filter((g) => BOOK[g.slug] && !g.noindex && (g.slug !== 'redpill' || RP_ON)).map((g) => `/games/${g.slug}/story/`);
+const urls = ['/', '/games/', '/games/gundraw/', ...(RP_ON ? [RP.href] : []), ...storyUrls, '/docs/', '/privacy.html', '/contact/', ...(boardOn ? ['/support/'] : []), ...extraDocs.map((d) => d.url)];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${ORIGIN}${u}</loc><lastmod>2026-11-27</lastmod></url>`).join('\n')}\n</urlset>\n`);
 write('app-ads.txt', `# app-ads.txt for JmkFamily
 google.com, pub-8168028625158196, DIRECT, f08c47fec0942fa0

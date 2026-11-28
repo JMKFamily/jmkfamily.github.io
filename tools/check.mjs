@@ -53,9 +53,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       if ((html.match(/<h1[\s>]/g) || []).length !== 1) problems.push(`${page}: h1이 ${(html.match(/<h1[\s>]/g) || []).length}개`);
       if (/"@type"\s*:\s*"Organization"/.test(html)) problems.push(`${page}: Organization 구조화 데이터`);
       // 금지 문자열(보이는 본문 + 속성)
-      const text = html.replace(/<script[\s\S]*?<\/script>/g, '');
+      const text = html.replace(/<script(?! type="application\/json" id="story-data")[\s\S]*?<\/script>/g, ''); // 대본집 원고(JSON)도 검사
       for (const bad of ['AppLovin', 'JMKFamily', '{{', '당사', '저희 회사', '스튜디오', '채용', 'github.com/JMKFamily/gamehub', 'JMKFamily/gamehub', '포포', 'Popo', '요새', '전선', '병기', '보급상자', '안개 군단', 'Fog Legion', 'Crayon', 'Bagel', 'IBM Plex']) if (text.includes(bad)) problems.push(`${page}: 금지 문자열 "${bad}"`);
-      if (/회사/.test(text)) problems.push(`${page}: "회사" 포함`);
+      if (/회사/.test(text.replace(/<script type="application\/json" id="story-data">[\s\S]*?<\/script>/, ''))) problems.push(`${page}: "회사" 포함`); // 운영자 표기 규칙이라 대본 속 회사(이야기 내용)는 제외
       // 링크·이미지
       const refs = [];
       for (const m of html.matchAll(/\b(?:href|src)="([^"]+)"/g)) refs.push([m[1], /src=/.test(m[0]) ? 'img' : 'link']);

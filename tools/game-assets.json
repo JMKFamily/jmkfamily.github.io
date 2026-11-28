@@ -1,5 +1,5 @@
 {
- "_설명": "사이트가 쓰는 게임·브랜드 자산 목록. src는 gamehub 루트 기준. frame이 있으면 src의 .json 아틀라스에서 그 프레임을 잘라 씁니다. 기본 변환은 webp(quality 90). copy는 그대로 복사, ico는 PNG를 ico로 감쌉니다. shots는 새 모습의 웹 빌드가 나온 뒤에만 capture-game-shots.mjs로 다시 찍습니다(벡터 UI 빌드부터 HUD 포함 360x670 전체 화면). GunDraw 그림(art/·og-1200x630.jpg)은 v0.7부터 tools/make-gundraw-art.py로 만들고 이 목록에서 관리하지 않습니다(keep).",
+ "_설명": "사이트가 쓰는 게임·브랜드 자산 목록. src는 gamehub 루트 기준. frame이 있으면 src의 .json 아틀라스에서 그 프레임을 잘라 씁니다. 기본 변환은 webp(quality 90). copy는 그대로 복사, ico는 PNG를 ico로 감쌉니다. shots는 새 모습의 웹 빌드가 나온 뒤에만 capture-game-shots.mjs로 다시 찍습니다(벡터 UI 빌드부터 HUD 포함 360x670 전체 화면). GunDraw 그림(art/·og-1200x630.jpg)은 v0.7부터 tools/make-gundraw-art.py로 만들고 이 목록에서 관리하지 않습니다(keep). RedPill 그림(assets/games/redpill/)은 도트 원본 캔버스를 찍어 정수배로 늘리는 tools/capture-pixel-shots.mjs가 pixelShots 목록대로 만들고, 이 동기화에서는 지우지 않습니다(keep).",
  "gamehubRoot": "C:/gamehub-bench/gamehub-web",
  "managedDirs": [
   "assets/games",
@@ -8,7 +8,8 @@
  "keep": [
   "assets/games/gundraw/shots/",
   "assets/games/gundraw/art/",
-  "assets/games/gundraw/og-1200x630.jpg"
+  "assets/games/gundraw/og-1200x630.jpg",
+  "assets/games/redpill/"
  ],
  "defaults": {
   "quality": 90
@@ -154,6 +155,85 @@
     0,
     360,
     670
+   ]
+  }
+ },
+ "pixelShots": {
+  "redpill": {
+   "_설명": "RedPill 카드·첫 화면 그림. 공개 빌드(games/redpill)를 웹팀 포트 8941~8949에서 띄워 개발용 훅(window.__game, ?test=1)으로 장면을 진행한 뒤 320x180 원본 캔버스(#g, 글자 층 제외)를 그대로 받아 nearest 정수배·무손실 WebP로 저장. 2026-11-28 v0.3(gamehub 9ddd7531)에서 처음 씀",
+   "serve": "games/redpill",
+   "query": "?test=1&scene=1",
+   "canvas": "#g",
+   "size": [
+    320,
+    180
+   ],
+   "steps": [
+    {
+     "untilFree": true,
+     "note": "복도(2024) 도입 대사를 z로 넘겨 자유 이동까지"
+    },
+    {
+     "eval": "window.__game.tp(8, 44)",
+     "note": "놀이방 문(manifest corridor.doors.playroom x0 y0, 접근 칸 tx0 ty2) 바로 아래"
+    },
+    {
+     "hold": "up",
+     "ms": 1500
+    },
+    {
+     "wait": 2500
+    },
+    {
+     "untilFree": true,
+     "note": "놀이방 \"방을 봤다\" 대사 넘김. 협탁 위 알약·HUD(약효 바·알약 칸·달력·단서 칸)가 보이는 상태"
+    },
+    {
+     "wait": 1000
+    }
+   ],
+   "outputs": [
+    {
+     "name": "card",
+     "crop": null,
+     "scales": [
+      [
+       1280,
+       4
+      ],
+      [
+       960,
+       3
+      ],
+      [
+       640,
+       2
+      ]
+     ],
+     "dest": "assets/games/redpill/card-{w}.webp",
+     "note": "화면 전체 320x180"
+    },
+    {
+     "name": "hero",
+     "crop": [
+      138,
+      20,
+      104,
+      130
+     ],
+     "scales": [
+      [
+       1040,
+       10
+      ],
+      [
+       520,
+       5
+      ]
+     ],
+     "dest": "assets/games/redpill/hero-{w}.webp",
+     "note": "협탁과 도윤만(위 HUD·아래 단서 칸 제외) 4:5. 바꾸면 build-pages.mjs의 rpSet(hero) 폭·img 크기도 같이 바꿈"
+    }
    ]
   }
  }

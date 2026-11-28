@@ -19,7 +19,7 @@ const NAV = [
   ['/', '홈', 'Home', 'home'], ['/games/', '게임', 'Games', 'games'], ['/docs/', '약관·정책', 'Policies', 'docs'], ['/contact/', '문의', 'Contact', 'contact'],
 ];
 
-export function layout({ path, titleKo, titleEn, descKo, descEn, body, current = '', bilingual = false, jsonld = '', robots = '', canonical = true, ogImage = OG_IMAGE }) {
+export function layout({ path, titleKo, titleEn, descKo, descEn, body, current = '', bilingual = false, jsonld = '', robots = '', canonical = true, ogImage = OG_IMAGE, bodyClass = '', scripts = [] }) {
   const url = ORIGIN + path;
   const nav = NAV.map(([href, ko, en, key]) => `<a class="site-nav__link" href="${href}"${key === current ? ' aria-current="page"' : ''}>${L(ko, en)}</a>`).join('\n        ');
   return `<!doctype html>
@@ -55,9 +55,10 @@ ${robots ? `<meta name="robots" content="${robots}">\n` : ''}${canonical ? `<lin
 <link rel="stylesheet" href="/assets/css/site.css">
 <script>(function(){var h=document.documentElement;h.classList.add('js');var l,q=/[?&]lang=(ko|en)\b/.exec(location.search);try{l=q?q[1]:localStorage.getItem('jmk-lang')}catch(e){}if(l!=='ko'&&l!=='en')l=(navigator.language||'ko').toLowerCase().indexOf('ko')===0?'ko':'en';h.setAttribute('data-lang',l);h.setAttribute('lang',l)})()</script>
 <script src="/assets/js/site-config.js" defer></script>
-<script src="/assets/js/site.js" defer></script>${jsonld ? `\n<script type="application/ld+json">${jsonld}</script>` : ''}
+<script src="/assets/js/site.js" defer></script>${scripts.map((u) => `
+<script src="${u}" defer></script>`).join('')}${jsonld ? `\n<script type="application/ld+json">${jsonld}</script>` : ''}
 </head>
-<body${bilingual ? ' class="is-bilingual"' : ''}>
+<body${bilingual || bodyClass ? ` class="${[bilingual && 'is-bilingual', bodyClass].filter(Boolean).join(' ')}"` : ''}>
 <a class="skip-link" href="#main">${L('본문으로 건너뛰기', 'Skip to content')}</a>
 <header class="site-header" data-js="site-header">
   <div class="wrap site-header__in">
